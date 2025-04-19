@@ -12,15 +12,17 @@ using namespace std;
 void printMap(const vector<vector<char>>&, int, int);
 
 int main() {
-    vector<vector<char>> map = {{'#', '-', '-', '-', '#'}, 
-                                {'-', '-', '-', '-', '-'}, 
-                                {'-', '-', '@', '-', '-'}, 
-                                {'-', '-', '-', '-', '-'}, 
-                                {'#', '-', '-', '-', '#'}};
-    const int COLUMNS = 5;
-    const int ROWS = 5;
-    printMap(map, ROWS, COLUMNS);
-    cout << "yoy it worked!";
+    // vector<vector<char>> map = {{'#', '#', '-', '-', ']'}, 
+    //                             {'#', '-', '-', '-', ']'}, 
+    //                             {'-', '-', '@', '-', ']'}, 
+    //                             {'#', '-', '-', '-', ']'}, 
+    //                             {'#', '#', '-', '-', ']'}};
+    int columns;
+    int rows;
+    string mapString;
+    cin >> mapString;
+    vector<vector<char>> map;
+    cout << "yay it worked!";
 }
 
 void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
@@ -31,6 +33,7 @@ void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
         cout << endl;
     }
 }
+// What if some inputs a map where the row-length is inconsistent?
 
 // vec2d.push_back(new_row);
 // vec2d[row_index].push_back(new_element);

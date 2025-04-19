@@ -1,0 +1,30 @@
+This is an informational text file for Copy Paste Game.
+
+[========================================- Misc. Reminders -========================================]
+
+The edge of the map will be treated as a wall.
+
+Spaces in the map string will be replaced with the empty space tile (maybe '-'?) in the rendered map.
+
+If the rows in the map string are of unequal length, it will show up as a hole in the map, which will be treated
+as a bunch of walls. Edit: Nvm, just replace it with actual space or walls.
+
+If there are multiple '@'s in the map, the player controls all of them. There should also allowed to be 0.
+I might also allow for there to be 2 unique players. If so, player two would be '&'.
+
+Letters: I don't know for sure if these can be interacted with, but if they can, then whatever they do they 
+should only do it when explicitly touched / interacted with by the player. That way, if someone wants to, they
+can write a message or instructions above / adjacent to / below the map, wall it off, and just have those letters 
+sit there, not doing anything.
+(Note: it's possible that lowercase letters do something interesting, and uppercase letters just sit there,
+or vice versa)
+
+[========================================- Main Ideas -========================================]
+
+The player inputs a string of text, which is then turned into the game map. 
+
+List of tiles:
+@ character
+- Empty space
+# Wall
+
