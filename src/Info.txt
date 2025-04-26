@@ -19,6 +19,12 @@ sit there, not doing anything.
 (Note: it's possible that lowercase letters do something interesting, and uppercase letters just sit there,
 or vice versa)
 
+A *possible* point system: if the player stands on a '$', the '$' get's added to the bottom corner of the 
+screen, replacing whatever character was there previously. Note: this doesn't mean that the map *has* to abide by
+a format that requires that there be an allocated space at the bottome for '$'. It's just recommended.
+
+Maybe you could add a way to change the map size in game???
+
 [========================================- Main Ideas -========================================]
 
 The player inputs a string of text, which is then turned into the game map. 
@@ -28,3 +34,16 @@ List of tiles:
 - Empty space
 # Wall
 
+[===================================- makeMapFromString(string) function -===================================]
+This function is supposed to take in the string that will be used to create the map.
+
+At the moment (April 25 2025) it only has a for-loop, who's job is to count the length of each row and
+find the one with the longest length. Once it has done so, it will print out the result, before returning
+a dummy vector. This is how it works:
+/// It keeps track of 3 variables: i (the iterator), biggestRowLength, and currentRowLength.
+/// i starts at 0, while the other two start at 1.
+/
+/// The for-loop parses through each character in the input string. If the current character is
+/// NEITHER a '[' nor the last character in the string, then it increments currentRowLength. Otherwise, it sets
+/// biggestRowLength to currentRowLength IF currentRowLength is larger. Afterwards, it sets currentRowLength
+/// back to 1.
