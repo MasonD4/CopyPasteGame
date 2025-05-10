@@ -8,6 +8,7 @@ Spaces in the map string will be replaced with the empty space tile (maybe '-'?)
 
 If the rows in the map string are of unequal length, it will show up as a hole in the map, which will be treated
 as a bunch of walls. Edit: Nvm, just replace it with actual space or walls.
+Edit 2: Actually, uneven rows get filled in with *empty spaces*.
 
 If there are multiple '@'s in the map, the player controls all of them. There should also allowed to be 0.
 I might also allow for there to be 2 unique players. If so, player two would be '&'.
@@ -25,7 +26,7 @@ a format that requires that there be an allocated space at the bottome for '$'. 
 
 Maybe you could add a way to change the map size in game???
 
-[========================================- Main Ideas -========================================]
+[=============================================- Main Ideas -=============================================]
 
 The player inputs a string of text, which is then turned into the game map. 
 

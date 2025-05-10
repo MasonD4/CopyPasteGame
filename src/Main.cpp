@@ -10,7 +10,12 @@
 using namespace std;
 
 void printMap(const vector<vector<char>>&, int, int);
-vector<vector<char>> makeMapFromString(string);
+vector<vector<char>> makeMapFromString(string, int&, int&);
+
+const char PLAYER = '@';
+const char SPACE = '-';
+const char WALL = '#';
+const char NEW_ROW = ']';
 
 int main() {
     // vector<vector<char>> map = {{'#', '#', '-', '-', ']'}, 
@@ -23,36 +28,81 @@ int main() {
     cout << "Insert the map string: ";
     string mapString;
     cin >> mapString;
-    // vector<vector<char>> map;
-    makeMapFromString(mapString);
+    vector<vector<char>> map = makeMapFromString(mapString, rows, columns);
+    printMap(map, rows, columns);
+    cout << "Rows, Cols: " << rows << ", " << columns << endl;
+    cout << "First: " << map[0][0] << endl;
     cout << "yay it worked!";
 }
 
-vector<vector<char>> makeMapFromString(string input) {
+vector<vector<char>> makeMapFromString(string input, int& rows, int& columns) {
     vector<vector<char>> output;
+
     int biggestRowLength = 1, currentRowLength = 1;
     
     if (input.length() < 1)
     {
-        output = {{'E', 'M', 'P', 'T', 'Y'}, {'I', 'P', 'U', 'T'}};
+        output = {{'E', 'M', 'P', 'T', 'Y'}, {'I', 'P', 'U', 'T', '!'}};
+        rows = 2;
+        columns = 5;
         return output;
     }
 
-    // Count the length of each row (IT WORKS!!!)
+    // Count the length of each row and find the longest (IT WORKS!!!)
     for (int i = 0; i < input.length(); i++) {
-        if ((input[i] == ']' || i == input.length() - 1) && currentRowLength > biggestRowLength) {
+        if ((input[i] == NEW_ROW || i == input.length() - 1) && currentRowLength > biggestRowLength) {
             biggestRowLength = currentRowLength;
             currentRowLength = 1;
         }
-        else if ((input[i] == ']' || i == input.length() - 1) && currentRowLength <= biggestRowLength) {
+        else if ((input[i] == NEW_ROW || i == input.length() - 1) && currentRowLength <= biggestRowLength) {
             currentRowLength = 1;
         }
         else {
             currentRowLength++;
         }
     }
-    cout << "Biggest: " << biggestRowLength << endl; // temporary
-    output = {{'E', 'M', 'P', 'T', 'Y'}, {'I', 'P', 'U', 'T'}}; // temporary
+    columns = biggestRowLength;
+
+    output.push_back({' '});
+    rows = 1;
+    int currentRow = 0; 
+    int currentCol = 0;
+    // int totalRows = 0; Not needed, due to &rows and &columns
+    // int totalCols = 0;
+    for (int i = 0; i < input.length(); i++) {
+        if (input[i] == NEW_ROW && currentCol < columns - 1) {
+            for (int j = currentCol; j < columns; j++) {
+                if (j == columns - 1) { output[currentRow][currentCol] = NEW_ROW; }
+                else { output[currentRow][currentCol] = SPACE; currentCol++; }
+            }
+
+            output.push_back({' '});
+            rows++;
+            currentRow++;
+            currentCol = 0;
+        }
+        else if (i = input.length() - 1 && currentCol < columns - 1) {
+            output[currentRow][currentCol] = input[i];
+            currentCol++;
+            for (int j = currentCol; j < columns; j++) {
+                output[currentRow][currentCol] = SPACE;
+            }
+        }
+        else if (input[i] == NEW_ROW) {
+            output[currentRow][currentCol] = input[i];
+            output.push_back({' '});
+            rows++;
+            currentRow++;
+            currentCol = 0;
+        }
+        else {
+            output[currentRow][currentCol] = input[i];
+            output[currentRow].push_back(' ');
+            currentCol++;
+        }
+    }
+    
+    // output = {{'E', 'M', 'P', 'T', 'Y'}, {'I', 'P', 'U', 'T', '!'}}; // temporary
     return output;
 }
 
