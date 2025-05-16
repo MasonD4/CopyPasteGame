@@ -67,8 +67,6 @@ vector<vector<char>> makeMapFromString(string input, int& rows, int& columns) {
     rows = 1;
     int currentRow = 0; 
     int currentCol = 0;
-    // int totalRows = 0; Not needed, due to &rows and &columns
-    // int totalCols = 0;
     for (int i = 0; i < input.length(); i++) {
         if (input[i] == NEW_ROW && currentCol < columns - 1) {
             for (int j = currentCol; j < columns; j++) {
