@@ -28,20 +28,21 @@ int main() {
     cout << "Insert the map string: ";
     string mapString;
     cin >> mapString;
+
     vector<vector<char>> map = makeMapFromString(mapString, rows, columns);
+    cout << "Just exited the makeMap function" << endl;
+
     printMap(map, rows, columns);
     cout << "Rows, Cols: " << rows << ", " << columns << endl;
     cout << "First: " << map[0][0] << endl;
     cout << "yay it worked!";
 }
 
-vector<vector<char>> makeMapFromString(string input, int& rows, int& columns) {
+vector<vector<char>> makeMapFromString(const string input, int& rows, int& columns) {
     vector<vector<char>> output;
-
     int biggestRowLength = 1, currentRowLength = 1;
     
-    if (input.length() < 1)
-    {
+    if (input.length() < 1) {
         output = {{'E', 'M', 'P', 'T', 'Y'}, {'I', 'P', 'U', 'T', '!'}};
         rows = 2;
         columns = 5;
@@ -62,12 +63,16 @@ vector<vector<char>> makeMapFromString(string input, int& rows, int& columns) {
         }
     }
     columns = biggestRowLength;
+    cout << "Biggest Row Length: " << biggestRowLength << endl;
 
     output.push_back({' '});
     rows = 1;
     int currentRow = 0; 
     int currentCol = 0;
+
     for (int i = 0; i < input.length(); i++) {
+        cout << "Top of for loop" << endl;
+
         if (input[i] == NEW_ROW && currentCol < columns - 1) {
             for (int j = currentCol; j < columns; j++) {
                 if (j == columns - 1) { output[currentRow][currentCol] = NEW_ROW; }
