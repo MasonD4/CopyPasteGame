@@ -84,7 +84,7 @@ vector<vector<char>> makeMapFromString(const string input, int& rows, int& colum
             currentRow++;
             currentCol = 0;
         }
-        else if (i = input.length() - 1 && currentCol < columns - 1) {
+        else if (i == input.length() - 1 && currentCol < columns - 1) {
             output[currentRow][currentCol] = input[i];
             currentCol++;
             for (int j = currentCol; j < columns; j++) {
