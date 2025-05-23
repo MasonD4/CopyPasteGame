@@ -63,7 +63,6 @@ vector<vector<char>> makeMapFromString(const string input, int& rows, int& colum
         }
     }
     columns = biggestRowLength;
-    cout << "Biggest Row Length: " << biggestRowLength << endl;
 
     output.push_back({' '});
     rows = 1;
@@ -71,7 +70,6 @@ vector<vector<char>> makeMapFromString(const string input, int& rows, int& colum
     int currentCol = 0;
 
     for (int i = 0; i < input.length(); i++) {
-        cout << "Top of for loop" << endl;
 
         if (input[i] == NEW_ROW && currentCol < columns - 1) {
             for (int j = currentCol; j < columns; j++) {
