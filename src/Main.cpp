@@ -132,3 +132,16 @@ void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
 // The <A> case has two possibilities:
 // // // 1: it has reached a new row character prematurely
 // // // 2: it has reached the end of the input string prematurely
+
+// Possible solution to the 'space' problem and the ''\n' problem:
+// // Use nextLine() or whatever it's called to get the input string, so
+// // // that way it will be able to read spaces.
+// // Then, whenever the user hits enter, it will simply allow them to add more
+// // // characters to the string, and so on and so forth until they
+// // // explicitly type "done" or something like that.
+// // // Every time they press enter, the current input will be concatenated
+// // // to the end of the string, and then the string will be re-evaluated
+// // // as one whole string without spaces or newlines ('\n').
+// // This way, the user can input the map as is, even if it has spaces or
+// // // if each row is on a new line. It will still work, without the need
+// // // for the user to remove all the spaces and newlines manually.
