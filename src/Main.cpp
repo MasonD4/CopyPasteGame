@@ -41,10 +41,7 @@ int main() {
 vector<vector<char>> makeMapFromString(const string input, int& rows, int& columns) {
 
     if (input.length() < 1) {
-        vector<vector<char>> output = {{'E', 'M', 'P', 'T', 'Y'}, {'I', 'P', 'U', 'T', '!'}};
-        rows = 2;
-        columns = 5;
-        return output;
+        return makeMapFromString("EMPTY]-----]--@--]-----]INPUT!", rows, columns);
     }
 
     rows++;
