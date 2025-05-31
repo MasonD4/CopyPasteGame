@@ -7,10 +7,12 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 void printMap(const vector<vector<char>>&, int, int);
 vector<vector<char>> makeMapFromString(string, int&, int&);
+string refineMapString(vector<string>);
 
 // const char PLAYER = '@';
 const char SPACE = '-';
@@ -23,19 +25,46 @@ int main() {
     //                             {'-', '-', '@', '-', ']'}, 
     //                             {'#', '-', '-', '-', ']'}, 
     //                             {'#', '#', '-', '-', ']'}};
+
+    // Get input from the player
+    cout << "Insert the map string: \n";
+    string tempInputString;
+    vector<string> tempInputVector;
+    do {
+        // Weed out the spaces and '\n's.
+        getline(cin, tempInputString);
+        if (tempInputString != "") {
+            tempInputVector.push_back(tempInputString);
+        }
+    } while (tempInputString != "");
+
+    // Take the input, refine it, and then turn it into a game map.
     int columns = 0;
     int rows = 0;
-    cout << "Insert the map string: ";
-    string mapString;
-    cin >> mapString;
-
+    string mapString = refineMapString(tempInputVector);
     vector<vector<char>> map = makeMapFromString(mapString, rows, columns);
     cout << "Just exited the makeMap function" << endl;
 
+    // Print the map
     printMap(map, rows, columns);
     cout << "Rows, Cols: " << rows << ", " << columns << endl;
     cout << "First: " << map[0][0] << endl;
     cout << "yay it worked!";
+}
+
+string refineMapString(vector<string> input) {
+    string tempString;
+    string output;
+    for (vector<string>::iterator i = input.begin(); i != input.end(); i++) {
+        tempString += *i;
+    }
+    for (int i = 0; i < tempString.length(); i++) {
+        if (tempString[i] != ' ') {
+            output += tempString[i];
+        }
+    }
+    cout << "The current refined-string is \"" << output << "\"" << endl;
+    return output;
 }
 
 vector<vector<char>> makeMapFromString(const string input, int& rows, int& columns) {
