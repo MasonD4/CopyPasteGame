@@ -45,6 +45,52 @@ function (yes, it calls itself). This results in the function returning a premad
 user that their input it empy.
 
 Part 2: How many rows and columns are there?
-This uses a for loop and 2 other variables: biggestRowLength and currentRowLength. biggestRowLength will be set
-to currentRowLength and currentRowLength will be set to 0 on 2 conditions:
+This uses a for loop and 2 other variables: biggestRowLength and currentRowLength. 
+The loop will check 4 conditions:
+// 1: If the current charcter in the input string (input[i]) is a newline character or the end of the input string,
+// // AND the length of the current row is longer than the biggestRowLength, then it updates the biggestRowLength
+// // and sets the currentRowLength = 1. 
+// 2: If the current character is a newline character or the end of the input string, AND the current row is NOT
+// // longer  than the biggestRowLength, then it just sets currentRowLength = 1;
+// 3: Otherwise, increment currentRowLength
+// 4: If the current character is a newline character, increment the rows variable (the one passed in by reference).
+-
+After the for-loop is over, it sets columns = biggestRowLength. It doesn't do anything to rows because it already
+incremented it *during* the loop (see condition 4).
+-
+P.S.: the reason that currentRowLength is set to 1 and not 0 is because it knows that the current row length is at
+least 1. It is also because currentRowLength isn't incremented when encountering a newline character or the last
+character. So basically, it knows the the row is at least 1 character long (including the newline character or last
+character), but if it encounters a character that isn't a newline or the last character, then it can safely increment
+currentRowLength (because each line has either a newline character or the last character. So, if it encounters a
+character that isn't one of these, then there MUST be at least 1 character in the row. Conversely,
+if it encounters a newline character or the last character, then it KNOWS that there will be no more characters in
+the row, which is why it doesn't increment currentRowLength) 
 
+Part 3: Translate the input string to the output vector.
+This part starts by creating 2 vectors: the actual 2D output vector, and a 1D "default row" vector.
+// The 2D vector is initialized empty.
+// The 1D vector is initialized to be the length of a row (`comlumns` variable), and each element is set to the 
+// // empty space character.
+It also creates an int (`positionInInput`) and a bool (`reachedEndOfInput`), which will be talked about later.
+-
+Here is the overall idea behind Part 3:
+A default row is pushed onto the end of the ouput vector. Then, the program looks at each space in the row and
+determines whether the current character in the input string should be added to the current space in the vector, or
+if that space should be left as its default value (the empty space character).
+For context, it will keep track of 3 "pointers." These are not actual pointers that need to be dereferenced.
+Instead, they are just regular ints used to keep track of the current row, current column,
+and current character in the input string.
+There are 3 conditions:
+// If the current character in the input string is a new row character, but the column "pointer" has not reached the
+-- // end of the row yet, then it will just leave the current space in the vector as is. It will then advance the
+-- // column pointer without advancing the input string's pointer.
+// Else if the input string's pointer reaches the end of the input string (even if the row and column pointers havn't 
+-- // made it to the end of the vector yet), then it will simply stop the loop. This will leave all remaining spaces
+-- // in the vector as the empty space character.
+// Otherwise, it will simply assign the current character in the input string to the current space in the vector.
+-- // It will then advance all 3 pointers.
+-
+An important thing to keep in mind in order to conceptualize the logic of Part 3:
+Part 3 is centered around the output vector, not the input string. What this means is that it will iterate through
+the vector, while also keeping track of the current character in the input string. Not the other way around.
