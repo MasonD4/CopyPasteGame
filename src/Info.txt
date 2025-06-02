@@ -26,7 +26,7 @@ a format that requires that there be an allocated space at the bottome for '$'. 
 
 Maybe you could add a way to change the map size in game???
 
-[=============================================- Main Ideas -=============================================]
+[===============================================- Main Ideas -===============================================]
 
 The player inputs a string of text, which is then turned into the game map. 
 
@@ -34,6 +34,31 @@ List of tiles:
 @ character
 - Empty space
 # Wall
+
+[================================- refineMapString(vector<string>) function -================================]
+This is used to remove the spaces and newlines (not ']', '\n') from the input, which allows someone to input
+something like this:
+- - - ]
+- @ - ]
+- - - #
+
+Instead of this: 
+---]-@-]---#
+
+For context, in the main function, the input for the map is obtained like this:
+// The user inputs a string and presses enter.
+// If they want, they can input another string. Otherwise, they can just press enter again, submiting an empty
+-- // strng and ending the loop.
+// Each string that gets submitted gets pushed onto a vector of strings.
+
+So, the refineMapString function takes in this vector and goes through 2 for-loops:
+// The first loop takes every string in the vector and adds them all to a single, temporary string, thus removing
+-- // new line characters.
+// The second row iterates through the temporary string, and adds each character to the an output string, as long as
+-- // that character isn't a space (' ').
+
+Finally, the function returns the output string. This was surprisingly and pleasantly easy to write, and didn't take
+much time at all.
 
 [===================================- makeMapFromString(string) function -===================================]
 This function is supposed to take in the string that will be used to create the map.
