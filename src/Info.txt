@@ -37,14 +37,14 @@ List of tiles:
 
 [===================================- makeMapFromString(string) function -===================================]
 This function is supposed to take in the string that will be used to create the map.
+It has 3 main parts:
 
-At the moment (April 25 2025) it only has a for-loop, who's job is to count the length of each row and
-find the one with the longest length. Once it has done so, it will print out the result, before returning
-a dummy vector. This is how it works:
-/// It keeps track of 3 variables: i (the iterator), biggestRowLength, and currentRowLength.
-/// i starts at 0, while the other two start at 1.
-/
-/// The for-loop parses through each character in the input string. If the current character is
-/// NEITHER a '[' nor the last character in the string, then it increments currentRowLength. Otherwise, it sets
-/// biggestRowLength to currentRowLength IF currentRowLength is larger. Afterwards, it sets currentRowLength
-/// back to 1.
+Part 1: Is the input empty?
+If the input is empty (input.length() < 1), then it passes a premade input string into the makeMapFromString
+function (yes, it calls itself). This results in the function returning a premade, playable map, which tells the
+user that their input it empy.
+
+Part 2: How many rows and columns are there?
+This uses a for loop and 2 other variables: biggestRowLength and currentRowLength. biggestRowLength will be set
+to currentRowLength and currentRowLength will be set to 0 on 2 conditions:
+
