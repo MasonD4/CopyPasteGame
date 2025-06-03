@@ -13,6 +13,7 @@ using namespace std;
 void printMap(const vector<vector<char>>&, int, int);
 vector<vector<char>> makeMapFromString(string, int&, int&);
 string refineMapString(vector<string>);
+bool isThereAPlayer(vector<vector<char>>);
 
 // const char PLAYER = '@';
 const char SPACE = '-';
@@ -50,6 +51,7 @@ int main() {
     cout << "Rows, Cols: " << rows << ", " << columns << endl;
     cout << "First: " << map[0][0] << endl;
     cout << "yay it worked!";
+    cout << "\nIs there a player? " << isThereAPlayer(map);
 }
 
 string refineMapString(vector<string> input) {
@@ -123,6 +125,16 @@ vector<vector<char>> makeMapFromString(const string input, int& rows, int& colum
     return output;
 }
 
+bool isThereAPlayer(vector<vector<char>> input) {
+    for (vector<char> theRow : input) {
+        for (char theChar : theRow) {
+            if (theChar == '@') {return true;}
+        }
+    }
+
+    return false;
+}
+
 void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
     for (int rowI = 0; rowI < rows; rowI++) {
         for (int columnI = 0; columnI < columns; columnI++) {
@@ -131,6 +143,11 @@ void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
         cout << endl;
     }
 }
+
+// Perhaps I can create a move function that is something like this:
+// ` bool forceMove(int x, int y, string direction){} `
+// It's purpose is to find the thing sitting at (x, y), and move it in the specified direction (if possible).
+// If it is succseful, it returns true. Otherwise, it returns false. <This return value may not always be utilized>
 
 // vec2d.push_back(new_row);
 // vec2d[row_index].push_back(new_element);
