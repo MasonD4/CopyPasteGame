@@ -14,6 +14,7 @@ void printMap(const vector<vector<char>>&, int, int);
 vector<vector<char>> makeMapFromString(string, int&, int&);
 string refineMapString(vector<string>);
 bool isThereAPlayer(vector<vector<char>>);
+int determineNumber(char);
 
 // const char PLAYER = '@';
 const char SPACE = '-';
@@ -53,7 +54,8 @@ int main() {
     cout << "Rows, Cols: " << rows << ", " << columns << endl;
     cout << "First: " << map[0][0] << endl;
     cout << "yay it worked!";
-    cout << "\nIs there a player? " << isThereAPlayer(map);
+    cout << "\nIs there a player? " << isThereAPlayer(map) << endl;
+    cout << "Number = " << determineNumber(map[0][0]) + determineNumber(map[0][1]);
 }
 
 int determineNumber(char c) {
