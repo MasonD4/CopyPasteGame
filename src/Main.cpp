@@ -15,11 +15,13 @@ vector<vector<char>> makeMapFromString(string, int&, int&);
 string refineMapString(vector<string>);
 bool isThereAPlayer(vector<vector<char>>);
 int determineNumber(char);
+void findPlayers(vector<vector<char>>, int, int);
 
 // const char PLAYER = '@';
 const char SPACE = '-';
 // const char WALL = '#';
 const char NEW_ROW = ']';
+vector<pair<int, int>> playerCoordinates;
 
 int main() {
     // vector<vector<char>> map = {{'#', '#', '-', '-', ']'}, 
@@ -51,12 +53,20 @@ int main() {
 
     // Print the map
     printMap(map, rows, columns);
-    cout << "Rows, Cols: " << rows << ", " << columns << endl;
-    cout << "First: " << map[0][0] << endl;
     cout << "yay it worked!";
+    findPlayers(map, rows, columns);
     cout << "\nIs there a player? " << isThereAPlayer(map) << endl;
-    cout << "Number = " << determineNumber(map[0][0]) + determineNumber(map[0][1]);
+    cout << "How many players? " << playerCoordinates.size() << endl;
+    for (pair<int, int> i : playerCoordinates) {
+        cout << "Player spotted at (" << i.first << ", " << i.second << ")!" << endl;
+    }
 }
+
+// void playerMove() {
+//     string input;
+//     cout << "Player turn: ";
+//     cin
+// }
 
 int determineNumber(char c) {
     if (c == '0') {return 0;}
@@ -141,6 +151,16 @@ vector<vector<char>> makeMapFromString(const string input, int& rows, int& colum
     }
 
     return output;
+}
+
+void findPlayers(vector<vector<char>> input, int rows, int columns) {
+    for (int rowNumber = 0; rowNumber < rows; rowNumber++) {
+        for (int colNumber = 0; colNumber < columns; colNumber++) {
+            if (input[rowNumber][colNumber] == '@') {
+                playerCoordinates.push_back({colNumber, rowNumber});
+            }
+        }
+    }
 }
 
 bool isThereAPlayer(vector<vector<char>> input) {
