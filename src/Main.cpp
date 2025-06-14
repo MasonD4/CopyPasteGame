@@ -16,6 +16,7 @@ string refineMapString(vector<string>);
 bool isThereAPlayer(vector<vector<char>>);
 int determineNumber(char);
 void findPlayers(vector<vector<char>>, int, int);
+void move(vector<vector<char>>&, int, int, int, int, string, int);
 
 // const char PLAYER = '@';
 const char SPACE = '-';
@@ -53,13 +54,15 @@ int main() {
 
     // Print the map
     printMap(map, rows, columns);
-    cout << "yay it worked!";
-    findPlayers(map, rows, columns);
-    cout << "\nIs there a player? " << isThereAPlayer(map) << endl;
-    cout << "How many players? " << playerCoordinates.size() << endl;
-    for (pair<int, int> i : playerCoordinates) {
-        cout << "Player spotted at (" << i.first << ", " << i.second << ")!" << endl;
-    }
+    cout << "yay it worked!" << endl;
+    move(map, rows, columns, 2, 2, "up", 0);
+    printMap(map, rows, columns);
+    // findPlayers(map, rows, columns);
+    // cout << "\nIs there a player? " << isThereAPlayer(map) << endl;
+    // cout << "How many players? " << playerCoordinates.size() << endl;
+    // for (pair<int, int> i : playerCoordinates) {
+    //     cout << "Player spotted at (" << i.first << ", " << i.second << ")!" << endl;
+    // }
 }
 
 // void playerMove() {
@@ -172,6 +175,40 @@ bool isThereAPlayer(vector<vector<char>> input) {
 
     return false;
 }
+
+void move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount) {
+    // The recursive limit will be set in here, which means that external calls start at 0.
+    
+    // TODO: Check if the space being moved is even on the map to begin with.
+    if (map[y][x] == SPACE) {
+        return;
+    }
+    
+    int newX = x;
+    int newY = y;
+    if (direction == "up") { newY--; }
+    else if (direction == "right") { newX++; }
+    else if (direction == "down") { newY++; }
+    else if (direction == "left") { newX--; }
+    else {
+        cout << "BAD DIRECTION: " << direction << endl;
+        return;
+    }
+    
+    // Space, walls, movables, enemy, player, edge
+
+    // Literal "edge" case, haha! 
+    if (newX < 0 || newY < 0 || newX >= cols || newY >= rows) {
+        cout << "Attempting to move off the edge... FAILED" << endl;
+        return;
+    }
+    else if (map[newY][newX] == SPACE) {
+        map[newY][newX] = map[y][x];
+        map[y][x] = SPACE;
+    }
+}
+
+// TODO Dash function
 
 void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
     for (int rowI = 0; rowI < rows; rowI++) {
