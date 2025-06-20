@@ -185,19 +185,36 @@ bool isMovable(char input) {
     switch(input) {
     case WALL:
         return false;
+        break;
     case NEW_ROW:
         return false;
+        break;
     case COIN_COUNTER:
         return false;
+        break;
     case JUMP_COUNTER:
         return false;
+        break;
     default:
         return true;
     }
 }
 
+bool isDangerous(char input) {
+    switch(input) {
+    case '!': // temporary
+        return true;
+        break;
+    default: 
+        return false;
+    }
+}
+
 bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount) {
     // The recursive limit will be set in here, which means that external calls start at 0.
+    const int RECURSIVE_LIMIT = 5;
+    // In each of the if statements that call this function, they need to check to see if this threshold has been
+    // reached.
     
     if (map[y][x] == EMPTY_SPACE) {
         return true;
@@ -215,7 +232,7 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
     }
     
     // Space: Free move [DONE]
-    // Walls: No move
+    // Walls: No move [DONE]
     // General movables: Recursive call. Can be pushed under certain circumstances.
     // Enemy: Can be moved, but if a player moves into an enemy, player dies.
     // Player: Can be moved, but if an enemy moves into a player, player dies.
@@ -225,6 +242,12 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
         cout << "Attempting to move off the edge... FAILED" << endl;
         return false;
     }
+    // Moving into a wall/immovable
+    else if (isMovable(map[newY][newX]) == false) {
+        cout << "Tried to move into a wall/immovable. Lol no." << endl;
+        return false;
+    }
+    // Moving into an already empty space.
     else if (map[newY][newX] == EMPTY_SPACE) {
         map[newY][newX] = map[y][x];
         map[y][x] = EMPTY_SPACE;
