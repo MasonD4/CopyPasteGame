@@ -16,7 +16,7 @@ string refineMapString(vector<string>);
 bool isThereAPlayer(vector<vector<char>>);
 int determineNumber(char);
 void findPlayers(vector<vector<char>>, int, int);
-void move(vector<vector<char>>&, int, int, int, int, string, int);
+bool move(vector<vector<char>>&, int, int, int, int, string, int);
 
 // const char PLAYER = '@';
 const char SPACE = '-';
@@ -176,12 +176,12 @@ bool isThereAPlayer(vector<vector<char>> input) {
     return false;
 }
 
-void move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount) {
+bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount) {
     // The recursive limit will be set in here, which means that external calls start at 0.
     
     // TODO: Check if the space being moved is even on the map to begin with.
     if (map[y][x] == SPACE) {
-        return;
+        return true;
     }
     
     int newX = x;
