@@ -1,0 +1,15 @@
+Friday June 20 2025:
+// Kyle and I worked on the move function. We added some conditions to the move function.
+//
+// We gave the move function a recursion limit. Basically, when the move function is initially called, a 0 will be
+// passed into the recursion-counting parameter (recursionCount). From there, if the function will check if the
+// recursionCount has reached/exceeded the RECURSION_LIMIT. If so, it stops the funciton. If the function calls itself, 
+// it will increment the recursionCount and then pass that value into the new function call.
+// 
+// We also added some new char constants, including the coin counter and the jump counter
+// (on that note, the "dash" ability has been renamed to the "jump" ability).
+// 
+// We added two more functions. One, called isMovable, checks if a char is movable. The other, called isDangerous, 
+// checks if a certain char is dangerous.
+//
+// Next week, we plan to continue working on the move function.
