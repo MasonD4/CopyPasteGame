@@ -216,7 +216,14 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
     // In each of the if statements that call this function, they need to check to see if this threshold has been
     // reached.
     
-    if (map[y][x] == EMPTY_SPACE) {
+    if (x < 0 || y < 0 || x >= cols || y >= rows) {
+        cout << "tried to move from a non-existant spot." << endl;
+        return false;
+    }
+    else if (isMovable(map[y][x]) == false) {
+        return false;
+    }
+    else if (map[y][x] == EMPTY_SPACE) {
         return true;
     }
     
@@ -249,6 +256,17 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
     }
     // Moving into an already empty space.
     else if (map[newY][newX] == EMPTY_SPACE) {
+        map[newY][newX] = map[y][x];
+        map[y][x] = EMPTY_SPACE;
+        return true;
+    }
+    // Player moves to a dangerous spot
+    else if (map[y][x] == PLAYER && isDangerous(map[newY][newX]) == true) {
+        map[y][x] == EMPTY_SPACE;
+        return true;
+    }
+    // An enemy/dangerous object moves onto a player
+    else if (isDangerous(map[y][x]) == true && map[newY][newX] == PLAYER) {
         map[newY][newX] = map[y][x];
         map[y][x] = EMPTY_SPACE;
         return true;
