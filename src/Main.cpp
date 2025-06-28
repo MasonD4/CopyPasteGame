@@ -216,6 +216,9 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
     // In each of the if statements that call this function, they need to check to see if this threshold has been
     // reached.
     
+    if (recursiveCount >= RECURSIVE_LIMIT) {
+        return false;
+    }
     if (x < 0 || y < 0 || x >= cols || y >= rows) {
         cout << "tried to move from a non-existant spot." << endl;
         return false;
@@ -224,7 +227,7 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
         return false;
     }
     else if (map[y][x] == EMPTY_SPACE) {
-        return true;
+        return true; // Maybe change this.
     }
     
     int newX = x;
@@ -271,6 +274,18 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
         map[y][x] = EMPTY_SPACE;
         return true;
     }
+    // Player pushes a movable object
+    else if (isMovable(map[newY][newX]) == true) {
+        if (move(map, rows, cols, newX, newY, direction, recursiveCount + 1) == true) {
+            map[newY][newX] = map[y][x];
+            map[y][x] = EMPTY_SPACE;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else { return false; }
 }
 
 // TODO Jump function
