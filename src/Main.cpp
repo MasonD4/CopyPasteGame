@@ -62,12 +62,6 @@ int main() {
     cout << "yay it worked!" << endl;
     move(map, rows, columns, 2, 2, "up", 0);
     printMap(map, rows, columns);
-    // findPlayers(map, rows, columns);
-    // cout << "\nIs there a player? " << isThereAPlayer(map) << endl;
-    // cout << "How many players? " << playerCoordinates.size() << endl;
-    // for (pair<int, int> i : playerCoordinates) {
-    //     cout << "Player spotted at (" << i.first << ", " << i.second << ")!" << endl;
-    // }
 }
 
 // void playerMove() {

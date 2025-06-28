@@ -13,3 +13,9 @@ Friday June 20 2025:
 // checks if a certain char is dangerous.
 //
 // Next week, we plan to continue working on the move function.
+
+Friday June 27 2025:
+// Kyle and I worked on the move function. We added some conditions to the move function.
+// Specifically the condition checking if the player is pushing a movable.
+//
+// Next week we will test out the move function according to the diagram that I made.
