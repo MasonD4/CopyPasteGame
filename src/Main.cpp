@@ -324,3 +324,33 @@ void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
 // The <A> case has two possibilities:
 // // // 1: it has reached a new row character prematurely
 // // // 2: it has reached the end of the input string prematurely
+
+
+/*
+
+--------]
+-@]
+]
+-#]
+]
+--0]
+]
+-@]
+]
+@]
+]
+-@#]
+]
+-@
+]
+-@!]
+-------m]
+-!@---mm]
+-----mmm]
+-@0--mmm]
+-----mmm]
+mmm@-mmm]
+-----@@@]
+]
+
+*/
