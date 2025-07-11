@@ -341,7 +341,7 @@ void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
 ]
 -@#]
 ]
--@
+-@]
 ]
 -@!]
 -------m]
@@ -351,6 +351,5 @@ void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
 -----mmm]
 mmm@-mmm]
 -----@@@]
-]
 
 */
