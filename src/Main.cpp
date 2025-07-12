@@ -279,7 +279,7 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
     }
     // Player moves to a dangerous spot
     else if (map[y][x] == PLAYER && isDangerous(map[newY][newX]) == true) {
-        map[y][x] == EMPTY_SPACE;
+        map[y][x] = EMPTY_SPACE;
         return true;
     }
     // An enemy/dangerous object moves onto a player
