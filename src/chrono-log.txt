@@ -3,7 +3,7 @@ Friday June 20 2025:
 //
 // We gave the move function a recursion limit. Basically, when the move function is initially called, a 0 will be
 // passed into the recursion-counting parameter (recursionCount). From there, if the function will check if the
-// recursionCount has reached/exceeded the RECURSION_LIMIT. If so, it stops the funciton. If the function calls itself, 
+// recursionCount has reached/exceeded the RECURSION_LIMIT. If so, it stops the function. If the function calls itself, 
 // it will increment the recursionCount and then pass that value into the new function call.
 // 
 // We also added some new char constants, including the coin counter and the jump counter
@@ -19,3 +19,14 @@ Friday June 27 2025:
 // Specifically the condition checking if the player is pushing a movable.
 //
 // Next week we will test out the move function according to the diagram that I made.
+
+Friday July 11 2025:
+// Kyle and I tested out the move function. We created the testing ground map, which contains 16 tests.
+// All but one passed. The one test that failed:
+// The player moves into a dangerous spot (onto an enemy). At that point, the player should disappear
+// (be destroyed), and the enemy stays as is. Instead, both the player and the enemy stayed put. Nothing changed.
+// The problem? Instead of setting the players position to an empty space, it was checking to see if the
+// player's position WAS an empty space.
+// I simply removed an '=' sign.
+//
+// Next time, we will likely work on the jump function.
