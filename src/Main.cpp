@@ -60,9 +60,26 @@ int main() {
     // Print the map
     printMap(map, rows, columns);
     cout << "yay it worked!" << endl;
-    move(map, rows, columns, 2, 2, "up", 0);
+    move(map, rows, columns, 1, 1, "right", 5); // (1, 1) recursive fail.
+    move(map, rows, columns, 8, 1, "up", 0); // Move the newline character.
+    move(map, rows, columns, 9, 1, "up", 0); // Out of bounds move.
+    move(map, rows, columns, 1, 3, "right", 0); // Move an immovable.
+    move(map, rows, columns, 1, 5, "right", 0); // Move nothing.
+    move(map, rows, columns, 1, 7, "Blorg", 0); // Bad direction.
+    move(map, rows, columns, 0, 9, "left", 0); // Move to the edge.
+    move(map, rows, columns, 1, 11, "right", 0); // Push an immovable
+    move(map, rows, columns, 1, 13, "right", 0); // Valid move right.
+    move(map, rows, columns, 1, 15, "right", 0); // Move into danger
+    move(map, rows, columns, 1, 17, "right", 0); // Move danger.
+    move(map, rows, columns, 1, 19, "right", 0); // Push a block.
+    move(map, rows, columns, 3, 21, "left", 0); // Move 3 blocks to the egde.
+    move(map, rows, columns, 5, 22, "up", 0); // Push 4 blocks.
+    move(map, rows, columns, 6, 22, "up", 0); // Push 5 blocks.
+    move(map, rows, columns, 7, 22, "up", 0); // Push 6 blocks.
     printMap(map, rows, columns);
 }
+// Move template:
+// move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount)
 
 // void playerMove() {
 //     string input;
@@ -211,6 +228,7 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
     // reached.
     
     if (recursiveCount >= RECURSIVE_LIMIT) {
+        cout << "Recursive fail" << endl;
         return false;
     }
     if (x < 0 || y < 0 || x >= cols || y >= rows) {
@@ -218,9 +236,11 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
         return false;
     }
     else if (isMovable(map[y][x]) == false) {
+        cout << "This is not movable" << endl;
         return false;
     }
     else if (map[y][x] == EMPTY_SPACE) {
+        cout << "This is am empty space" << endl;
         return true; // Maybe change this.
     }
     
@@ -283,6 +303,8 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
 }
 
 // TODO Jump function
+/// Note: Everything can jump. 'Cause why not. Maybe it can be a puzzle mechanic. Like, you need to move a wall
+/// out of your way by by using a block that can "push" any block by telling that block to jump in some direction.
 
 void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
     for (int rowI = 0; rowI < rows; rowI++) {
