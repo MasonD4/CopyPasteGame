@@ -10,14 +10,15 @@
 #include <string>
 using namespace std;
 
-void printMap(const vector<vector<char>>&, int, int);
-vector<vector<char>> makeMapFromString(string, int&, int&);
-string refineMapString(vector<string>);
-bool isThereAPlayer(vector<vector<char>>);
-int determineNumber(char);
 void findPlayers(vector<vector<char>>, int, int);
-bool move(vector<vector<char>>&, int, int, int, int, string, int);
+void printMap(const vector<vector<char>>&, int, int);
+bool isDangerous(char);
 bool isMovable(char);
+bool isThereAPlayer(vector<vector<char>>);
+bool move(vector<vector<char>>&, int, int, int, int, string, int);
+int determineNumber(char);
+string refineMapString(vector<string>);
+vector<vector<char>> makeMapFromString(string, int&, int&);
 
 const char PLAYER = '@';
 const char EMPTY_SPACE = '-';
@@ -86,6 +87,145 @@ int main() {
 //     cout << "Player turn: ";
 //     cin
 // }
+
+void findPlayers(vector<vector<char>> input, int rows, int columns) {
+    for (int rowNumber = 0; rowNumber < rows; rowNumber++) {
+        for (int colNumber = 0; colNumber < columns; colNumber++) {
+            if (input[rowNumber][colNumber] == '@') {
+                playerCoordinates.push_back({colNumber, rowNumber});
+            }
+        }
+    }
+}
+
+void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
+    for (int rowI = 0; rowI < rows; rowI++) {
+        for (int columnI = 0; columnI < columns; columnI++) {
+            cout << MAP[rowI][columnI] << " ";
+        }
+        cout << endl;
+    }
+}
+
+bool isDangerous(char input) {
+    switch(input) {
+    case '!': // temporary
+        return true;
+        break;
+    default: 
+        return false;
+    }
+}
+
+bool isMovable(char input) {
+    switch(input) {
+    case WALL:
+        return false;
+        break;
+    case NEW_ROW:
+        return false;
+        break;
+    case COIN_COUNTER:
+        return false;
+        break;
+    case JUMP_COUNTER:
+        return false;
+        break;
+    default:
+        return true;
+    }
+}
+
+bool isThereAPlayer(vector<vector<char>> input) {
+    for (vector<char> theRow : input) {
+        for (char theChar : theRow) {
+            if (theChar == '@') {return true;}
+        }
+    }
+
+    return false;
+}
+
+bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount) {
+    // The recursive limit will be set in here, which means that external calls start at 0.
+    const int RECURSIVE_LIMIT = 5;
+    // In each of the if statements that call this function, they need to check to see if this threshold has been
+    // reached.
+    
+    if (recursiveCount >= RECURSIVE_LIMIT) {
+        cout << "Recursive fail" << endl;
+        return false;
+    }
+    if (x < 0 || y < 0 || x >= cols || y >= rows) {
+        cout << "tried to move from a non-existant spot." << endl;
+        return false;
+    }
+    else if (isMovable(map[y][x]) == false) {
+        cout << "This is not movable" << endl;
+        return false;
+    }
+    else if (map[y][x] == EMPTY_SPACE) {
+        cout << "This is am empty space" << endl;
+        return true; // Maybe change this.
+    }
+    
+    int newX = x;
+    int newY = y;
+    if (direction == "up") { newY--; }
+    else if (direction == "right") { newX++; }
+    else if (direction == "down") { newY++; }
+    else if (direction == "left") { newX--; }
+    else {
+        cout << "BAD DIRECTION: " << direction << endl;
+        return false;
+    }
+    
+    // Space: Free move [DONE]
+    // Walls: No move [DONE]
+    // General movables: Recursive call. Can be pushed under certain circumstances.
+    // Enemy: Can be moved, but if a player moves into an enemy, player dies.
+    // Player: Can be moved, but if an enemy moves into a player, player dies.
+
+    // Literal "edge" case, haha! 
+    if (newX < 0 || newY < 0 || newX >= cols || newY >= rows) {
+        cout << "Attempting to move off the edge... FAILED" << endl;
+        return false;
+    }
+    // Moving into a wall/immovable
+    else if (isMovable(map[newY][newX]) == false) {
+        cout << "Tried to move into a wall/immovable. Lol no." << endl;
+        return false;
+    }
+    // Moving into an already empty space.
+    else if (map[newY][newX] == EMPTY_SPACE) {
+        map[newY][newX] = map[y][x];
+        map[y][x] = EMPTY_SPACE;
+        return true;
+    }
+    // Player moves to a dangerous spot
+    else if (map[y][x] == PLAYER && isDangerous(map[newY][newX]) == true) {
+        map[y][x] = EMPTY_SPACE;
+        return true;
+    }
+    // An enemy/dangerous object moves onto a player
+    else if (isDangerous(map[y][x]) == true && map[newY][newX] == PLAYER) {
+        map[newY][newX] = map[y][x];
+        map[y][x] = EMPTY_SPACE;
+        return true;
+    }
+    // Player pushes a movable object
+    else if (isMovable(map[newY][newX]) == true) {
+        if (move(map, rows, cols, newX, newY, direction, recursiveCount + 1) == true) {
+            map[newY][newX] = map[y][x];
+            map[y][x] = EMPTY_SPACE;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else { return false; }
+}
 
 int determineNumber(char c) {
     if (c == '0') {return 0;}
@@ -172,148 +312,9 @@ vector<vector<char>> makeMapFromString(const string input, int& rows, int& colum
     return output;
 }
 
-void findPlayers(vector<vector<char>> input, int rows, int columns) {
-    for (int rowNumber = 0; rowNumber < rows; rowNumber++) {
-        for (int colNumber = 0; colNumber < columns; colNumber++) {
-            if (input[rowNumber][colNumber] == '@') {
-                playerCoordinates.push_back({colNumber, rowNumber});
-            }
-        }
-    }
-}
-
-bool isThereAPlayer(vector<vector<char>> input) {
-    for (vector<char> theRow : input) {
-        for (char theChar : theRow) {
-            if (theChar == '@') {return true;}
-        }
-    }
-
-    return false;
-}
-
-bool isMovable(char input) {
-    switch(input) {
-    case WALL:
-        return false;
-        break;
-    case NEW_ROW:
-        return false;
-        break;
-    case COIN_COUNTER:
-        return false;
-        break;
-    case JUMP_COUNTER:
-        return false;
-        break;
-    default:
-        return true;
-    }
-}
-
-bool isDangerous(char input) {
-    switch(input) {
-    case '!': // temporary
-        return true;
-        break;
-    default: 
-        return false;
-    }
-}
-
-bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount) {
-    // The recursive limit will be set in here, which means that external calls start at 0.
-    const int RECURSIVE_LIMIT = 5;
-    // In each of the if statements that call this function, they need to check to see if this threshold has been
-    // reached.
-    
-    if (recursiveCount >= RECURSIVE_LIMIT) {
-        cout << "Recursive fail" << endl;
-        return false;
-    }
-    if (x < 0 || y < 0 || x >= cols || y >= rows) {
-        cout << "tried to move from a non-existant spot." << endl;
-        return false;
-    }
-    else if (isMovable(map[y][x]) == false) {
-        cout << "This is not movable" << endl;
-        return false;
-    }
-    else if (map[y][x] == EMPTY_SPACE) {
-        cout << "This is am empty space" << endl;
-        return true; // Maybe change this.
-    }
-    
-    int newX = x;
-    int newY = y;
-    if (direction == "up") { newY--; }
-    else if (direction == "right") { newX++; }
-    else if (direction == "down") { newY++; }
-    else if (direction == "left") { newX--; }
-    else {
-        cout << "BAD DIRECTION: " << direction << endl;
-        return false;
-    }
-    
-    // Space: Free move [DONE]
-    // Walls: No move [DONE]
-    // General movables: Recursive call. Can be pushed under certain circumstances.
-    // Enemy: Can be moved, but if a player moves into an enemy, player dies.
-    // Player: Can be moved, but if an enemy moves into a player, player dies.
-
-    // Literal "edge" case, haha! 
-    if (newX < 0 || newY < 0 || newX >= cols || newY >= rows) {
-        cout << "Attempting to move off the edge... FAILED" << endl;
-        return false;
-    }
-    // Moving into a wall/immovable
-    else if (isMovable(map[newY][newX]) == false) {
-        cout << "Tried to move into a wall/immovable. Lol no." << endl;
-        return false;
-    }
-    // Moving into an already empty space.
-    else if (map[newY][newX] == EMPTY_SPACE) {
-        map[newY][newX] = map[y][x];
-        map[y][x] = EMPTY_SPACE;
-        return true;
-    }
-    // Player moves to a dangerous spot
-    else if (map[y][x] == PLAYER && isDangerous(map[newY][newX]) == true) {
-        map[y][x] = EMPTY_SPACE;
-        return true;
-    }
-    // An enemy/dangerous object moves onto a player
-    else if (isDangerous(map[y][x]) == true && map[newY][newX] == PLAYER) {
-        map[newY][newX] = map[y][x];
-        map[y][x] = EMPTY_SPACE;
-        return true;
-    }
-    // Player pushes a movable object
-    else if (isMovable(map[newY][newX]) == true) {
-        if (move(map, rows, cols, newX, newY, direction, recursiveCount + 1) == true) {
-            map[newY][newX] = map[y][x];
-            map[y][x] = EMPTY_SPACE;
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    else { return false; }
-}
-
 // TODO Jump function
 /// Note: Everything can jump. 'Cause why not. Maybe it can be a puzzle mechanic. Like, you need to move a wall
 /// out of your way by by using a block that can "push" any block by telling that block to jump in some direction.
-
-void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
-    for (int rowI = 0; rowI < rows; rowI++) {
-        for (int columnI = 0; columnI < columns; columnI++) {
-            cout << MAP[rowI][columnI] << " ";
-        }
-        cout << endl;
-    }
-}
 
 // Perhaps I can create a move function that is something like this:
 // ` bool forceMove(int x, int y, string direction){} `
