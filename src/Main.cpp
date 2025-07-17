@@ -17,7 +17,7 @@ bool isMovable(char);
 bool isThereAPlayer(vector<vector<char>>);
 bool move(vector<vector<char>>&, int, int, int, int, string, int);
 int determineNumber(char);
-string refineMapString(vector<string>);
+string getMapString();
 vector<vector<char>> makeMapFromString(string, int&, int&);
 
 const char PLAYER = '@';
@@ -39,20 +39,11 @@ int main() {
     // Get input from the player
     cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << COIN_COUNTER << JUMP_COUNTER << endl;
     cout << "Insert the map string, and then press [ENTER] Twice: \n";
-    string tempInputString;
-    vector<string> tempInputVector;
-    do {
-        // Weed out the spaces and '\n's.
-        getline(cin, tempInputString);
-        if (tempInputString != "") {
-            tempInputVector.push_back(tempInputString);
-        }
-    } while (tempInputString != "");
 
     // Take the input, refine it, and then turn it into a game map.
     int columns = 0;
     int rows = 0;
-    string mapString = refineMapString(tempInputVector);
+    string mapString = getMapString();
     vector<vector<char>> map = makeMapFromString(mapString, rows, columns);
     cout << "Just exited the makeMap function" << endl;
 
@@ -239,15 +230,28 @@ int determineNumber(char c) {
     else {return -1;}
 }
 
-string refineMapString(vector<string> input) {
-    string tempString;
+string getMapString() {
+    // Obtains player input. Each item in the vector is a line entered by the player
+    // (by inputting a string and pressing [Enter] once).
+    string inputString;
+    vector<string> rowsOfInputs;
+    do {
+        getline(cin, inputString);
+        if (inputString != "") {
+            rowsOfInputs.push_back(inputString);
+        }
+    } while (inputString != "");
+
+    string concatenatedString;
     string output;
-    for (vector<string>::iterator i = input.begin(); i != input.end(); i++) {
-        tempString += *i;
+    // Takes each line from the input (each item in the vector) and concatenates it all into 1 string.
+    for (vector<string>::iterator i = rowsOfInputs.begin(); i != rowsOfInputs.end(); i++) {
+        concatenatedString += *i;
     }
-    for (int i = 0; i < tempString.length(); i++) {
-        if (tempString[i] != ' ') {
-            output += tempString[i];
+    // Removes spaces.
+    for (int i = 0; i < concatenatedString.length(); i++) {
+        if (concatenatedString[i] != ' ') {
+            output += concatenatedString[i];
         }
     }
     cout << "The current refined-string is \"" << output << "\"" << endl;
