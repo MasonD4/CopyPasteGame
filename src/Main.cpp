@@ -37,7 +37,7 @@ int main() {
     //                             {'#', '#', '-', '-', ']'}};
 
     // Get input from the player
-    cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << endl;
+    cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << COIN_COUNTER << JUMP_COUNTER << endl;
     cout << "Insert the map string, and then press [ENTER] Twice: \n";
     string tempInputString;
     vector<string> tempInputVector;
