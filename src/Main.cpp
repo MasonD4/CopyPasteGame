@@ -141,7 +141,7 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
     // In each of the if statements that call this function, they need to check to see if this threshold has been
     // reached.
     
-    if (recursiveCount >= RECURSIVE_LIMIT) {
+    if (recursiveCount > RECURSIVE_LIMIT) {
         cout << "Recursive fail" << endl;
         return false;
     }
