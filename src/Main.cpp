@@ -36,8 +36,6 @@ int main() {
     //                             {'#', '-', '-', '-', ']'}, 
     //                             {'#', '#', '-', '-', ']'}};
 
-    // TODO: Organize functions
-
     // Get input from the player
     cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << endl;
     cout << "Insert the map string, and then press [ENTER] Twice: \n";
