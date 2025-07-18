@@ -14,7 +14,7 @@ void findPlayers(vector<vector<char>>, int, int);
 void printMap(const vector<vector<char>>&, int, int);
 bool isDangerous(char);
 bool isMovable(char);
-bool isThereAPlayer(vector<vector<char>>);
+bool isThereAPlayer(vector<vector<char>>, int, int);
 bool move(vector<vector<char>>&, int, int, int, int, string, int);
 int determineNumber(char);
 string getMapString();
@@ -28,6 +28,7 @@ const char COIN_COUNTER = 'C';
 const char JUMP_COUNTER = 'J';
 // Lowercase letters will be like comments
 vector<pair<int, int>> playerCoordinates;
+bool hasFindPlayersBeenCalled = false;
 
 int main() {
     // vector<vector<char>> map = {{'#', '#', '-', '-', ']'}, 
@@ -50,23 +51,10 @@ int main() {
     // Print the map
     printMap(map, rows, columns);
     cout << "yay it worked!" << endl;
-    move(map, rows, columns, 1, 1, "right", 5); // (1, 1) recursive fail.
-    move(map, rows, columns, 8, 1, "up", 0); // Move the newline character.
-    move(map, rows, columns, 9, 1, "up", 0); // Out of bounds move.
-    move(map, rows, columns, 1, 3, "right", 0); // Move an immovable.
-    move(map, rows, columns, 1, 5, "right", 0); // Move nothing.
-    move(map, rows, columns, 1, 7, "Blorg", 0); // Bad direction.
-    move(map, rows, columns, 0, 9, "left", 0); // Move to the edge.
-    move(map, rows, columns, 1, 11, "right", 0); // Push an immovable
-    move(map, rows, columns, 1, 13, "right", 0); // Valid move right.
-    move(map, rows, columns, 1, 15, "right", 0); // Move into danger
-    move(map, rows, columns, 1, 17, "right", 0); // Move danger.
-    move(map, rows, columns, 1, 19, "right", 0); // Push a block.
-    move(map, rows, columns, 3, 21, "left", 0); // Move 3 blocks to the egde.
-    move(map, rows, columns, 5, 22, "up", 0); // Push 4 blocks.
-    move(map, rows, columns, 6, 22, "up", 0); // Push 5 blocks.
-    move(map, rows, columns, 7, 22, "up", 0); // Push 6 blocks.
-    printMap(map, rows, columns);
+    cout << "Are there any players here?";
+    if (isThereAPlayer(map, rows, columns) == true) { cout << " Yes!" << endl; }
+    else { cout << " No!" << endl; } 
+    cout << "How many? " << playerCoordinates.size() << "!";
 }
 // Move template:
 // move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount)
@@ -78,12 +66,19 @@ int main() {
 // }
 
 void findPlayers(vector<vector<char>> input, int rows, int columns) {
-    for (int rowNumber = 0; rowNumber < rows; rowNumber++) {
-        for (int colNumber = 0; colNumber < columns; colNumber++) {
-            if (input[rowNumber][colNumber] == '@') {
-                playerCoordinates.push_back({colNumber, rowNumber});
+    if (hasFindPlayersBeenCalled == true) {
+        return;
+    }
+
+    else{
+        for (int rowNumber = 0; rowNumber < rows; rowNumber++) {
+            for (int colNumber = 0; colNumber < columns; colNumber++) {
+                if (input[rowNumber][colNumber] == '@') {
+                    playerCoordinates.push_back({colNumber, rowNumber});
+                }
             }
         }
+        hasFindPlayersBeenCalled = true;
     }
 }
 
@@ -125,14 +120,14 @@ bool isMovable(char input) {
     }
 }
 
-bool isThereAPlayer(vector<vector<char>> input) {
-    for (vector<char> theRow : input) {
-        for (char theChar : theRow) {
-            if (theChar == '@') {return true;}
-        }
+bool isThereAPlayer(vector<vector<char>> input, int rows, int cols) {
+    findPlayers(input, rows, cols);
+    if (playerCoordinates.size() > 0) {
+        return true;
     }
-
-    return false;
+    else {
+        return false;
+    }
 }
 
 bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount) {
@@ -377,4 +372,22 @@ vector<vector<char>> makeMapFromString(const string input, int& rows, int& colum
 mmm@-mmm]
 -----@@@]
 
+*/
+/* Testing the move function, using the above testing-grounds map.
+    move(map, rows, columns, 1, 1, "right", 5); // (1, 1) recursive fail.
+    move(map, rows, columns, 8, 1, "up", 0); // Move the newline character.
+    move(map, rows, columns, 9, 1, "up", 0); // Out of bounds move.
+    move(map, rows, columns, 1, 3, "right", 0); // Move an immovable.
+    move(map, rows, columns, 1, 5, "right", 0); // Move nothing.
+    move(map, rows, columns, 1, 7, "Blorg", 0); // Bad direction.
+    move(map, rows, columns, 0, 9, "left", 0); // Move to the edge.
+    move(map, rows, columns, 1, 11, "right", 0); // Push an immovable
+    move(map, rows, columns, 1, 13, "right", 0); // Valid move right.
+    move(map, rows, columns, 1, 15, "right", 0); // Move into danger
+    move(map, rows, columns, 1, 17, "right", 0); // Move danger.
+    move(map, rows, columns, 1, 19, "right", 0); // Push a block.
+    move(map, rows, columns, 3, 21, "left", 0); // Move 3 blocks to the egde.
+    move(map, rows, columns, 5, 22, "up", 0); // Push 4 blocks.
+    move(map, rows, columns, 6, 22, "up", 0); // Push 5 blocks.
+    move(map, rows, columns, 7, 22, "up", 0); // Push 6 blocks.
 */
