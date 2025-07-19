@@ -15,6 +15,7 @@ void printMap(const vector<vector<char>>&, int, int);
 bool isDangerous(char);
 bool isMovable(char);
 bool isThereAPlayer(vector<vector<char>>, int, int);
+bool jump(vector<vector<char>>&, int, int, int, int, string);
 bool move(vector<vector<char>>&, int, int, int, int, string, int);
 int determineNumber(char);
 string getMapString();
@@ -28,6 +29,8 @@ const char COIN_COUNTER = 'C';
 const char JUMP_COUNTER = 'J';
 // Lowercase letters will be like comments
 vector<pair<int, int>> playerCoordinates;
+// This is because, if findPlayers gets called twice, I believe that it will add to the vector without
+// removing what was already in there.
 bool hasFindPlayersBeenCalled = false;
 
 int main() {
@@ -130,6 +133,53 @@ bool isThereAPlayer(vector<vector<char>> input, int rows, int cols) {
     }
 }
 
+bool jump(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction) {
+    if (x < 0 || y < 0 || x >= cols || y >= rows) {
+        cout << "tried to jump from a non-existant spot." << endl;
+        return false;
+    }
+    else if (map[y][x] == EMPTY_SPACE) {
+        cout << "This is am empty space" << endl;
+        return true; // Maybe change this.
+    }
+
+    int newX = x;
+    int newY = y;
+    if (direction == "up") { newY -= 2; }
+    else if (direction == "right") { newX += 2; }
+    else if (direction == "down") { newY += 2; }
+    else if (direction == "left") { newX -= 2; }
+    else {
+        cout << "BAD DIRECTION: " << direction << endl;
+        return false;
+    }
+
+    // "Edge" case
+    if (newX < 0 || newY < 0 || newX >= cols || newY >= rows) {
+        cout << "Attempting to jump off the edge... FAILED" << endl;
+        return false;
+    }
+    // Player jumps onto an enemy/dangerous spot
+    else if (map[y][x] == PLAYER && isDangerous(map[newY][newX]) == true) {
+        map[y][x] = EMPTY_SPACE;
+        return true;
+    }
+    // Enemy jumps onto a player.
+    else if (isDangerous(map[y][y]) == true && map[newY][newX] == PLAYER) {
+        map[newY][newX] = map[y][x];
+        map[y][x] = EMPTY_SPACE;
+        return true;
+    }
+    else if (map[newY][newX] != EMPTY_SPACE) {
+        return false;
+    }
+    else if (map[newY][newX] == EMPTY_SPACE) {
+        map[newY][newX] = map[y][x];
+        map[y][x] = EMPTY_SPACE;
+        return true;
+    }
+}
+
 bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount) {
     // The recursive limit will be set in here, which means that external calls start at 0.
     const int RECURSIVE_LIMIT = 5;
@@ -169,6 +219,8 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
     // General movables: Recursive call. Can be pushed under certain circumstances.
     // Enemy: Can be moved, but if a player moves into an enemy, player dies.
     // Player: Can be moved, but if an enemy moves into a player, player dies.
+
+    // ToDo: I may want to rearrange these if statements. What if there is an immovable enemy?
 
     // Literal "edge" case, haha! 
     if (newX < 0 || newY < 0 || newX >= cols || newY >= rows) {
