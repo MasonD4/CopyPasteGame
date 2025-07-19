@@ -170,6 +170,9 @@ bool jump(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
         map[y][x] = EMPTY_SPACE;
         return true;
     }
+    // else if (map[newY][newX] == COIN) {
+        // Question: Should only the player be able to pick up coins, or can anything?
+    // }
     else if (map[newY][newX] != EMPTY_SPACE) {
         return false;
     }
@@ -249,6 +252,7 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
         map[y][x] = EMPTY_SPACE;
         return true;
     }
+    // ToDo: add a case for if the player gets a coin.
     // Player pushes a movable object
     else if (isMovable(map[newY][newX]) == true) {
         if (move(map, rows, cols, newX, newY, direction, recursiveCount + 1) == true) {
