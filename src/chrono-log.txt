@@ -30,3 +30,7 @@ Friday July 11 2025:
 // I simply removed an '=' sign.
 //
 // Next time, we will likely work on the jump function.
+
+Friday July 18 2025:
+Got started on the jump function.
+Also, potential new names for the jump ability: Warp, blink.
