@@ -14,11 +14,13 @@ Friday June 20 2025:
 //
 // Next week, we plan to continue working on the move function.
 
+
 Friday June 27 2025:
 // Kyle and I worked on the move function. We added some conditions to the move function.
 // Specifically the condition checking if the player is pushing a movable.
 //
 // Next week we will test out the move function according to the diagram that I made.
+
 
 Friday July 11 2025:
 // Kyle and I tested out the move function. We created the testing ground map, which contains 16 tests.
@@ -30,6 +32,7 @@ Friday July 11 2025:
 // I simply removed an '=' sign.
 //
 // Next time, we will likely work on the jump function.
+
 
 Friday July 18 2025:
 // Got started on the jump function.
