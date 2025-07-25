@@ -10,6 +10,7 @@
 #include <string>
 using namespace std;
 
+// TODO: Make functions that can check and update counters.
 void findPlayers(vector<vector<char>>, int, int);
 void printMap(const vector<vector<char>>&, int, int);
 bool isDangerous(char);
@@ -27,6 +28,7 @@ const char WALL = '#';
 const char NEW_ROW = ']';
 const char COIN_COUNTER = 'C';
 const char JUMP_COUNTER = 'J';
+const char COIN = '*';
 // Lowercase letters will be like comments
 vector<pair<int, int>> playerCoordinates;
 // This is because, if findPlayers gets called twice, I believe that it will add to the vector without
@@ -41,7 +43,7 @@ int main() {
     //                             {'#', '#', '-', '-', ']'}};
 
     // Get input from the player
-    cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << COIN_COUNTER << JUMP_COUNTER << endl;
+    cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << COIN_COUNTER << JUMP_COUNTER << COIN << endl;
     cout << "Insert the map string, and then press [ENTER] Twice: \n";
 
     // Take the input, refine it, and then turn it into a game map.
@@ -133,6 +135,19 @@ bool isThereAPlayer(vector<vector<char>> input, int rows, int cols) {
     }
 }
 
+/*
+List of conditions:
+* Jump from unavailable spot [DONE]
+* Jump from empty spot [DONE]
+* Jump off the edge [DONE]
+* Jump onto enemy [DONE]
+* Jump onto coin
+* normal jump (onto air) [DONE]
+* Enemy jump onto player [DONE]
+* Jump onto occupied space [DONE]
+* Jump over enemy
+*/
+
 bool jump(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction) {
     if (x < 0 || y < 0 || x >= cols || y >= rows) {
         cout << "tried to jump from a non-existant spot." << endl;
@@ -170,9 +185,15 @@ bool jump(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
         map[y][x] = EMPTY_SPACE;
         return true;
     }
-    // else if (map[newY][newX] == COIN) {
-        // Question: Should only the player be able to pick up coins, or can anything?
-    // }
+    // Question: Should only the player be able to pick up coins, or can anything?
+    // Answer: Primarily just the player, but there can be some exceptions. For most other moving objects,
+    //          coins will simply be pushed
+    else if (map[y][x] == PLAYER && map[newY][newX] == COIN) {
+        map[newY][newX] = map[y][x];
+        map[y][x] = EMPTY_SPACE;
+        // Make a function or something that increments the coin counter.
+        return true;
+    }
     else if (map[newY][newX] != EMPTY_SPACE) {
         return false;
     }
@@ -446,4 +467,10 @@ mmm@-mmm]
     move(map, rows, columns, 5, 22, "up", 0); // Push 4 blocks.
     move(map, rows, columns, 6, 22, "up", 0); // Push 5 blocks.
     move(map, rows, columns, 7, 22, "up", 0); // Push 6 blocks.
+*/
+
+/* Testing ground for jump
+
+
+
 */
