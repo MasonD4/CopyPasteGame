@@ -37,3 +37,29 @@ Friday July 11 2025:
 Friday July 18 2025:
 // Got started on the jump function.
 // Also, potential new names for the jump ability: Warp, blink.
+
+Friday July 25 2025:
+// Added part of a coin condition in the jump function.
+// 
+// Added some comments.
+// 
+// Added a new branch, "input", which is being used to test out a player input loop. I got it to work in some ways,
+// but not others. Here is a timeline for how it went:
+// // > I created the loop and 5 conditions: One for if the player chooses to quit, and one for each WASD key.
+// // There was not anything to allow the player to jump. It didn't work; No matter what I did the player didn't
+// // move. Not only that, but the console didn't display any of my custom made cout error statments, which means
+// // that my move wasn't being treated at invalid in the move function.
+// // 
+// // > The issue was because it was using the playerCoordinates vector to find and move players, but
+// // it never actually populated that vector. I Fixed this by adding a line to the player input loop that invoked
+// // the findPlayers function. At this point it worked (sort of); I could move the player (and even all instances
+// // of the player, if there were multiple), but only once. After this it would say that I was trying to move From
+// // an empty space. I knew what the issue was right away.
+// // 
+// // > The issue was that, upon being populated, the playerCoordinates vector could not be updated. So, I fixed
+// // that by telling the findPlayers function to clear and repopulate the vector if it was called on more than
+// // once. Now, it work just fine, for the most part. I can move the player, I can move at least 3 players at
+// // once, I can push stuff, and the players will obey other objects, other instances of the player,
+// // and the map edge. However, there is still one unsolved issue: When there are three instances of the player in
+// // a row (right next to each other), when I move right (press 'd') they all move 3 spaces. This doesn't happen
+// // if the players are not next to each other, or if I choose another direction.
