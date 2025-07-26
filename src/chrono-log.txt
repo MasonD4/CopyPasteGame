@@ -63,3 +63,63 @@ Friday July 25 2025:
 // // and the map edge. However, there is still one unsolved issue: When there are three instances of the player in
 // // a row (right next to each other), when I move right (press 'd') they all move 3 spaces. This doesn't happen
 // // if the players are not next to each other, or if I choose another direction.
+// // Example:
+// // - - - - - - ]
+// // @ @ @ - - - ]
+// // - - - - - - ]
+// // move: d
+// // - - - - - - ]
+// // - - - @ @ @ ]
+// // - - - - - - ]
+// 
+// I think the above mentioned issue has to do with the push mechanic, the way the playerCoordinates vector
+// refreches, and the order that the program parses the map when finding and moving players. 
+// Here is how I (think I may have) figured it out:
+// // - - - - - - ]
+// // - - @ @ @ - ]
+// // - - - - - - ]
+// // move: d
+// // - - - - - - ]
+// // - - - @ @ @ ]
+// // - - - - - - ]
+// In this above example, when I press 'd' and move right, the console displays two of my cout error statemets.
+// Each of them tell me that a player had tried to move into a wall. This means that, while players had tried to
+// move, only one moved, and two of them were blocked by a wall (or a player blocked by a wall).
+// Here is what I thought had happened: 
+// // > Due to the order that the program parses the map, the leftmost player gets to technically move first.
+// //
+// // > The leftmost player moves, pushing the other two players in the process.
+// //
+// // > The middle player tries to move. It is blocked by the rightmost player, so it tries to push them. The
+// // rightmost player is blocked by the wall.
+// // 
+// // > Finally, the rightmost player tries to move right but doesn't, because it is being blocked by the wall.
+//
+// At least, that was my first theory. However, had there been no obstruction, it would have played out like this:
+// Leftmost player moves to the right and pushes the middle and rightmost players to the right as well. Then,
+// the middle player moves right, pushing the rightmost player to the right. Then, the rightmost player moves
+// right. This scenario would look like this:
+// // - - - - - - ]
+// // @ @ @ - - - ]
+// // - - - - - - ]
+// // move: d
+// // - - - - - - ]
+// // - @ - @ - @ ]
+// // - - - - - - ]
+// 
+// That is not what happens. Here is my second theory:
+// // > The findPlayers function is invoked. It finds 3 players, and sees that they are located at (x, y), (x+1, y),
+// // and (x+2, y), respectively.
+// //
+// // > The program is designed to look at each of these coordinates and move whatever is there to the right.
+// // 
+// // > First, whatever is at (x, y) will be moved right. The leftmost player is there, so it moves right, pushing
+// // the middle and leftmost players.
+// //
+// // > Then, whatever is at (x+1, y) will be moved right. The leftmost player is there because it moved there,
+// // so it moves right, pushing the middle and leftmost players.
+// //
+// // > Finally, whatever is at (x+2, y) will be moved right. The leftmost player is there, of course, so it moves
+// // right a third time. 
+// // 
+// // > This all happens because the leftmost player is moving in the same direction as the metaphorical "pointer".
