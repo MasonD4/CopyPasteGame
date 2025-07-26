@@ -130,3 +130,7 @@ Friday July 25 2025:
 // move data to the vector. Each game cycle, a seperate function will be called. It will read through the vector
 // and fulfill each move that had been stored there.
 // Alternatively, this can just be a feature.
+//
+// Idea 2: Same as the last idea, but instead of a table, it can be a hashmap. Whenever the move function is called
+// and move data is sent to the hashmap, it checks if the thing that is moving is already being moved. If so, don't
+// bother.
