@@ -123,3 +123,10 @@ Friday July 25 2025:
 // // right a third time. 
 // // 
 // // > This all happens because the leftmost player is moving in the same direction as the metaphorical "pointer".
+//
+// Idea: The move function currently moves things immediately; Once the move function is called, by something
+// gets moved (unless the move fails). Instead of doing that, I can make a global vector or something like that.
+// Whenever the move function is called, instead of directly moving something, the move function will send a 
+// move data to the vector. Each game cycle, a seperate function will be called. It will read through the vector
+// and fulfill each move that had been stored there.
+// Alternatively, this can just be a feature.
