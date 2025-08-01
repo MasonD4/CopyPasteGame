@@ -70,21 +70,20 @@ int main() {
 //     cin
 // }
 
+// Get player coordinates
 void findPlayers(vector<vector<char>> input, int rows, int columns) {
     if (hasFindPlayersBeenCalled == true) {
-        return;
+        playerCoordinates.clear();
     }
 
-    else{
-        for (int rowNumber = 0; rowNumber < rows; rowNumber++) {
-            for (int colNumber = 0; colNumber < columns; colNumber++) {
-                if (input[rowNumber][colNumber] == '@') {
-                    playerCoordinates.push_back({colNumber, rowNumber});
-                }
+    for (int rowNumber = 0; rowNumber < rows; rowNumber++) {
+        for (int colNumber = 0; colNumber < columns; colNumber++) {
+            if (input[rowNumber][colNumber] == '@') {
+                playerCoordinates.push_back({colNumber, rowNumber});
             }
         }
-        hasFindPlayersBeenCalled = true;
     }
+    hasFindPlayersBeenCalled = true;
 }
 
 void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
