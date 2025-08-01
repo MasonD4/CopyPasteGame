@@ -97,7 +97,7 @@ void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
 
 bool isDangerous(char input) {
     switch(input) {
-    case '!': // temporary
+    case '!': // temporary(?)
         return true;
         break;
     default: 
