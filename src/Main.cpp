@@ -31,7 +31,7 @@ const char JUMP_COUNTER = 'J';
 const char COIN = '*';
 // Lowercase letters will be like comments
 vector<pair<int, int>> playerCoordinates;
-// This is because, if findPlayers gets called twice, I believe that it will add to the vector without
+// This boolean is because, if findPlayers gets called twice, I believe that it will add to the vector without
 // removing what was already in there.
 bool hasFindPlayersBeenCalled = false;
 
