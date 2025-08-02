@@ -28,7 +28,7 @@ const char WALL = '#';
 const char NEW_ROW = ']';
 const char COIN_COUNTER = 'C';
 const char JUMP_COUNTER = 'J';
-const char COIN = '*';
+const char COIN = '*'; // Maybe '$'
 // Lowercase letters will be like comments
 vector<pair<int, int>> playerCoordinates;
 // This boolean is because, if findPlayers gets called twice, I believe that it will add to the vector without
