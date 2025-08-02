@@ -1,6 +1,8 @@
 This is an informational text file for Copy Paste Game.
 
-[========================================- Misc. Reminders -========================================]
+[===============================================- @ -===============================================]
+Misc. Reminders
+[===============================================- @ -===============================================]
 
 The edge of the map will be treated as a wall.
 
@@ -26,7 +28,9 @@ a format that requires that there be an allocated space at the bottome for '$'. 
 
 Maybe you could add a way to change the map size in game???
 
-[===============================================- Main Ideas -===============================================]
+[===============================================- @ -===============================================]
+Main Ideas
+[===============================================- @ -===============================================]
 
 The player inputs a string of text, which is then turned into the game map. 
 
@@ -35,7 +39,10 @@ List of tiles:
 - Empty space
 # Wall
 
-[================================- refineMapString(vector<string>) function -================================]
+[===============================================- @ -===============================================]
+refineMapString(vector<string>) function
+[===============================================- @ -===============================================]
+
 This is used to remove the spaces and newlines (not ']', '\n') from the input, which allows someone to input
 something like this:
 - - - ]
@@ -60,7 +67,10 @@ So, the refineMapString function takes in this vector and goes through 2 for-loo
 Finally, the function returns the output string. This was surprisingly and pleasantly easy to write, and didn't take
 much time at all.
 
-[===================================- makeMapFromString(string) function -===================================]
+[===============================================- @ -===============================================]
+makeMapFromString(string) function
+[===============================================- @ -===============================================]
+
 This function is supposed to take in the string that will be used to create the map.
 It has 3 main parts:
 
@@ -119,3 +129,60 @@ There are 3 conditions:
 An important thing to keep in mind in order to conceptualize the logic of Part 3:
 Part 3 is centered around the output vector, not the input string. What this means is that it will iterate through
 the vector, while also keeping track of the current character in the input string. Not the other way around.
+
+[===============================================- @ -===============================================]
+Move function
+[===============================================- @ -===============================================]
+
+This is the default ruleset for movement:
+// The thing being moved can be one of four things:
+// // Out of bounds/nonexistent object
+// // Immovable object
+// // Movable object
+// // Empty air
+//
+// The spot being moved to can be one of four things:
+// // Out of bounds
+// // Occupied by an immovable object
+// // Occupied by a movable object
+// // Empty air
+//
+// If the object is at the end of a long line of objects being pushed (ie the recursive count is too high),
+// the move fails.
+//
+// If the object being moved is out of bounds (it does not exits) the move fails.
+// 
+// If the object being moved is immovable the move fails.
+//
+// If the object being moved is movable then the function will check the adjacent space to be moved to and
+// attempt to move there.
+//
+// Finally, if the object being moved is just empty air, nothing happens but the move is counted as successful.
+//
+//
+// Assuming that the object being moved is movable, the function moves on and starts checking the adjacent space
+// to be moved to.
+//
+// If the space being moved to is out of bounds, the move fails.
+//
+// If the space being moved to is occupied by an immovable object, the move fails.
+//
+// If the space being moved to is occupied by a movable object, then the function will call itself to move that
+// object. Let this be called a "push move". If the push move is successful, then the initial move is too.
+// Otherwise, the initial move fails.
+//
+// If the space being moved to is empty, then the move is successful.
+
+Those are the default rules, but there are exceptions:
+// If player 1 moves into another instance of player 1, then PERHAPS the first instance pushes the second instance,
+// without incrementing recursiveCount.
+//
+// If a player moves onto a coin...
+//
+// If a player moves onto an enemy/hazard, the player disappears and the enemy/hazard is left alone (or maybe they
+// get pushed before the player disappears).
+//
+// Maybe if a coin moves onto a player it will push the player (in which case it is not an exception to default
+// rules).
+//
+// If an enemy moves onto the player...
