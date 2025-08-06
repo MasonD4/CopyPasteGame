@@ -106,7 +106,7 @@ It has 3 main parts:
 Part 1: Is the input empty?
 If the input is empty (input.length() < 1), then it passes a premade input string into the makeMapFromString
 function (yes, it calls itself). This results in the function returning a premade, playable map, which tells the
-user that their input it empy.
+user that their input is empty.
 
 Part 2: How many rows and columns are there?
 This uses a for loop and 2 other variables: biggestRowLength and currentRowLength. 
@@ -139,7 +139,7 @@ This part starts by creating 2 vectors: the actual 2D output vector, and a 1D "d
 It also creates an int (`positionInInput`) and a bool (`reachedEndOfInput`), which will be talked about later.
 -
 Here is the overall idea behind Part 3:
-A default row is pushed onto the end of the ouput vector. Then, the program looks at each space in the row and
+A default row is pushed onto the end of the output vector. Then, the program looks at each space in the row and
 determines whether the current character in the input string should be added to the current space in the vector, or
 if that space should be left as its default value (the empty space character).
 For context, it will keep track of 3 "pointers." These are not actual pointers that need to be dereferenced.
@@ -149,15 +149,17 @@ There are 3 conditions:
 // If the current character in the input string is a new row character, but the column "pointer" has not reached the
 -- // end of the row yet, then it will just leave the current space in the vector as is. It will then advance the
 -- // column pointer without advancing the input string's pointer.
-// Else if the input string's pointer reaches the end of the input string (even if the row and column pointers havn't 
--- // made it to the end of the vector yet), then it will simply stop the loop. This will leave all remaining spaces
--- // in the vector as the empty space character.
+// Else if the input string's pointer reaches the end of the input string (even if the row and column pointers have 
+-- // not made it to the end of the vector yet), then it will simply stop the loop. This will leave all remaining
+-- // spaces in the vector as the empty space character.
 // Otherwise, it will simply assign the current character in the input string to the current space in the vector.
 -- // It will then advance all 3 pointers.
 -
 An important thing to keep in mind in order to conceptualize the logic of Part 3:
 Part 3 is centered around the output vector, not the input string. What this means is that it will iterate through
 the vector, while also keeping track of the current character in the input string. Not the other way around.
+It moves through the positions in the vector at a constant rate, but does not move through the input string at a
+constant rate (it may refrain from moving the input string's pointer forward in the first condition)
 
 [===============================================- @ -===============================================]
 Move function
