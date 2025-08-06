@@ -28,6 +28,8 @@ a format that requires that there be an allocated space at the bottome for '$'. 
 
 Maybe you could add a way to change the map size in game???
 
+Maybe I should make a list of traits that each char may or may not have. 
+
 [===============================================- @ -===============================================]
 Main Ideas
 [===============================================- @ -===============================================]
@@ -35,9 +37,36 @@ Main Ideas
 The player inputs a string of text, which is then turned into the game map. 
 
 List of tiles:
-@ character
+@ Player
 - Empty space
 # Wall
+] New Row
+C Coin Counter
+J Jump Counter
+* Coin (maybe change to $)
+! Enemy
+& Player 2?????????????????????
+
+[===============================================- @ -===============================================]
+Character Traits
+[===============================================- @ -===============================================]
+
+This is a list of traits that each character may or may not have:
+// * Movable
+// // * Can this character be moved/pushed? Yes or no? Note: I may split this into 2 other traits:
+// // Movable: Can it be moved directly?
+// // Pushable: Can it be pushed by something else?
+//
+// * Dangerous:
+// // * Yes or no? Dangerous characters can destroy players or player-aligned characters.
+//
+// * Number:
+// // * Is the character a number? If so, it is given its respective number value. Otherwise, it's given a -1 value.
+//
+// * Player:
+// // * Is it a player-controlled character? Yes or no?
+//
+// * ...  
 
 [===============================================- @ -===============================================]
 refineMapString(vector<string>) function
@@ -82,7 +111,7 @@ user that their input it empy.
 Part 2: How many rows and columns are there?
 This uses a for loop and 2 other variables: biggestRowLength and currentRowLength. 
 The loop will check 4 conditions:
-// 1: If the current charcter in the input string (input[i]) is a newline character or the end of the input string,
+// 1: If the current character in the input string (input[i]) is a newline character or the end of the input string,
 // // AND the length of the current row is longer than the biggestRowLength, then it updates the biggestRowLength
 // // and sets the currentRowLength = 1. 
 // 2: If the current character is a newline character or the end of the input string, AND the current row is NOT
@@ -147,7 +176,7 @@ This is the default ruleset for movement:
 // // Occupied by a movable object
 // // Empty air
 //
-// If the object is at the end of a long line of objects being pushed (ie the recursive count is too high),
+// If the moved object is at the end of a long line of objects being pushed (ie the recursive count is too high),
 // the move fails.
 //
 // If the object being moved is out of bounds (it does not exits) the move fails.
