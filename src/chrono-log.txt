@@ -145,3 +145,8 @@ Thursday July 31 2025:
 // Also, keep in mind what order these conditions should come in. If there are two or more conditions where
 // you can not decide which should come first, you can make a seperate condition that merges the two somehow,
 // or you can nest them.
+//
+// Note: In the future, I should keep in mind that I shouldn't completely try to make the game bend to my exact
+// vision. I should embrace some of the technical quirks and limitations. For example, things near the top left
+// of the map get movement priority. I don't necessarily need to fix this asymmetry. Instead, I can embrace it and
+// let it influence puzzle design.
