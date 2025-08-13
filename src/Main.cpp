@@ -29,6 +29,7 @@ const char NEW_ROW = ']';
 const char COIN_COUNTER = 'C';
 const char JUMP_COUNTER = 'J';
 const char COIN = '*'; // Maybe '$'
+const char HAZARD = '!'; 
 // Lowercase letters will be like comments
 vector<pair<int, int>> playerCoordinates;
 // This boolean is because, if findPlayers gets called twice, I believe that it will add to the vector without
@@ -97,7 +98,7 @@ void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
 
 bool isDangerous(char input) {
     switch(input) {
-    case '!': // temporary(?)
+    case HAZARD: // temporary(?)
         return true;
         break;
     default: 
