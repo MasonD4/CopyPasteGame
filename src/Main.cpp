@@ -79,7 +79,7 @@ void findPlayers(vector<vector<char>> input, int rows, int columns) {
 
     for (int rowNumber = 0; rowNumber < rows; rowNumber++) {
         for (int colNumber = 0; colNumber < columns; colNumber++) {
-            if (input[rowNumber][colNumber] == '@') {
+            if (input[rowNumber][colNumber] == PLAYER) {
                 playerCoordinates.push_back({colNumber, rowNumber});
             }
         }
