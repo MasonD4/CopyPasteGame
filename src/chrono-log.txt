@@ -73,7 +73,7 @@ Friday July 25 2025:
 // // - - - - - - ]
 // 
 // I think the above mentioned issue has to do with the push mechanic, the way the playerCoordinates vector
-// refreches, and the order that the program parses the map when finding and moving players. 
+// refreshes, and the order that the program parses the map when finding and moving players. 
 // Here is how I (think I may have) figured it out:
 // // - - - - - - ]
 // // - - @ @ @ - ]
@@ -150,3 +150,57 @@ Thursday July 31 2025:
 // vision. I should embrace some of the technical quirks and limitations. For example, things near the top left
 // of the map get movement priority. I don't necessarily need to fix this asymmetry. Instead, I can embrace it and
 // let it influence puzzle design.
+
+Friday August 29 2025:
+// For now on, each entity on the map (player, NPC, block, wall, air, whatever it may be) will be referred to as A
+// "Widget".
+// 
+// A "Solid Widget" refers to any widget other than air.
+//
+// A "Legit Widget" refers to any widget INCLUDING air.
+//
+// We didn't do any real work, but we came up with how movement (and other actions should happen):
+// Firstly, before all of this, it is important to know that every type of action (such of moving) gets its own
+// function(s). There will be a function(s) for each type of action that considers all of the logic to decide on if
+// the action can happen, and then there will be a function(s) that actually carry out the action. All of these
+// take in a vector that contains a list of every action that is happening simultaneously. Each element in the
+// will perhaps be a custom type that contains the coordinates of the action, and any other relevant info.
+//
+// First, you have a vector containing all of the moves that are happening (coordinates and direction) is created.
+// This vector gets passed into the first movement function, which checks to see if any of the moves interact
+// (and more importantly, conflict) with each other. It checks the first move in the list.
+// 
+// If that widget is moving in such a way that it does not interact with or interfere with any other widgets that
+// are on the list, then it allows the widget to move (but does not *carry-out* the move yet).
+// 
+// If the widget's move does interact with or interfere with another widget on the list, the function is called
+// recursively to preform the same check on that widget. 
+// If the initial widget does not directly interact with or interfere with another widget on the list, but it does
+// push a pushable, the function preforms a check (maybe useing recursion, maybe within that same function call,
+// maybe with an outside helping function) on that pushable widget (not on the list), and any widget that it is 
+// pushing, while keeping track of whether or not the push-limit has been reached. If it encounters another widget
+// that is on the list it preforms a check on that widget.
+//
+// Also, while it is looking through the chains, it is also keeping track of where the start of the chain is.
+// If it encounters a move that directly contradicts a move that came before it in the chain, the chain is broken,
+// or resolved through some other means. If the chain reaches a widget that does not interact with or interfere
+// with other widgets on the list OR it loops back to the start of the chain without running into contradictory
+// moves, all moves within the chain are allowed to happen.
+// // NOTE: Just because all moves are "allowed" to happen does not mean that they will immediately happen,
+// // or that they will all actually happen. There are still other steps. This phase only exists to make sure that
+// // none of the moves that are happening simultaneously are in direct contradiction. For example, a moving 
+// // widget may be allowed to move by the end of this phase of the movement, but at a later phase it is decided
+// // that it can not actually move because it is behind a wall. 
+// // Basically, if this phase gives a widget the green light to move, it only means that it has made it through
+// // the first filter, and is free to continue its movement as usual, which may involve not moving at all.
+//
+// Once a chain (or a single move, if the widget in question wasn't interacting with or interfering with other
+// moving widgets) is resolved, it moves on to the next widget that hasn't been evaluated.
+//
+// After all of the possible conflicting moves have happened, the next phase (possibly in another function) will
+// check to see which moves are actually valid, and then give those the green light.
+//
+// After all of that, the final phase of the process will actually move the widgets, via a list of all of the
+// accepted moves.
+//
+// However, before I start on all of that, I plan to attempt to make the map and possibly the push limit *global*.

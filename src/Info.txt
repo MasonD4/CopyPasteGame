@@ -30,6 +30,9 @@ Maybe you could add a way to change the map size in game???
 
 Maybe I should make a list of traits that each char may or may not have. 
 
+After I have come up with a working movement system, try searching for alternatives in Google or the chat bot.
+Not necessarily because it needs to be replaced with an alternative, but just for the sake of learning.
+
 [===============================================- @ -===============================================]
 Main Ideas
 [===============================================- @ -===============================================]
