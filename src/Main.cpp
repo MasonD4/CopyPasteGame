@@ -22,6 +22,7 @@ int determineNumber(char);
 string getMapString();
 vector<vector<char>> makeMapFromString(string, int&, int&);
 
+const int PUSH_LIMIT = 5;
 const char PLAYER = '@';
 const char EMPTY_SPACE = '-';
 const char WALL = '#';
