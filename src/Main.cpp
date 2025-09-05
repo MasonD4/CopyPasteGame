@@ -11,16 +11,16 @@
 using namespace std;
 
 // TODO: Make functions that can check and update counters.
-void findPlayers(vector<vector<char>>, int, int);
-void printMap(const vector<vector<char>>&, int, int);
+void findPlayers();
+void printMap();
 bool isDangerous(char);
 bool isMovable(char);
-bool isThereAPlayer(vector<vector<char>>, int, int);
-bool jump(vector<vector<char>>&, int, int, int, int, string);
+bool isThereAPlayer();
+// bool jump(vector<vector<char>>&, int, int, int, int, string);
 bool move(vector<vector<char>>&, int, int, int, int, string, int);
 int determineNumber(char);
 string getMapString();
-vector<vector<char>> makeMapFromString(string, int&, int&);
+vector<vector<char>> makeMapFromString(string);
 
 const int PUSH_LIMIT = 5;
 const char PLAYER = '@';
@@ -37,6 +37,10 @@ vector<pair<int, int>> playerCoordinates;
 // removing what was already in there.
 bool hasFindPlayersBeenCalled = false;
 
+vector<vector<char>> theMap;
+int columns;
+int rows;
+
 int main() {
     // vector<vector<char>> map = {{'#', '#', '-', '-', ']'}, 
     //                             {'#', '-', '-', '-', ']'}, 
@@ -49,17 +53,17 @@ int main() {
     cout << "Insert the map string, and then press [ENTER] Twice: \n";
 
     // Take the input, refine it, and then turn it into a game map.
-    int columns = 0;
-    int rows = 0;
+    columns = 0;
+    rows = 0;
     string mapString = getMapString();
-    vector<vector<char>> map = makeMapFromString(mapString, rows, columns);
+    theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
     // Print the map
-    printMap(map, rows, columns);
+    printMap();
     cout << "yay it worked!" << endl;
     cout << "Are there any players here?";
-    if (isThereAPlayer(map, rows, columns) == true) { cout << " Yes!" << endl; }
+    if (isThereAPlayer() == true) { cout << " Yes!" << endl; }
     else { cout << " No!" << endl; } 
     cout << "How many? " << playerCoordinates.size() << "!";
 }
@@ -73,14 +77,14 @@ int main() {
 // }
 
 // Get player coordinates
-void findPlayers(vector<vector<char>> input, int rows, int columns) {
+void findPlayers() {
     if (hasFindPlayersBeenCalled == true) {
         playerCoordinates.clear();
     }
 
     for (int rowNumber = 0; rowNumber < rows; rowNumber++) {
         for (int colNumber = 0; colNumber < columns; colNumber++) {
-            if (input[rowNumber][colNumber] == PLAYER) {
+            if (theMap[rowNumber][colNumber] == PLAYER) {
                 playerCoordinates.push_back({colNumber, rowNumber});
             }
         }
@@ -88,10 +92,10 @@ void findPlayers(vector<vector<char>> input, int rows, int columns) {
     hasFindPlayersBeenCalled = true;
 }
 
-void printMap(const vector<vector<char>>& MAP, int rows, int columns) {
+void printMap() {
     for (int rowI = 0; rowI < rows; rowI++) {
         for (int columnI = 0; columnI < columns; columnI++) {
-            cout << MAP[rowI][columnI] << " ";
+            cout << theMap[rowI][columnI] << " ";
         }
         cout << endl;
     }
@@ -126,8 +130,8 @@ bool isMovable(char input) {
     }
 }
 
-bool isThereAPlayer(vector<vector<char>> input, int rows, int cols) {
-    findPlayers(input, rows, cols);
+bool isThereAPlayer() {
+    findPlayers();
     if (playerCoordinates.size() > 0) {
         return true;
     }
@@ -149,6 +153,7 @@ List of conditions:
 * Jump over enemy
 */
 
+/* Here lies jump:
 bool jump(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction) {
     if (x < 0 || y < 0 || x >= cols || y >= rows) {
         cout << "tried to jump from a non-existant spot." << endl;
@@ -204,7 +209,9 @@ bool jump(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
         return true;
     }
 }
+*/
 
+/* Here lies move:
 bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount) {
     // The recursive limit will be set in here, which means that external calls start at 0.
     const int RECURSIVE_LIMIT = 5;
@@ -288,6 +295,7 @@ bool move(vector<vector<char>>& map, int rows, int cols, int x, int y, string di
     }
     else { return false; }
 }
+*/
 
 int determineNumber(char c) {
     if (c == '0') {return 0;}
@@ -331,10 +339,10 @@ string getMapString() {
     return output;
 }
 
-vector<vector<char>> makeMapFromString(const string input, int& rows, int& columns) {
+vector<vector<char>> makeMapFromString(const string input) {
 
     if (input.length() < 1) {
-        return makeMapFromString("EMPTY]-----]--@--]-----]INPUT!", rows, columns);
+        return makeMapFromString("EMPTY]-----]--@--]-----]INPUT!");
     }
 
     rows++;

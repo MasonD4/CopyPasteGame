@@ -163,10 +163,10 @@ Friday August 29 2025:
 // Firstly, before all of this, it is important to know that every type of action (such of moving) gets its own
 // function(s). There will be a function(s) for each type of action that considers all of the logic to decide on if
 // the action can happen, and then there will be a function(s) that actually carry out the action. All of these
-// take in a vector that contains a list of every action that is happening simultaneously. Each element in the
+// take in a vector that contains a list of every action that is happening simultaneously. Each element in the vector
 // will perhaps be a custom type that contains the coordinates of the action, and any other relevant info.
 //
-// First, you have a vector containing all of the moves that are happening (coordinates and direction) is created.
+// First, a vector containing all of the moves that are happening (coordinates and direction) is created.
 // This vector gets passed into the first movement function, which checks to see if any of the moves interact
 // (and more importantly, conflict) with each other. It checks the first move in the list.
 // 
