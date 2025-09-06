@@ -204,3 +204,18 @@ Friday August 29 2025:
 // accepted moves.
 //
 // However, before I start on all of that, I plan to attempt to make the map and possibly the push limit *global*.
+
+Friday September 2025
+// Again, Kyle and I didn't technically do much (though I did make the map and the rows and columns variable global)
+// but we did do a lot of theorizing into what we could possibly do in the future regarding the move function.
+//
+// We want to restructure the vector containing player coordinates. We want to change it into a mirror of the game
+// board, where each coordinates is where we are storing the players data regarding where they are going. This 
+// data will likely be an int, which will track the state of a player's movement during a turn. During a player
+// move, we will look at each player and update their state according to 3 states: Able to move, unable to move,
+// waiting on another player. Every player starts in a waiting state.
+// // Able to move: The player is clearly able to move and is not blocked by another player/currently moving widget
+// // Unable to move: The player is clearly unable to move (eg blocked by a wall).
+// // Waiting: The default state. If we check a player and they are in this state, we see if they can move. If it
+// // turns out that they are blocked by another player, they remain in the waiting state and the other player is
+// // checked and so on.

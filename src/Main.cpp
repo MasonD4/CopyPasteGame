@@ -17,7 +17,7 @@ bool isDangerous(char);
 bool isMovable(char);
 bool isThereAPlayer();
 // bool jump(vector<vector<char>>&, int, int, int, int, string);
-bool move(vector<vector<char>>&, int, int, int, int, string, int);
+// bool move(vector<vector<char>>&, int, int, int, int, string, int);
 int determineNumber(char);
 string getMapString();
 vector<vector<char>> makeMapFromString(string);
