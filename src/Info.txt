@@ -1,8 +1,22 @@
 This is an informational text file for Copy Paste Game.
 
+Contents:
+// Misc. Reminders
+// Main ideas
+// Widget Traits
+// refineMapString(vector<string>) function
+// makeMapFromString(string) function
+// Move function
+// Counters
+// Possible Puzzles
+
 [===============================================- @ -===============================================]
 Misc. Reminders
 [===============================================- @ -===============================================]
+Miscellaneous reminders for anything that I want to remind myself of/make note of, but there isn't a devoted
+section for it. It can also be said that it is for things that I may want to add in the future, but haven't
+added yet, and thus they arguabley don't yet deserve to be considered actual information about the game,
+as they don't yet describe any currently existing detail or facet of the game.
 
 The edge of the map will be treated as a wall.
 
@@ -13,25 +27,29 @@ as a bunch of walls. Edit: Nvm, just replace it with actual space or walls.
 Edit 2: Actually, uneven rows get filled in with *empty spaces*.
 
 If there are multiple '@'s in the map, the player controls all of them. There should also allowed to be 0.
-I might also allow for there to be 2 unique players. If so, player two would be '&'.
-
-Letters: I don't know for sure if these can be interacted with, but if they can, then whatever they do they 
-should only do it when explicitly touched / interacted with by the player. That way, if someone wants to, they
-can write a message or instructions above / adjacent to / below the map, wall it off, and just have those letters 
-sit there, not doing anything.
-(Note: it's possible that lowercase letters do something interesting, and uppercase letters just sit there,
-or vice versa)
-
-A *possible* point system: if the player stands on a '$', the '$' get's added to the bottom corner of the 
-screen, replacing whatever character was there previously. Note: this doesn't mean that the map *has* to abide by
-a format that requires that there be an allocated space at the bottome for '$'. It's just recommended.
-
-Maybe you could add a way to change the map size in game???
-
-Maybe I should make a list of traits that each char may or may not have. 
+I might also allow for there to be 2 unique players. If so, player two would be '&'. 
 
 After I have come up with a working movement system, try searching for alternatives in Google or the chat bot.
 Not necessarily because it needs to be replaced with an alternative, but just for the sake of learning.
+
+Enemy ideas: 
+// An enemy that, once destoyed, gives you 1 or 2 dash-charges.
+//
+// An enemy that "slides", moving across an entire row or column until an obstacle. This can't push anything,
+// though (or atleast, can only do it 1 block at a time). It destroys any player in its path.
+// Perhaps if it "slides" into a pushable block, it pushes the block 1 space, eg:
+// // 'S' is the slide enemy, 'P' is a pushable block.
+// // S - - - - - - - - - - P -
+// // - - - - - - - - - - S - P
+// Notice the gap it left. This could prevent it from easily getting itself trapped in a pocket.
+
+Perhaps "slide" could be an ability a player can have?
+
+Perhaps there should be an ability that allows players to push, swap with, or otherwise rearrange immovable widgets.
+
+There will be doors that require a specific number to be pushed into it to be destroyed (and it destroys that
+number).
+
 
 [===============================================- @ -===============================================]
 Main Ideas
@@ -51,17 +69,17 @@ J Jump Counter
 & Player 2?????????????????????
 
 [===============================================- @ -===============================================]
-Character Traits
+Widget Traits
 [===============================================- @ -===============================================]
 
-This is a list of traits that each character may or may not have:
+This is a list of traits that each widget may or may not have:
 // * Movable
-// // * Can this character be moved/pushed? Yes or no? Note: I may split this into 2 other traits:
+// // * Can this widget be moved/pushed? Yes or no? Note: I may split this into 2 other traits:
 // // Movable: Can it be moved directly?
 // // Pushable: Can it be pushed by something else?
 //
 // * Dangerous:
-// // * Yes or no? Dangerous characters can destroy players or player-aligned characters.
+// // * Yes or no? Dangerous widget can destroy players or player-aligned characters.
 //
 // * Number:
 // // * Is the character a number? If so, it is given its respective number value. Otherwise, it's given a -1 value.
@@ -69,7 +87,8 @@ This is a list of traits that each character may or may not have:
 // * Player:
 // // * Is it a player-controlled character? Yes or no?
 //
-// * ...  
+// * Killable:
+// // * Dashing through this widget will result in it being destroyed and added to the kill count
 
 [===============================================- @ -===============================================]
 refineMapString(vector<string>) function
@@ -220,3 +239,29 @@ Those are the default rules, but there are exceptions:
 // rules).
 //
 // If an enemy moves onto the player...
+
+[===============================================- @ -===============================================]
+Counters
+[===============================================- @ -===============================================]
+
+List of counters:
+// Jump/dash counter (How many times you can use the "dash" ability)
+// Enemy kill count (How many enemies you have killed)
+// Countdown (The *Final* countdown. Once this reaches 0 the player dies)
+// Coins
+
+It's  possible that counters conpletely require a number to be next to them in order for them
+to operate. For example, if there is a countdown counter(s), it can not kill the player unless there is
+a zero next to it and no higher number. If there is no number next to it at all, the countdown won't kill you.
+If a counter has absolutely no numbers next to it, its value is -1, not 0.
+
+[===============================================- @ -===============================================]
+Possible Puzzles
+[===============================================- @ -===============================================]
+
+There is a door next to a kill counter. A number widget is situated between and thus connected to both of them.
+The number widget serves as the receptacle for the kill counter and the threshold for the door. The number that
+widget represents is a low number. The player is provided with some dash charges, enough to kill all of the enemies
+in the room that they are in. They are alos given a number widget of equal value of the door's threshold.
+If the player kills any enemies, the kill counter updates its number widget, increasing the door's threshold, and
+invalidating you "key". You must manuver past enemies and get the key to the door.
