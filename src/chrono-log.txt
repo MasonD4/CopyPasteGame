@@ -205,7 +205,7 @@ Friday August 29 2025:
 //
 // However, before I start on all of that, I plan to attempt to make the map and possibly the push limit *global*.
 
-Friday September 2025
+Friday September 5 2025
 // Again, Kyle and I didn't technically do much (though I did make the map and the rows and columns variable global)
 // but we did do a lot of theorizing into what we could possibly do in the future regarding the move function.
 //
@@ -219,3 +219,5 @@ Friday September 2025
 // // Waiting: The default state. If we check a player and they are in this state, we see if they can move. If it
 // // turns out that they are blocked by another player, they remain in the waiting state and the other player is
 // // checked and so on.
+//
+// Note: there may be a 4th state: Not a player.
