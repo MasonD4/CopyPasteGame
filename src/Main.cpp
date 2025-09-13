@@ -32,7 +32,7 @@ const char JUMP_COUNTER = 'J';
 const char COIN = '*'; // Maybe '$'
 const char HAZARD = '!'; 
 // Lowercase letters will be like comments
-vector<pair<int, int>> playerCoordinates;
+vector<vector<int>> playerCoordinates;
 // This boolean is because, if findPlayers gets called twice, I believe that it will add to the vector without
 // removing what was already in there.
 bool hasFindPlayersBeenCalled = false;
@@ -58,6 +58,15 @@ int main() {
     string mapString = getMapString();
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
+    vector<int> rowOfZeros(columns, 0);
+    for (int i = 0; i < rows; i++) {
+        playerCoordinates.push_back(rowOfZeros);
+        for (int j = 0; j < columns; j++) {
+            if (theMap[i][j] == PLAYER) {
+                playerCoordinates[i][j] = 1;
+            }
+        }
+    }
 
     // Print the map
     printMap();
