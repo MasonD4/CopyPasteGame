@@ -265,3 +265,33 @@ widget represents is a low number. The player is provided with some dash charges
 in the room that they are in. They are alos given a number widget of equal value of the door's threshold.
 If the player kills any enemies, the kill counter updates its number widget, increasing the door's threshold, and
 invalidating you "key". You must manuver past enemies and get the key to the door.
+
+[===============================================- @ -===============================================]
+How Movement Works
+[===============================================- @ -===============================================]
+
+Perhaps during the player's turn, it will store a copy of the game map. If, by them end of the player's
+sub-turn (not a full turn where everything/everyone moves, just the sub-turn where player(s) move) the game map
+still looks the same as it did, that means that no instance of the player has moved, and the player must try
+again. Of course, if there are no players on the map, the game will run with out the player.
+
+This doesn't apply to just movement, but I may implement a sort of "action queue". It will be a global queue, who's
+elements consist of a pair of coordinates and an action (possibly its own data type) that takes place there.
+The queue will only consist of actions that occur simultaneously. It may even be a queue of queues, so as to store
+future actions. 
+The actions in the queue will occur starting with whatever is at the start.
+I may actually not be able to use a queue, since I don't just want to deal with the action at the start of the
+queue, but also any actions further down the line that that action affects.
+
+What happens if there are two/multiple actions in the queue affecting the same widget? I have 4 possible solutions:
+1 Keep the first instance of it, remove any following ones.
+2 Keep the latest one, remove all of the prior ones.
+3 Weigh them (and choose the one with the highest "score").
+4 Do both of them.
+
+In order for a movement to successfully happen, these criteria must be met:
+* The widget actually wants to make that move(eg If player chooses right, the player widget won't want to move left)
+* The movement does not conflict with other simultaneous moves.
+* The movement is possible (eg not blocked by a wall)
+If the widget decides that it does not want to make that move (unlikely that I will implement such a system), it is
+allowed up to 3 more attempts to pick one (one for each side/possible move).
