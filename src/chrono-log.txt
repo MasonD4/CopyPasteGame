@@ -220,4 +220,11 @@ Friday September 5 2025
 // // turns out that they are blocked by another player, they remain in the waiting state and the other player is
 // // checked and so on.
 //
-// Note: there may be a 4th state: Not a player.
+// Note: there is a 4th state: Not a player. This is code 0.
+
+Friday September 12 2025
+// Kyle and I started working on code for the game. I created a new branch, "movement", to begin working on the 
+// new movement code. Thus far we have redone the playerCoordinates vector, so instead of being a vector of pairs,
+// each pair representing a coordinate that a player is at, it is now a 2D vector of equal size/dimensions to
+// the game map. Each spot on this grid is an int, which signifies whether or not there is a player in the
+// corresponding spot on the map, and if so, what their status is.
