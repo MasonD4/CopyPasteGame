@@ -270,7 +270,7 @@ invalidating you "key". You must manuver past enemies and get the key to the doo
 How Movement Works
 [===============================================- @ -===============================================]
 
-Perhaps during the player's turn, it will store a copy of the game map. If, by them end of the player's
+Perhaps during the player's turn, it will store a copy of the game map. If, by The end of the player's
 sub-turn (not a full turn where everything/everyone moves, just the sub-turn where player(s) move) the game map
 still looks the same as it did, that means that no instance of the player has moved, and the player must try
 again. Of course, if there are no players on the map, the game will run with out the player.
@@ -282,6 +282,7 @@ future actions.
 The actions in the queue will occur starting with whatever is at the start.
 I may actually not be able to use a queue, since I don't just want to deal with the action at the start of the
 queue, but also any actions further down the line that that action affects.
+A vector would suffice, then.
 
 What happens if there are two/multiple actions in the queue affecting the same widget? I have 4 possible solutions:
 1 Keep the first instance of it, remove any following ones.
@@ -294,4 +295,9 @@ In order for a movement to successfully happen, these criteria must be met:
 * The movement does not conflict with other simultaneous moves.
 * The movement is possible (eg not blocked by a wall)
 If the widget decides that it does not want to make that move (unlikely that I will implement such a system), it is
-allowed up to 3 more attempts to pick one (one for each side/possible move).
+allowed up to 3 more attempts to pick one (4 attempts total, one for each side/possible move).
+// Actually, giving a widget the ability to rethink its move might be a bit advanced for now. For now, I may just
+// just have a widget "decide" which move it wants to make, and then it commits to that move. If it is unable to
+// actually accomplish that move, then it simply doesn't make the move. And then, in the future, I may go back
+// and give them the ability to rethink. Of course, an exception is players: If there is at least 1 player on the
+// board, if the player is unable to move, they must try again.
