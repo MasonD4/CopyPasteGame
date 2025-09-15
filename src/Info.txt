@@ -283,6 +283,8 @@ The actions in the queue will occur starting with whatever is at the start.
 I may actually not be able to use a queue, since I don't just want to deal with the action at the start of the
 queue, but also any actions further down the line that that action affects.
 A vector would suffice, then.
+Perhaps I could make a custom data type clled "WidgetAction", containing a pair of coordinates, a char, and a
+string, the latter of which will contain a description of the action to be performed.
 
 What happens if there are two/multiple actions in the queue affecting the same widget? I have 4 possible solutions:
 1 Keep the first instance of it, remove any following ones.
@@ -301,3 +303,6 @@ allowed up to 3 more attempts to pick one (4 attempts total, one for each side/p
 // actually accomplish that move, then it simply doesn't make the move. And then, in the future, I may go back
 // and give them the ability to rethink. Of course, an exception is players: If there is at least 1 player on the
 // board, if the player is unable to move, they must try again.
+
+I can *probably* say that a widget will have "made up its mind" by the time it creates a WidgetAction and sends it
+out to the action queue/vector.
