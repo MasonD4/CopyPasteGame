@@ -306,3 +306,10 @@ allowed up to 3 more attempts to pick one (4 attempts total, one for each side/p
 
 I can *probably* say that a widget will have "made up its mind" by the time it creates a WidgetAction and sends it
 out to the action queue/vector.
+
+For the time being, I will assume that different types of actions/events can not happen simultaneously.
+This is to make it easier on me, as each type of action will have its own function for determining whether or
+not it conflicts with any other simultaneous actions. So for example, a widget can't move at the exact same time
+that a bomb is going off. One comes before the other.
+While it is *possible* that I *may* want to change this in the future, for now and for the sake of progress, 
+I will assume otherwise.
