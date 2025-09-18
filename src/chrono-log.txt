@@ -228,3 +228,15 @@ Friday September 12 2025
 // each pair representing a coordinate that a player is at, it is now a 2D vector of equal size/dimensions to
 // the game map. Each spot on this grid is an int, which signifies whether or not there is a player in the
 // corresponding spot on the map, and if so, what their status is.
+
+Wednesday September 17 2025
+// I have decided that, from this point onward, I will develop the game under the assumption that the only 4
+// widgets in the game are the player, the movable boxes, the walls, and the open empty air. I will also assume
+// that the only widgets capable of moving simultaneously are the players and whatever boxes they happen to be
+// pushing.
+// I obviously intend to scale things up eventually, but for now I just want to create something that works within
+// this smaller and likely temporary scope.
+// Here is the criteria for what I would consider to be a complete version:
+// // It technically works (doesn't throw errors or encounter any obvious and intense bugs)
+// // It follows the rules that I believe make sense and are logical.
+// // It follows the rules consistently and perfectly.
