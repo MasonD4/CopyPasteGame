@@ -40,12 +40,6 @@ int columns;
 int rows;
 
 int main() {
-    // vector<vector<char>> map = {{'#', '#', '-', '-', ']'}, 
-    //                             {'#', '-', '-', '-', ']'}, 
-    //                             {'-', '-', '@', '-', ']'}, 
-    //                             {'#', '-', '-', '-', ']'}, 
-    //                             {'#', '#', '-', '-', ']'}};
-
     // Get input from the player
     cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << COIN_COUNTER << JUMP_COUNTER << COIN << HAZARD << endl;
     cout << "Insert the map string, and then press [ENTER] Twice: \n";
