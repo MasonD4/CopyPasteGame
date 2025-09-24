@@ -12,6 +12,7 @@ using namespace std;
 
 // TODO: Make functions that can check and update counters.
 void findPlayers();
+void playerTurn();
 void printMap();
 bool isDangerous(char);
 bool isMovable(char);
@@ -53,11 +54,23 @@ int main() {
 
     // Print the map
     printMap();
-    cout << "yay it worked!" << endl;
-    cout << "Are there any players here?";
-    if (isThereAPlayer() == true) { cout << " Yes!" << endl; }
-    else { cout << " No!" << endl; } 
-    cout << "How many? " << playerCoordinates.size() << "!";
+    findPlayers();
+    cout << "There are players at:" << endl;
+    for (int i = 0; i < playerCoordinates.size(); i++) {
+        cout << "(" << playerCoordinates[i].first << ", " << playerCoordinates[i].second << ")" << endl;
+    }
+    theMap[playerCoordinates[0].second][playerCoordinates[0].first] = EMPTY_SPACE;
+    theMap[playerCoordinates[0].second - 1][playerCoordinates[0].first + 1] = PLAYER;
+    cout << endl;
+    cout << endl;
+
+
+    printMap();
+    findPlayers();
+    cout << "There are players at:" << endl;
+    for (int i = 0; i < playerCoordinates.size(); i++) {
+        cout << "(" << playerCoordinates[i].first << ", " << playerCoordinates[i].second << ")" << endl;
+    }
 }
 // Move template:
 // move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount)
@@ -69,10 +82,8 @@ int main() {
 // }
 
 // Get player coordinates
-void findPlayers() {
-    if (hasFindPlayersBeenCalled == true) {
-        playerCoordinates.clear();
-    }
+void findPlayers() { 
+    playerCoordinates.clear();
 
     for (int rowNumber = 0; rowNumber < rows; rowNumber++) {
         for (int colNumber = 0; colNumber < columns; colNumber++) {
@@ -81,8 +92,9 @@ void findPlayers() {
             }
         }
     }
-    hasFindPlayersBeenCalled = true;
 }
+
+void playerTurn() {}
 
 void printMap() {
     for (int rowI = 0; rowI < rows; rowI++) {
