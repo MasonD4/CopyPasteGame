@@ -240,3 +240,17 @@ Wednesday September 17 2025
 // // It technically works (doesn't throw errors or encounter any obvious and intense bugs)
 // // It follows the rules that I believe make sense and are logical.
 // // It follows the rules consistently and perfectly.
+
+Friday September 26 2025
+- - Kyle and I continued theorizing about how to implement simultaneous movement. We decided that there we two main
+- - ways to go about it:
+- - - - One: The recursive route. If there are several moving widgets next to each other, and if they have move
+- - - - - - conflicts, then you go through each one and find the "end of the chain": The widget that can move without
+- - - - - -  disturbing or conflicting any simultaneously moving widgets. This widget will move as normal, then the
+- - - - - -  widget that was conflicting with it, and then the widget conflicting with that one and so on.
+- - - - Two: The comparison route. Each movement is saved as a custom bundle of data in a vector, with each bundle
+- - - - - - containing the widget type, the original location, and the target location. Then, I will loop though the
+- - - - - - vector and see if any of the moves have the same destination, or if any two widgets that are completely
+- - - - - - adjacent to each other (no space in between) are both trying to move towards each other. I will then
+- - - - - - resolve the conflict however necessary. All non-conflicting moves just do whatever they need to.
+- - - - - - Note: this might be O(N^2), with N = the amount of moves.
