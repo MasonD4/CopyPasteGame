@@ -259,3 +259,9 @@ Friday September 26 2025
 - - obstacle, it SLAMS downward, as far down as it can go (I'm so glad the edges of the map aren't portals),
 - - destroying anything in its path. Like a thwomp from Mario.
 - - Maybe it can even destroy walls when it thwomps. Liek every time it slams down, the wall it hits breaks.
+- - 
+- - I also figured out that, at the moment, given the current (lowered) scope of the game, there is only one type of
+- - of movement conflict that can happen: You have a row of moving widgets moving into a wall.
+- - E.g.:
+- - - - @ @ @ #
+- - - - All of these players are moving right.
