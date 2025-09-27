@@ -54,22 +54,29 @@ int main() {
 
     // Print the map
     printMap();
-    findPlayers();
-    cout << "There are players at:" << endl;
-    for (int i = 0; i < playerCoordinates.size(); i++) {
-        cout << "(" << playerCoordinates[i].first << ", " << playerCoordinates[i].second << ")" << endl;
-    }
-    theMap[playerCoordinates[0].second][playerCoordinates[0].first] = EMPTY_SPACE;
-    theMap[playerCoordinates[0].second - 1][playerCoordinates[0].first + 1] = PLAYER;
-    cout << endl;
-    cout << endl;
+    // findPlayers();
+    // cout << "There are players at:" << endl;
+    // for (int i = 0; i < playerCoordinates.size(); i++) {
+    //     cout << "(" << playerCoordinates[i].first << ", " << playerCoordinates[i].second << ")" << endl;
+    // }
+    // theMap[playerCoordinates[0].second][playerCoordinates[0].first] = EMPTY_SPACE;
+    // theMap[playerCoordinates[0].second - 1][playerCoordinates[0].first + 1] = PLAYER;
+    // cout << endl;
+    // cout << endl;
 
 
-    printMap();
-    findPlayers();
-    cout << "There are players at:" << endl;
-    for (int i = 0; i < playerCoordinates.size(); i++) {
-        cout << "(" << playerCoordinates[i].first << ", " << playerCoordinates[i].second << ")" << endl;
+    // printMap();
+    // findPlayers();
+    // cout << "There are players at:" << endl;
+    // for (int i = 0; i < playerCoordinates.size(); i++) {
+    //     cout << "(" << playerCoordinates[i].first << ", " << playerCoordinates[i].second << ")" << endl;
+    // }
+    // cout << endl;
+    // cout << endl;
+
+
+    while (true) {
+        playerTurn();
     }
 }
 // Move template:
@@ -95,9 +102,28 @@ void findPlayers() {
 }
 
 void playerTurn() {
+    playerCoordinates.clear();
+    findPlayers();
+    if (playerCoordinates.size() == 0){
+        cout << "There are no players, so the player's turn will be skipped..." << endl;
+        exit(EXIT_SUCCESS);    // This is temporary, and should generally be `return;`
+    }
+
     cout << "It is now the player's turn.\n> ";
     string input;
     cin >> input;
+    if (input == "w" || input == "W") {
+        cout << "The player is moving up" << endl;
+    } else if (input == "a" || input == "A") {
+        cout << "The player is moving left" << endl;
+    } else if (input == "s" || input == "S") {
+        cout << "The player is moving down" << endl;
+    } else if (input == "d" || input == "D") {
+        cout << "The player is moving right" << endl;
+    } else {
+        cout << "Goobye Loser" << endl;
+        exit(EXIT_SUCCESS);
+    }
 }
 
 void printMap() {
