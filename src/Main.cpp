@@ -21,6 +21,7 @@ int determineNumber(char);
 string getMapString();
 vector<vector<char>> makeMapFromString(string);
 
+// Lowercase letters will be like comments
 const int PUSH_LIMIT = 5;
 const char PLAYER = '@';
 const char EMPTY_SPACE = '-';
@@ -30,11 +31,10 @@ const char COIN_COUNTER = 'C';
 const char JUMP_COUNTER = 'J';
 const char COIN = '*'; // Maybe '$'
 const char HAZARD = '!'; 
-// Lowercase letters will be like comments
 vector<pair<int, int>> playerCoordinates;
 // This boolean is because, if findPlayers gets called twice, I believe that it will add to the vector without
 // removing what was already in there.
-bool hasFindPlayersBeenCalled = false;
+// bool hasFindPlayersBeenCalled = false; // I don't think this is needed anymore.
 
 vector<vector<char>> theMap;
 int columns;
@@ -94,7 +94,11 @@ void findPlayers() {
     }
 }
 
-void playerTurn() {}
+void playerTurn() {
+    cout << "It is now the player's turn.\n> ";
+    string input;
+    cin >> input;
+}
 
 void printMap() {
     for (int rowI = 0; rowI < rows; rowI++) {
