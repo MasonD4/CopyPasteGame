@@ -10,6 +10,13 @@
 #include <string>
 using namespace std;
 
+struct widgetMoveRequest {
+    char widgetType;
+    int startX, startY, endX, endY;
+    widgetMoveRequest(char wT, int sX, int sY, int eX, int eY) :
+    widgetType(wT), startX(sX), startY(sY), endX(eX), endY(eY) {}
+};
+
 // TODO: Make functions that can check and update counters.
 void findPlayers();
 void playerTurn();
@@ -32,9 +39,7 @@ const char JUMP_COUNTER = 'J';
 const char COIN = '*'; // Maybe '$'
 const char HAZARD = '!'; 
 vector<pair<int, int>> playerCoordinates;
-// This boolean is because, if findPlayers gets called twice, I believe that it will add to the vector without
-// removing what was already in there.
-// bool hasFindPlayersBeenCalled = false; // I don't think this is needed anymore.
+vector<widgetMoveRequest> vectorOfWidgetMoveRequests;
 
 vector<vector<char>> theMap;
 int columns;
