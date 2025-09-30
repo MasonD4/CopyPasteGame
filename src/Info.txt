@@ -3,6 +3,7 @@ This is an informational text file for Copy Paste Game.
 Contents:
 // Misc. Reminders
 // Main ideas
+// Widget Ideas
 // Widget Traits
 // refineMapString(vector<string>) function
 // makeMapFromString(string) function
@@ -67,6 +68,48 @@ J Jump Counter
 * Coin (maybe change to $)
 ! Enemy
 & Player 2?????????????????????
+
+[===============================================- @ -===============================================]
+Widget Ideas
+[===============================================- @ -===============================================]
+
+The player (and maybe player 2) (@ and &, respectively)
+
+A standard enemey that makes a beeline for the player.
+
+An enemy that can move an infinite amount of spaces horizontally or vertically. It's possible that this enemey HAS
+to move as many spaces as it can before hitting a wall or other obstacle, killing anything in its path (possibly
+destroying certain widgets that aren't "alive", such as weak walls). It's possible that, in order to "spot" the
+player, the player must be on their row or column. However, it's also possible that they can spot the player from
+anywhere, as long as they are nearby, and if the player isn't already in their row or column, this enemy will
+attempt to make its way there. Maybe the enemy can only move horizontally OR vertically infinitely, but must move
+by one space the other way. Eg, if they can move vertically infinitely, they can move horizontally by one.
+-----
+Maybe it just stays still. Maybe, it just waits for the player to enter its line of sight, at which points it
+zooms towards them. Maybe, in orfer to get around this, the play must put a pushable block in front of it,
+to sheild them from this enemy. Or perhaps, if the player goes to the spot one diagonal away from this enemy, it
+will bait the enemy into moving ONE space orthogonally, allowing the player to kill the enemy via teleportation.
+
+Weak walls. They behave like walls (of course), but can be destroyed by several means.
+
+Thwomp (see chronolog). Perhaps the thwomp can move one space in any direction except downwards. To move downwards,
+it must thwomp. Or perhaps it can only move up and down. Who knows? I suppose it is important to note that the
+thwomp doesn't necessarily have to be an enemey that targets the player. Instead, it just moves up repeatedly,
+until it reaches the ceiling, when it will then thwomp. It does this 
+
+bait. Attracts enemies, and can possibly be "killed".
+
+Bomb
+
+Movers. These come in pairs and in several possible flavors. A mover is actually a pair of widgets:
+a puller and a pusher (or a head and a tail). It's pretty simple: pullers attempt to flee from pushers, who in
+turn chase the pullers. Flavors include:
+- - Good pushers and good pullers: Can be pushed around by the player.
+- - Evil pushers and evil pullers: Will destory the player if the player walks in to them (but won't pursue players)
+- - Good smart pullers: They are like good pushers, EXCEPT that if they get pushed into a wall, they'll turn and move
+- - - - in another direction, if possible, instead of simply stopping.
+- - Evil smart pullers: They are like good smart pullers, but evil. They hurt.
+- - Chaser pullers: Pullers that, aside from fleeing from pushers, will also chase the player. Can be good or evil
 
 [===============================================- @ -===============================================]
 Widget Traits
