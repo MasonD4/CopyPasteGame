@@ -265,3 +265,7 @@ Friday September 26 2025
 - - E.g.:
 - - - - @ @ @ #
 - - - - All of these players are moving right.
+
+Monday September 29 2025
+- - I worked on the testing branch. I added a widgetMoveRequest struct datatype, as well as a vector to contain
+- - them.
