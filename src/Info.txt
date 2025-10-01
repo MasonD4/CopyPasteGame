@@ -388,3 +388,18 @@ For the time being, how about we just worry about that second case: If the desti
 the current request is the starting point of another, it recursively checks if that move will
 be succesful. If this recursion somehow manages to end up at the original move request, all relevant
 move requests are cancled. Or perhaps they all go through.
+-----
+In fact, for the time being, let's just assume that simultaneous moves actually happen
+simultaneously, instead of them simply happening one at a time in the most logical order.
+This means that this:
+- D - 
+R - - 
+- - - 
+Will result in this:
+- - - 
+R D - 
+- - - 
+Not this:
+- - - 
+- R D 
+- - - 
