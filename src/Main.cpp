@@ -13,8 +13,9 @@ using namespace std;
 struct widgetMoveRequest {
     char widgetType;
     int startX, startY, endX, endY;
-    widgetMoveRequest(char wT, int sX, int sY, int eX, int eY) :
-    widgetType(wT), startX(sX), startY(sY), endX(eX), endY(eY) {}
+    bool stillValid;
+    widgetMoveRequest(char wT, int sX, int sY, int eX, int eY, bool sV) :
+    widgetType(wT), startX(sX), startY(sY), endX(eX), endY(eY), stillValid(sV) {}
 };
 
 // TODO: Make functions that can check and update counters.
@@ -28,7 +29,6 @@ int determineNumber(char);
 string getMapString();
 vector<vector<char>> makeMapFromString(string);
 
-// Lowercase letters will be like comments
 const int PUSH_LIMIT = 5;
 const char PLAYER = '@';
 const char EMPTY_SPACE = '-';
@@ -116,18 +116,33 @@ void playerTurn() {
 
     cout << "It is now the player's turn.\n> ";
     string input;
+    int changeInX = 0;
+    int changeInY = 0;
     cin >> input;
     if (input == "w" || input == "W") {
         cout << "The player is moving up" << endl;
+        changeInY--;
     } else if (input == "a" || input == "A") {
         cout << "The player is moving left" << endl;
+        changeInX--;
     } else if (input == "s" || input == "S") {
         cout << "The player is moving down" << endl;
+        changeInY++;
     } else if (input == "d" || input == "D") {
         cout << "The player is moving right" << endl;
+        changeInX++;
     } else {
         cout << "Goobye Loser" << endl;
-        exit(EXIT_SUCCESS);
+        exit(EXIT_SUCCESS); // This is probably temporray
+    }
+
+    for (int i = 0; i < playerCoordinates.size(); i++) {
+        // I don't THINK that this needs to be dynamically allocated....
+        widgetMoveRequest newRequest(
+            PLAYER, playerCoordinates[i].first, playerCoordinates[i].second, 
+            playerCoordinates[i].first + changeInX, playerCoordinates[i].second + changeInY, true
+        );
+        vectorOfWidgetMoveRequests.push_back(newRequest);
     }
 }
 
