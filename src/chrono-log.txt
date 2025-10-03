@@ -269,3 +269,8 @@ Friday September 26 2025
 Monday September 29 2025
 - - I worked on the testing branch. I added a widgetMoveRequest struct datatype, as well as a vector to contain
 - - them.
+
+Thursday October 2 2025
+- - Updated the widgetMoveRequest custom datatype and gave it a boolean to check if 
+- - the move has beeneliminated yet. 
+- - I also ADDED a for-loop to playerTurn() that adds every player to the vector for move requests
