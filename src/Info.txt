@@ -12,9 +12,9 @@ Contents:
 // Possible Puzzles
 // How Movement Works
 
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 Misc. Reminders
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 Miscellaneous reminders for anything that I want to remind myself of/make note of, but there isn't a devoted
 section for it. It can also be said that it is for things that I may want to add in the future, but haven't
 added yet, and thus they arguabley don't yet deserve to be considered actual information about the game,
@@ -53,9 +53,9 @@ There will be doors that require a specific number to be pushed into it to be de
 number).
 
 
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 Main Ideas
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 
 The player inputs a string of text, which is then turned into the game map. 
 
@@ -70,9 +70,9 @@ J Jump Counter
 ! Enemy
 & Player 2?????????????????????
 
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 Widget Ideas
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 
 The player (and maybe player 2) (@ and &, respectively)
 
@@ -112,9 +112,9 @@ turn chase the pullers. Flavors include:
 - - Evil smart pullers: They are like good smart pullers, but evil. They hurt.
 - - Chaser pullers: Pullers that, aside from fleeing from pushers, will also chase the player. Can be good or evil
 
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 Widget Traits
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 
 This is a list of traits that each widget may or may not have:
 // * Movable
@@ -134,9 +134,9 @@ This is a list of traits that each widget may or may not have:
 // * Killable:
 // // * Dashing through this widget will result in it being destroyed and added to the kill count
 
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 refineMapString(vector<string>) function
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 
 This is used to remove the spaces and newlines (not ']', '\n') from the input, which allows someone to input
 something like this:
@@ -162,9 +162,9 @@ So, the refineMapString function takes in this vector and goes through 2 for-loo
 Finally, the function returns the output string. This was surprisingly and pleasantly easy to write, and didn't take
 much time at all.
 
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 makeMapFromString(string) function
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 
 This function is supposed to take in the string that will be used to create the map.
 It has 3 main parts:
@@ -227,9 +227,9 @@ the vector, while also keeping track of the current character in the input strin
 It moves through the positions in the vector at a constant rate, but does not move through the input string at a
 constant rate (it may refrain from moving the input string's pointer forward in the first condition)
 
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 Move function
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 
 See the section "How movement works" for more info.
 
@@ -286,9 +286,9 @@ Those are the default rules, but there are exceptions:
 //
 // If an enemy moves onto the player...
 
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 Counters
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 
 List of counters:
 // Jump/dash counter (How many times you can use the "dash" ability)
@@ -301,9 +301,9 @@ to operate. For example, if there is a countdown counter(s), it can not kill the
 a zero next to it and no higher number. If there is no number next to it at all, the countdown won't kill you.
 If a counter has absolutely no numbers next to it, its value is -1, not 0.
 
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 Possible Puzzles
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 
 There is a door next to a kill counter. A number widget is situated between and thus connected to both of them.
 The number widget serves as the receptacle for the kill counter and the threshold for the door. The number that
@@ -312,9 +312,9 @@ in the room that they are in. They are alos given a number widget of equal value
 If the player kills any enemies, the kill counter updates its number widget, increasing the door's threshold, and
 invalidating you "key". You must manuver past enemies and get the key to the door.
 
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 How Movement Works
-[===============================================- @ -===============================================]
+[=============================================- @ -=============================================]
 
 See the section "Move function" for more info.
 
@@ -403,3 +403,101 @@ Not this:
 - - - 
 - R D 
 - - - 
+
+Friday October 3 2025
+- - Kyle and I thought of some more ideas as to how to deal with movement. Here are some ideas we
+- - thought of:
+- - Movement will be separated by direction. This means that there is no "movement" action, but 
+- - rather "move up", "move right", "move down", and "move left" actions. Since different directions
+- - are treated as separate movement types, they cannot happen simultaneously. So this:
+- - - - - - 
+- - - D - - 'D' moves down
+- - R - - - 'R' moves right
+- - - - - - 
+- - results in this:
+- - - - - - 
+- - - - - - 
+- - - R D - 
+- - - - - -
+- - Or maybe this, if 'R' moves first:
+- - - - - - 
+- - - - - - 
+- - - D - - 
+- - - R - - 
+- - 
+- - If each direction of movement is a unique movement type, then it makes certain things much easier.
+- - It means that:
+- - - - We only need to worry about movement conflicts with widgets moving in the same direction
+- - - - - - as the widget in question. 
+- - - - It guarantees that a widget will never try to move into the same spot that another widget
+- - - - - - is trying to move to (Or at least, they won't try to do so simultaneously. No conflict).
+- - - - We won't need to do as much (if any) recursion to resolve move conflicts. Let me explain: 
+- - - - - - Here is how it works if the widgets can move different directions simultaneously:
+- - - - - - - - A widget wants to move to a spot that is occupied by a widget that is moving
+- - - - - - - - simultaneously. It needs to recursively look at that widget and see if that widget
+- - - - - - - - can move. If there is another moving widget in front of that one, it must run the
+- - - - - - - - check again on THAT widget, and so on. Once we know whether or not the widget at the
+- - - - - - - - end of this "chain" can move, then we can go up the chain and inform each relevant
+- - - - - - - - widget.
+- - - - - - - - You *may* even need to do recursion if the widgets share an end location too.
+- - - - - - Here is how it works if separate each movement direction, doing them one at a time:
+- - - - - - - - If there are a bunch of widgets moving simultaneously, they must all be moving in
+- - - - - - - - the same direction.
+- - - - - - - - You make a list of widgetMoveRequests, for each widget moving in that instant. They
+- - - - - - - - are all moving in the same direction.
+- - - - - - - - Bear in mind, when the program scans the map to find out which widgets are moving,
+- - - - - - - - it does so starting in the top left of the map.
+- - - - - - - - What this means is that the widgets towards the top/left of the map will be towards
+- - - - - - - - the front of the list of widgetMoveRequests. Conversely, the widgets near the
+- - - - - - - - bottom/right will be near the end of the list. Why is this important?
+- - - - - - - - Remeber: With the previous approach, the movement directions are not separated,
+- - - - - - - - so you can't be certain which direction every widget is moving. So, if you have
+- - - - - - - - a chain of widgets moving into each other, you need to start by moving the widget
+- - - - - - - - at the "end" of the chain (ir the widget that doesn't move into any other widgets),
+- - - - - - - - and in order to find the end of the chain, you need recursion.
+- - - - - - - - However, in this approach, you do know which direction each widget is moving because
+- - - - - - - - each direction has its own dedicated movement type. So, for example, if you have
+- - - - - - - - a chain of widgets moving into each other, and they are all moving down, you know
+- - - - - - - - that the end of the chain will be the widget closest to the bottom. So, you can deal
+- - - - - - - - with each widget's widgetMoveRequest from the bottom up and be assured that there
+- - - - - - - - will be no conflicts. But how do you deal with them from the bottom up?
+- - - - - - - - Well, go to the list that stores the widgetMoveRequests. Requests towards the end
+- - - - - - - - belong to the widgets at the bottom of the map. So, you can loop from the end of
+- - - - - - - - the list to the front backwards and deal with each request in that order.
+- - - - - - - - Same if they are all moving right. If they are all moving up or left, loop 
+- - - - - - - - forwards from the front to the back of the list instead.
+- - 
+- - Here is an idea for how the game deals with all of the actions:
+- - - - First, it is they player's turn. They input their action. All instances of the player do
+- - - - the same thing, so they all act simultaneously.
+- - - - The game lists all of the player widgetMoveRequests, and deals with them in whichever order
+- - - - it needs to.
+- - - - Then, it is everyone else's turn. The game loops through the entire map and inspects each
+- - - - widget (ignoring air and player instances). For each widget, it figures out what that widget "wants" to do.
+- - - - IE, what action it wants to do.
+- - - - Each action type is assigned a number (maybe a letter, if there ends up being more than 10 action types).
+- - - - These will be referred to as "action codes".
+- - - - There will be a 2D vector of ints (or maybe chars). The vector is arranged in a grid of the same dimensions
+- - - - as the game map. Each spot in the vector corresponds to a spot on the map.
+- - - - Once a widget has decided on its course of action, it updates this 2D vector by putting their chosen
+- - - - action's number in the 2D in the exact spot that corresponds to that widget's position in the game map.
+- - - - 
+- - - - Once it has scanned the whole map, and has completely populated the 2D vector of action codes, it loops
+- - - - through the vector of action codes.
+- - - - Each action type gets its own action request custom datatype (like how moves have widgetMoveRequestsuests).
+- - - - On a similar note, each action request custom datatype gets a vector to store them.
+- - - - So, while the game loops through the action code vector, it looks at each action code, and creates an
+- - - - action request for the corresponding widget at that position. Then, it adds that request to a list for that
+- - - - type of action request.
+- - - - Once the game has looped through the vector, it will visit each list for each action type, and loop through
+- - - - them, carrying out their actions. The order in which it visits theses lists is based on the
+- - - - "order of operations" that I want the action types to follow. 
+- - - - For example, lets say that there are only 4 action types: Move up, move right, move down, and move left.
+- - - - And we'll say that the order that the actions will follow is:
+- - - - - - Move up
+- - - - - - Move right
+- - - - - - Move down
+- - - - - - Move left
+- - - - So, the program will start by visiting the list of action requests that are about moving up.
+- - - - Then, it will visit list of action requests that are about moving down.
+- - - - And so on...
