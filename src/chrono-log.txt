@@ -355,7 +355,7 @@ Friday October 3 2025
 - - - - 
 - - - - Once it has scanned the whole map, and has completely populated the 2D vector of action codes, it loops
 - - - - through the vector of action codes.
-- - - - Each action type gets its own action request custom datatype (like how moves have widgetMoveRequestsuests).
+- - - - Each action type gets its own action request custom datatype (like how moves have widgetMoveRequests).
 - - - - On a similar note, each action request custom datatype gets a vector to store them.
 - - - - So, while the game loops through the action code vector, it looks at each action code, and creates an
 - - - - action request for the corresponding widget at that position. Then, it adds that request to a list for that
@@ -372,3 +372,7 @@ Friday October 3 2025
 - - - - So, the program will start by visiting the list of action requests that are about moving up.
 - - - - Then, it will visit list of action requests that are about moving down.
 - - - - And so on...
+
+Saturday October 4 2025
+- - In the testing branch I have decided to split the widgetMoveRequest datatype into 4 new datatypes,
+- - one for each direction.
