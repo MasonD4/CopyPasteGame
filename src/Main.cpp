@@ -10,6 +10,53 @@
 #include <string>
 using namespace std;
 
+// The Action Tokens
+
+// Action token: Move widget down
+struct MoveWidgetDown {
+    char widgetType;
+    int startX, startY, endX, endY;
+    bool stillValid;
+    MoveWidgetDown(char wT, int x, int y, bool sV) :
+    widgetType(wT), startX(x), startY(y), endX(x), endY(y + 1), stillValid(sV) {}
+    void print() {
+        cout << "MoveWidgetDown{'" << widgetType << "', (" << startX << ", " << startY << "), (" << endX << ", " << endY << "), " << stillValid << "}" << endl;
+    }
+};
+// Action token: Move widget left
+struct MoveWidgetLeft {
+    char widgetType;
+    int startX, startY, endX, endY;
+    bool stillValid;
+    MoveWidgetLeft(char wT, int x, int y, bool sV) :
+    widgetType(wT), startX(x), startY(y), endX(x - 1), endY(y), stillValid(sV) {}
+    void print() {
+        cout << "MoveWidgetLeft{'" << widgetType << "', (" << startX << ", " << startY << "), (" << endX << ", " << endY << "), " << stillValid << "}" << endl;
+    }
+};
+// Action token: Move widget right
+struct MoveWidgetRight {
+    char widgetType;
+    int startX, startY, endX, endY;
+    bool stillValid;
+    MoveWidgetRight(char wT, int x, int y, bool sV) :
+    widgetType(wT), startX(x), startY(y), endX(x + 1), endY(y), stillValid(sV) {}
+    void print() {
+        cout << "MoveWidgetRight{'" << widgetType << "', (" << startX << ", " << startY << "), (" << endX << ", " << endY << "), " << stillValid << "}" << endl;
+    }
+};
+// Action token: Move widget up
+struct MoveWidgetUp {
+    char widgetType;
+    int startX, startY, endX, endY;
+    bool stillValid;
+    MoveWidgetUp(char wT, int x, int y, bool sV) :
+    widgetType(wT), startX(x), startY(y), endX(x), endY(y - 1), stillValid(sV) {}
+    void print() {
+        cout << "MoveWidgetUp{'" << widgetType << "', (" << startX << ", " << startY << "), (" << endX << ", " << endY << "), " << stillValid << "}" << endl;
+    }
+};
+
 // Function Prototypes
 
 void findPlayers();
@@ -34,47 +81,18 @@ const char JUMP_COUNTER = 'J';
 const char COIN = '*'; // Maybe '$'
 const char HAZARD = '!'; 
 vector<pair<int, int>> playerCoordinates;
-vector<MoveWidgetUp> vectorOfWidgetMoveRequests;
+
+// Action token vectors
+
+vector<MoveWidgetDown> vectorOfMoveWidgetDownTokens;
+vector<MoveWidgetLeft> vectorOfMoveWidgetLeftTokens;
+vector<MoveWidgetRight> vectorOfMoveWidgetRightTokens;
+vector<MoveWidgetUp> vectorOfMoveWidgetUpTokens;
 
 // The Game Map
 vector<vector<char>> theMap;
 int columns;
 int rows;
-
-// The Action Tokens
-
-// Action token: Move widget down
-struct MoveWidgetDown {
-    char widgetType;
-    int startX, startY, endX, endY;
-    bool stillValid;
-    MoveWidgetDown(char wT, int x, int y, bool sV) :
-    widgetType(wT), startX(x), startY(y), endX(x), endY(y + 1), stillValid(sV) {}
-};
-// Action token: Move widget left
-struct MoveWidgetLeft {
-    char widgetType;
-    int startX, startY, endX, endY;
-    bool stillValid;
-    MoveWidgetLeft(char wT, int x, int y, bool sV) :
-    widgetType(wT), startX(x), startY(y), endX(x - 1), endY(y), stillValid(sV) {}
-};
-// Action token: Move widget right
-struct MoveWidgetRight {
-    char widgetType;
-    int startX, startY, endX, endY;
-    bool stillValid;
-    MoveWidgetRight(char wT, int x, int y, bool sV) :
-    widgetType(wT), startX(x), startY(y), endX(x + 1), endY(y), stillValid(sV) {}
-};
-// Action token: Move widget up
-struct MoveWidgetUp {
-    char widgetType;
-    int startX, startY, endX, endY;
-    bool stillValid;
-    MoveWidgetUp(char wT, int x, int y, bool sV) :
-    widgetType(wT), startX(x), startY(y), endX(x), endY(y - 1), stillValid(sV) {}
-};
 
 int main() {
     // Get input from the player
@@ -111,9 +129,9 @@ int main() {
     // cout << endl;
 
 
-    while (true) {
+    // while (true) {
         playerTurn();
-    }
+    // }
 }
 // Move template:
 // move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount)
@@ -138,6 +156,7 @@ void findPlayers() {
 }
 
 void playerTurn() {
+    // clear and re-populate the vector of player coordinates
     playerCoordinates.clear();
     findPlayers();
     if (playerCoordinates.size() == 0){
@@ -154,7 +173,11 @@ void playerTurn() {
             MoveWidgetUp newRequest(
                 PLAYER, playerCoordinates[i].first, playerCoordinates[i].second, true
             );
-            vectorOfWidgetMoveRequests.push_back(newRequest);
+            vectorOfMoveWidgetUpTokens.push_back(newRequest);
+        }
+        // Temporary; this prints the vector, to make sure it went through!
+        for (MoveWidgetUp mToken : vectorOfMoveWidgetUpTokens) {
+            mToken.print();
         }
     } else if (input == "a" || input == "A") {
         cout << "The player is moving left" << endl;
@@ -162,7 +185,11 @@ void playerTurn() {
             MoveWidgetLeft newRequest(
                 PLAYER, playerCoordinates[i].first, playerCoordinates[i].second, true
             );
-            vectorOfWidgetMoveRequests.push_back(newRequest);
+            vectorOfMoveWidgetLeftTokens.push_back(newRequest);
+        }
+        // Temporary; this prints the vector, to make sure it went through!
+        for (MoveWidgetLeft mToken : vectorOfMoveWidgetLeftTokens) {
+            mToken.print();
         }
     } else if (input == "s" || input == "S") {
         cout << "The player is moving down" << endl;
@@ -170,7 +197,11 @@ void playerTurn() {
             MoveWidgetDown newRequest(
                 PLAYER, playerCoordinates[i].first, playerCoordinates[i].second, true
             );
-            vectorOfWidgetMoveRequests.push_back(newRequest);
+            vectorOfMoveWidgetDownTokens.push_back(newRequest);
+        }
+        // Temporary; this prints the vector, to make sure it went through!
+        for (MoveWidgetDown mToken : vectorOfMoveWidgetDownTokens) {
+            mToken.print();
         }
     } else if (input == "d" || input == "D") {
         cout << "The player is moving right" << endl;
@@ -178,7 +209,11 @@ void playerTurn() {
             MoveWidgetRight newRequest(
                 PLAYER, playerCoordinates[i].first, playerCoordinates[i].second, true
             );
-            vectorOfWidgetMoveRequests.push_back(newRequest);
+            vectorOfMoveWidgetRightTokens.push_back(newRequest);
+        }
+        // Temporary; this prints the vector, to make sure it went through!
+        for (MoveWidgetRight mToken : vectorOfMoveWidgetRightTokens) {
+            mToken.print();
         }
     } else {
         cout << "Goobye Loser" << endl;
