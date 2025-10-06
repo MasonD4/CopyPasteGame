@@ -380,3 +380,7 @@ Saturday October 4 2025
 Sunday October 5 2025
 - - I added a print function to the 4 move Token datatypes. Next time I work on this, I need to
 - - test those out.
+
+Monday October 6 2025
+- - I tested them, they seem to work just fine. The move token vectors all populate completely and
+- - in the right order. The print function seems to work fine.
