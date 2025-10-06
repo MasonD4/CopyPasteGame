@@ -1,5 +1,8 @@
 This is an informational text file for Copy Paste Game.
 
+To get to this project in CMD: 
+cd \Users\Mason Dunn\eclipse-workspaceC\CopyPasteGame
+
 Contents:
 // Misc. Reminders
 // Main ideas
