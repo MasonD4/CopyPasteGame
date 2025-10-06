@@ -376,3 +376,7 @@ Friday October 3 2025
 Saturday October 4 2025
 - - In the testing branch I have decided to split the widgetMoveRequest datatype into 4 new datatypes,
 - - one for each direction.
+
+Sunday October 5 2025
+- - I added a print function to the 4 move Token datatypes. Next time I work on this, I need to
+- - test those out.
