@@ -384,3 +384,14 @@ Sunday October 5 2025
 Monday October 6 2025
 - - I tested them, they seem to work just fine. The move token vectors all populate completely and
 - - in the right order. The print function seems to work fine.
+
+Wednesday October 8 2025
+- - I didn't *do* anything today, but I did think of something that may prove useful in the
+- - future: So after you have a vector full of move tokens, you go through it and set each
+- - destination coordinate to '@'.
+- - After wards you just need to set the original coordinate to '-'. But, I hear you asking,
+- - won't this possibly cause some instances of the player to get overwritten by a '-'?
+- - No, because of the order in which the moves get executed. If one player's destination is
+- - another player's initial location, then when the player in front of the other moves
+- - (it WILL end up moving first), the empty space it leaves behind SHOULD get overwritten by the
+- - following player.
