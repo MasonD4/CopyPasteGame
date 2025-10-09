@@ -241,22 +241,9 @@ bool isDangerous(char input) {
 }
 
 bool isMovable(char input) {
-    switch(input) {
-    case WALL:
-        return false;
-        break;
-    case NEW_ROW:
-        return false;
-        break;
-    case COIN_COUNTER:
-        return false;
-        break;
-    case JUMP_COUNTER:
-        return false;
-        break;
-    default:
-        return true;
-    }
+    if (input == WALL) { return false; }
+    else if (input == NEW_ROW) { return false; }
+    else { return true; }
 }
 
 bool isThereAPlayer() {
