@@ -59,6 +59,10 @@ struct MoveWidgetUp {
 
 // Function Prototypes
 
+void executeMoveDown();
+void executeMoveLeft();
+void executeMoveRight();
+void executeMoveUp();
 void findPlayers();
 void playerTurn();
 void printMap();
