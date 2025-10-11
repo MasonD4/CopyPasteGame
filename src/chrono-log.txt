@@ -395,3 +395,21 @@ Wednesday October 8 2025
 - - another player's initial location, then when the player in front of the other moves
 - - (it WILL end up moving first), the empty space it leaves behind SHOULD get overwritten by the
 - - following player (not vice versa).
+
+
+Friday October 10 2025
+- - We did a lot of work.
+- - I copied all of the code from main.cpp in the testing branch to main.cpp in the movement branch,
+- - as the two branches are now on the same page, figuratively speaking.
+- - 
+- - I renamed the 4 functions responsible for executing moves. I also split them each in two. 
+- - For each cardinal direction, there will be one function that parses that direction's respective
+- - vector of tokens, feeding each token into a helper function. For each cardinal direction, there is a 
+- - (above mentioned) helper function whose purpose is to actually do the logic-checking and ultimately 
+- - execute the move token passed into its parameter.
+- - 
+- - I added a function, isOnMap(), that aptly checks if a given coordinate pair is on The Map.
+- - 
+- - I added some error checking to the executeMoveDownToken() function (the function that executes 
+- - the downward movement tokens).
+- - Next time, I will keep working on this.
