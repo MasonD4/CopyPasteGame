@@ -59,15 +59,20 @@ struct MoveWidgetUp {
 
 // Function Prototypes
 
-void executeMoveDown();
-void executeMoveLeft();
-void executeMoveRight();
-void executeMoveUp();
+void executeMoveDownToken(MoveWidgetDown downToken);
+void executeMoveLeftToken(MoveWidgetLeft leftToken);
+void executeMoveRightToken(MoveWidgetRight rightToken);
+void executeMoveUpToken(MoveWidgetUp upToken);
 void findPlayers();
+void parseMoveWidgetDownVector();
+void parseMoveWidgetLeftVector();
+void parseMoveWidgetRightVector();
+void parseMoveWidgetUpVector();
 void playerTurn();
 void printMap();
 bool isDangerous(char);
 bool isMovable(char);
+bool isOnMap(int x, int y);
 bool isThereAPlayer();
 int determineNumber(char);
 string getMapString();
@@ -109,6 +114,7 @@ int main() {
     string mapString = getMapString();
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
+    parseMoveWidgetDownVector();
 
     // Print the map
     printMap();
@@ -146,6 +152,21 @@ int main() {
 //     cin
 // }
 
+// This actually *executes* a move token (does the logic check, updates the map)
+void executeMoveDownToken(MoveWidgetDown downToken) {
+    if (!isOnMap(downToken.startX, downToken.startY)) {
+        cout << "Cannot execute the move down token; The starting location is off the map!(tm)" << endl;
+        return;
+    }
+    if (!isOnMap(downToken.endX, downToken.endY)) {
+        cout << "Cannot execute the move down token; The ending location is off the map!(tm)" << endl;
+        return;
+    }
+    // More error-checking and other stuff needed...
+
+    // ...
+}
+
 // Get player coordinates
 void findPlayers() { 
     playerCoordinates.clear();
@@ -156,6 +177,13 @@ void findPlayers() {
                 playerCoordinates.push_back({colNumber, rowNumber});
             }
         }
+    }
+}
+
+// This runs through the global `vectorOfMoveWidgetDownTokens` and executes each one via an execute function.
+void parseMoveWidgetDownVector() {
+    for (int i = vectorOfMoveWidgetDownTokens.size() - 1; i >= 0; i--) {
+        executeMoveDownToken(vectorOfMoveWidgetDownTokens.at(i));
     }
 }
 
@@ -248,6 +276,12 @@ bool isMovable(char input) {
     if (input == WALL) { return false; }
     else if (input == NEW_ROW) { return false; }
     else { return true; }
+}
+
+bool isOnMap(int x, int y) {
+    if (x < 0 || x >= columns) { return false; }
+    if (y < 0 || y >= rows) { return false; }
+    return true;
 }
 
 bool isThereAPlayer() {
