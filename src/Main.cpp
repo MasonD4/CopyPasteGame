@@ -182,6 +182,10 @@ void findPlayers() {
 
 // This runs through the global `vectorOfMoveWidgetDownTokens` and executes each one via an execute function.
 void parseMoveWidgetDownVector() {
+    // This for-loop runs in reverse because the widgets at the end of the list are the ones
+    // closest to the bottom of the map (due to the game parsing from left-to-right, top-to-bottom).
+    //  For widgets that move down, we want the ones at the bottom to move first.
+    // (See chronolog)
     for (int i = vectorOfMoveWidgetDownTokens.size() - 1; i >= 0; i--) {
         executeMoveDownToken(vectorOfMoveWidgetDownTokens.at(i));
     }
