@@ -162,6 +162,10 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
         cout << "Cannot execute the move down token; The ending location is off the map!(tm)" << endl;
         return;
     }
+    if (downToken.widgetType == EMPTY_SPACE) {
+        cout << "Will not execute the move down token; The Widget being moved is an empty space!" << endl;
+        return;
+    }
     // More error-checking and other stuff needed...
 
     // ...
@@ -185,7 +189,7 @@ void parseMoveWidgetDownVector() {
     // This for-loop runs in reverse because the widgets at the end of the list are the ones
     // closest to the bottom of the map (due to the game parsing from left-to-right, top-to-bottom).
     //  For widgets that move down, we want the ones at the bottom to move first.
-    // (See chronolog)
+    // (See chronolog Friday October 3 2025)
     for (int i = vectorOfMoveWidgetDownTokens.size() - 1; i >= 0; i--) {
         executeMoveDownToken(vectorOfMoveWidgetDownTokens.at(i));
     }
