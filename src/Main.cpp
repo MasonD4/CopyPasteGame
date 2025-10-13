@@ -71,7 +71,7 @@ void parseMoveWidgetUpVector();
 void playerTurn();
 void printMap();
 bool isDangerous(char);
-bool isMovable(char);
+bool isPushable(char);
 bool isOnMap(int x, int y);
 bool isThereAPlayer();
 int determineNumber(char);
@@ -280,9 +280,10 @@ bool isDangerous(char input) {
     }
 }
 
-bool isMovable(char input) {
+bool isPushable(char input) {
     if (input == WALL) { return false; }
     else if (input == NEW_ROW) { return false; }
+    // Note: Air SHOULD be considered as pushable
     else { return true; }
 }
 
