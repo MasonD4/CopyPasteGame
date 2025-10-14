@@ -70,11 +70,13 @@ void parseMoveWidgetRightVector();
 void parseMoveWidgetUpVector();
 void playerTurn();
 void printMap();
+void setCharOnTheMap(int x, int y, char newChar);
 bool isDangerous(char);
 bool isPushable(char);
 bool isOnMap(int x, int y);
 bool isThereAPlayer();
 int determineNumber(char);
+char getFromTheMap(int x, int y);
 string getMapString();
 vector<vector<char>> makeMapFromString(string);
 
@@ -171,7 +173,7 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
         cout << "Will not execute the move down token; The Widget being moved is an empty space!" << endl;
         return;
     }
-    if (isPushable(theMap[downToken.endY][downToken.endX])) {
+    if (!isPushable( getFromTheMap(downToken.endX, downToken.endY) )) {
         cout << "Cannot execute the move down token; The ending location is occupied by a" << endl;
         cout << "non-pushable widget!" << endl;
         return;
@@ -183,7 +185,10 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
     // If it does use a helper function, that function can be used for all 4 movement directions,
     // as opposed to having 4 copies for each direction.
 
-    // ...
+    // Set the destination spot to the widget that is moving,
+    setCharOnTheMap(downToken.endX, downToken.endY, downToken.widgetType);
+    // Set that widget's original location to empty air.
+    setCharOnTheMap(downToken.startX, downToken.startY, EMPTY_SPACE);
 }
 
 // Get player coordinates
@@ -285,6 +290,18 @@ void printMap() {
     }
 }
 
+void setCharOnTheMap(int x, int y, char newChar) {
+    if (x < 0 || x >= columns) {
+        cout << "Oh no! Can't use setCharOnTheMap; The x-value is invalid!" << endl;
+        return;
+    }
+    if (y < 0 || y >= rows) {
+        cout << "Oh no! Can't use setCharOnTheMap; The y-value is invalid!" << endl;
+        return;
+    }
+    theMap[y][x] = newChar;
+}
+
 bool isDangerous(char input) {
     switch(input) {
     case HAZARD: // temporary(?)
@@ -330,6 +347,18 @@ int determineNumber(char c) {
     else if (c == '8') {return 8;}
     else if (c == '9') {return 9;}
     else {return -1;}
+}
+
+char getFromTheMap(int x, int y) {
+    if (x < 0 || x >= columns) {
+        cout << "Oh no! Can't use getFromTheMap; The x-value is invalid!" << endl;
+        throw string("Oh no! Can't use getFromTheMap; The x-value is invalid!");
+    }
+    if (y < 0 || y >= rows) {
+        cout << "Oh no! Can't use getFromTheMap; The y-value is invalid!" << endl;
+        throw string("Oh no! Can't use getFromTheMap; The y-value is invalid!");
+    }
+    return theMap[y][x];
 }
 
 string getMapString() {
