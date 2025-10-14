@@ -179,7 +179,9 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
 
     // More error-checking and other stuff needed...
     // Note: This function will NOT call recursively call itself if it encounters a pushable widget.
-    // Instead, it will use a helper function 
+    // Instead, it will use a helper function or loop.
+    // If it does use a helper function, that function can be used for all 4 movement directions,
+    // as opposed to having 4 copies for each direction.
 
     // ...
 }
