@@ -154,6 +154,11 @@ int main() {
 
 // This actually *executes* a move token (does the logic check, updates the map)
 void executeMoveDownToken(MoveWidgetDown downToken) {
+
+    // I may want to turn these if's into an else-if chain.
+    // Also, the cout statements will most-likely be temporary. Also, they will NOT be replaced
+    // by throws, as these types of errors are common and normal in the game.
+
     if (!isOnMap(downToken.startX, downToken.startY)) {
         cout << "Cannot execute the move down token; The starting location is off the map!(tm)" << endl;
         return;
@@ -166,7 +171,15 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
         cout << "Will not execute the move down token; The Widget being moved is an empty space!" << endl;
         return;
     }
+    if (isPushable(theMap[downToken.endY][downToken.endX])) {
+        cout << "Cannot execute the move down token; The ending location is occupied by a" << endl;
+        cout << "non-pushable widget!" << endl;
+        return;
+    }
+
     // More error-checking and other stuff needed...
+    // Note: This function will NOT call recursively call itself if it encounters a pushable widget.
+    // Instead, it will use a helper function 
 
     // ...
 }
