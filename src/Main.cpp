@@ -161,34 +161,50 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
     // Also, the cout statements will most-likely be temporary. Also, they will NOT be replaced
     // by throws, as these types of errors are common and normal in the game.
 
+    // Issue with the starting position
+    
     if (!isOnMap(downToken.startX, downToken.startY)) {
         cout << "Cannot execute the move down token; The starting location is off the map!(tm)" << endl;
-        return;
-    }
-    if (!isOnMap(downToken.endX, downToken.endY)) {
-        cout << "Cannot execute the move down token; The ending location is off the map!(tm)" << endl;
-        return;
+        downToken.stillValid = false;
     }
     if (downToken.widgetType == EMPTY_SPACE) {
         cout << "Will not execute the move down token; The Widget being moved is an empty space!" << endl;
-        return;
+        downToken.stillValid = false;
+    }
+    
+    // Issue with the ending position
+    
+    if (!isOnMap(downToken.endX, downToken.endY)) {
+        cout << "Cannot execute the move down token; The ending location is off the map!(tm)" << endl;
+        downToken.stillValid = false;
     }
     if (!isPushable( getFromTheMap(downToken.endX, downToken.endY) )) {
         cout << "Cannot execute the move down token; The ending location is occupied by a" << endl;
         cout << "non-pushable widget!" << endl;
-        return;
+        downToken.stillValid = false;
     }
+
+    // The ending position is occupied by a pushable widget
+
+    //...
+
+    if (downToken.stillValid) {
+        // The downToken is still valid. Execute the move.
+
+        // This below block of code might be subject to change...
+
+        // Set the destination spot to the widget that is moving,
+        setCharOnTheMap(downToken.endX, downToken.endY, downToken.widgetType);
+        // Set that widget's original location to empty air.
+        setCharOnTheMap(downToken.startX, downToken.startY, EMPTY_SPACE);
+    }
+    // Otherwise, the program just moves on and ends.
 
     // More error-checking and other stuff needed...
     // Note: This function will NOT call recursively call itself if it encounters a pushable widget.
     // Instead, it will use a helper function or loop.
     // If it does use a helper function, that function can be used for all 4 movement directions,
     // as opposed to having 4 copies for each direction.
-
-    // Set the destination spot to the widget that is moving,
-    setCharOnTheMap(downToken.endX, downToken.endY, downToken.widgetType);
-    // Set that widget's original location to empty air.
-    setCharOnTheMap(downToken.startX, downToken.startY, EMPTY_SPACE);
 }
 
 // Get player coordinates
