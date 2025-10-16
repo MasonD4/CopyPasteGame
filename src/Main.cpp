@@ -184,9 +184,17 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
         downToken.stillValid = false;
     }
 
-    // The ending position is occupied by a pushable widget
+    // The ending position is occupied by a pushable widget (other than air)
 
     //...
+
+    // Note: In the future I may want to rethink whether or not an EMPTY_SPACE should be considered
+    // pushable. Why? There may be other widgets that can be "Stepped on" (likely resulting in that
+    // widget being reduced to air). In such a case, I may want to make a function that checks
+    // a char to see if they fit in this category.
+    //
+    // On a related note, I *may* want to make a function (or a custom datatype) that has 2
+    // parameters: 2 chars. It checks if one char can step on the other.
 
     if (downToken.stillValid) {
         // The downToken is still valid. Execute the move.
