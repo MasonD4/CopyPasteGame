@@ -8,6 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <stack>
 using namespace std;
 
 // The Action Tokens
@@ -156,63 +157,73 @@ int main() {
 
 // This actually *executes* a move token (does the logic check, updates the map)
 void executeMoveDownToken(MoveWidgetDown downToken) {
+    stack<MoveWidgetDown> moveTheseWidgets;
+    stack<MoveWidgetDown> clearTheStack; // std::stack has no clear member :( I must improvise.
+    MoveWidgetDown currentToken = downToken;
+    // bool keepLooping = true;
 
-    // I may want to turn these if's into an else-if chain.
-    // Also, the cout statements will most-likely be temporary. Also, they will NOT be replaced
-    // by throws, as these types of errors are common and normal in the game.
+    while (true /*keepLooping*/) {
+        moveTheseWidgets.push(currentToken);
 
-    // Issue with the starting position
-    
-    if (!isOnMap(downToken.startX, downToken.startY)) {
-        cout << "Cannot execute the move down token; The starting location is off the map!(tm)" << endl;
-        downToken.stillValid = false;
+        // I may want to turn these if's into an else-if chain.
+        // Also, the cout statements will most-likely be temporary. Also, they will NOT be replaced
+        // by throws, as these types of errors are common and normal in the game.
+
+        // Check the starting position
+
+        if (!isOnMap(currentToken.startX, currentToken.startY)) {
+            cout << "Cannot execute the move down token; The starting location is off the map!(tm)" << endl;
+            moveTheseWidgets = clearTheStack;
+            break;
+        }
+        if (currentToken.widgetType == EMPTY_SPACE) {
+            cout << "Will not execute the move down token; The Widget being moved is an empty space!" << endl;
+            moveTheseWidgets.pop();
+            break;
+        }
+
+        // Check the ending position
+
+        if (!isOnMap(currentToken.endX, currentToken.endY)) {
+            cout << "Cannot execute the move down token; The ending location is off the map!(tm)" << endl;
+            moveTheseWidgets = clearTheStack;
+            break;
+        }
+        if (getFromTheMap(currentToken.endX, currentToken.endY) == EMPTY_SPACE) {
+            break; // We have reached the end of the chain, finish looping and continue with the funciton.
+        }
+        if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
+            cout << "Cannot execute the move down token; The ending location is occupied by a" << endl;
+            cout << "non-pushable widget!" << endl;
+            moveTheseWidgets = clearTheStack;
+            break;
+        }
+
+        // Pushing too much
+        // The '+1' is there to include the original widget (downToken)
+        if (moveTheseWidgets.size() > PUSH_LIMIT + 1) {
+            moveTheseWidgets = clearTheStack;
+            break;
+        }
+        
+        // If we get past all of that, create a token for the next widget in line.
+        MoveWidgetDown nextToken(
+            getFromTheMap(currentToken.endX, currentToken.endY),
+            currentToken.endX,
+            currentToken.endY,
+            true
+        );
+        currentToken = nextToken;
     }
-    if (downToken.widgetType == EMPTY_SPACE) {
-        cout << "Will not execute the move down token; The Widget being moved is an empty space!" << endl;
-        downToken.stillValid = false;
+
+    while (moveTheseWidgets.size() > 0) {
+        // Set the destination spot to be the widget that is moving.
+        setCharOnTheMap(moveTheseWidgets.top().endX, moveTheseWidgets.top().endY, moveTheseWidgets.top().widgetType);
+        // Set the original spot to be an EMPTY_SPACE.
+        setCharOnTheMap(moveTheseWidgets.top().startX, moveTheseWidgets.top().startY, EMPTY_SPACE);
+        
+        moveTheseWidgets.pop();
     }
-    
-    // Issue with the ending position
-    
-    if (!isOnMap(downToken.endX, downToken.endY)) {
-        cout << "Cannot execute the move down token; The ending location is off the map!(tm)" << endl;
-        downToken.stillValid = false;
-    }
-    if (!isPushable( getFromTheMap(downToken.endX, downToken.endY) )) {
-        cout << "Cannot execute the move down token; The ending location is occupied by a" << endl;
-        cout << "non-pushable widget!" << endl;
-        downToken.stillValid = false;
-    }
-
-    // The ending position is occupied by a pushable widget (other than air)
-
-    //...
-
-    // Note: In the future I may want to rethink whether or not an EMPTY_SPACE should be considered
-    // pushable. Why? There may be other widgets that can be "Stepped on" (likely resulting in that
-    // widget being reduced to air). In such a case, I may want to make a function that checks
-    // a char to see if they fit in this category.
-    //
-    // On a related note, I *may* want to make a function (or a custom datatype) that has 2
-    // parameters: 2 chars. It checks if one char can step on the other.
-
-    if (downToken.stillValid) {
-        // The downToken is still valid. Execute the move.
-
-        // This below block of code might be subject to change...
-
-        // Set the destination spot to the widget that is moving,
-        setCharOnTheMap(downToken.endX, downToken.endY, downToken.widgetType);
-        // Set that widget's original location to empty air.
-        setCharOnTheMap(downToken.startX, downToken.startY, EMPTY_SPACE);
-    }
-    // Otherwise, the program just moves on and ends.
-
-    // More error-checking and other stuff needed...
-    // Note: This function will NOT call recursively call itself if it encounters a pushable widget.
-    // Instead, it will use a helper function or loop.
-    // If it does use a helper function, that function can be used for all 4 movement directions,
-    // as opposed to having 4 copies for each direction.
 }
 
 // Get player coordinates
