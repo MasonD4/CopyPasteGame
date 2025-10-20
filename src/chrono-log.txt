@@ -413,3 +413,8 @@ Friday October 10 2025
 - - I added some error checking to the executeMoveDownToken() function (the function that executes 
 - - the downward movement tokens).
 - - Next time, I will keep working on this.
+
+Sunday October 19 2025
+- - As of yesterday, the move-down capability seems to work! A player instance can push up to 5
+- - things, and a vertical column of player instances has no issue moving one-at-a-time! I just need
+- - to (more or less) copy that code to the other directions!
