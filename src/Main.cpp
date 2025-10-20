@@ -272,10 +272,8 @@ void playerTurn() {
             );
             vectorOfMoveWidgetUpTokens.push_back(newRequest);
         }
-        // Temporary; this prints the vector, to make sure it went through!
-        for (MoveWidgetUp mToken : vectorOfMoveWidgetUpTokens) {
-            mToken.print();
-        }
+        parseMoveWidgetUpVector();
+        vectorOfMoveWidgetUpTokens.clear();
     } else if (input == "a" || input == "A") {
         cout << "The player is moving left" << endl;
         for (int i = 0; i < playerCoordinates.size(); i++) {
@@ -284,10 +282,8 @@ void playerTurn() {
             );
             vectorOfMoveWidgetLeftTokens.push_back(newRequest);
         }
-        // Temporary; this prints the vector, to make sure it went through!
-        for (MoveWidgetLeft mToken : vectorOfMoveWidgetLeftTokens) {
-            mToken.print();
-        }
+        parseMoveWidgetLeftVector();
+        vectorOfMoveWidgetLeftTokens.clear();
     } else if (input == "s" || input == "S") {
         cout << "The player is moving down" << endl;
         for (int i = 0; i < playerCoordinates.size(); i++) {
@@ -306,10 +302,8 @@ void playerTurn() {
             );
             vectorOfMoveWidgetRightTokens.push_back(newRequest);
         }
-        // Temporary; this prints the vector, to make sure it went through!
-        for (MoveWidgetRight mToken : vectorOfMoveWidgetRightTokens) {
-            mToken.print();
-        }
+        parseMoveWidgetRightVector();
+        vectorOfMoveWidgetRightTokens.clear();
     } else {
         cout << "Goobye Loser" << endl;
         exit(EXIT_SUCCESS); // This is probably temporray
