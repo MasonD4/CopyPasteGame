@@ -142,9 +142,10 @@ int main() {
     // cout << endl;
 
 
-    // while (true) {
+    while (true) {
         playerTurn();
-    // }
+        printMap();
+    }
 }
 // Move template:
 // move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount)
@@ -201,7 +202,8 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
 
         // Pushing too much
         // The '+1' is there to include the original widget (downToken)
-        if (moveTheseWidgets.size() > PUSH_LIMIT + 1) {
+        // - - Update: Nvm, for some reason with the +1 it allows it to push 6 widgets instead of 5.
+        if (moveTheseWidgets.size() > PUSH_LIMIT /* +1 */) {
             moveTheseWidgets = clearTheStack;
             break;
         }
@@ -294,10 +296,8 @@ void playerTurn() {
             );
             vectorOfMoveWidgetDownTokens.push_back(newRequest);
         }
-        // Temporary; this prints the vector, to make sure it went through!
-        for (MoveWidgetDown mToken : vectorOfMoveWidgetDownTokens) {
-            mToken.print();
-        }
+        parseMoveWidgetDownVector();
+        vectorOfMoveWidgetDownTokens.clear();
     } else if (input == "d" || input == "D") {
         cout << "The player is moving right" << endl;
         for (int i = 0; i < playerCoordinates.size(); i++) {
