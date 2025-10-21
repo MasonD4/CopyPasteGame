@@ -228,6 +228,70 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
     }
 }
 
+void executeMoveLeftToken(MoveWidgetLeft leftToken) {
+    stack<MoveWidgetLeft> moveTheseWidgets;
+    stack<MoveWidgetLeft> clearTheStack;
+    MoveWidgetLeft currentToken = leftToken;
+
+    while (true) {
+        moveTheseWidgets.push(currentToken);
+
+        // Check the starting position
+
+        if (!isOnMap(currentToken.startX, currentToken.startY)) {
+            cout << "Cannot execute the move left token; The starting location is off the map!(tm)" << endl;
+            moveTheseWidgets = clearTheStack;
+            break;
+        }
+        if (currentToken.widgetType == EMPTY_SPACE) {
+            cout << "Will not execute the move left token; The Widget being moved is an empty space!" << endl;
+            moveTheseWidgets.pop();
+            break;
+        }
+
+        // Check the ending position
+
+        if (!isOnMap(currentToken.endX, currentToken.endY)) {
+            cout << "Cannot execute the move left token; The ending location is off the map!(tm)" << endl;
+            moveTheseWidgets = clearTheStack;
+            break;
+        }
+        if (getFromTheMap(currentToken.endX, currentToken.endY) == EMPTY_SPACE) {
+            break; // We have reached the end of the chain, finish looping and continue with the funciton.
+        }
+        if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
+            cout << "Cannot execute the move left token; The ending location is occupied by a" << endl;
+            cout << "non-pushable widget!" << endl;
+            moveTheseWidgets = clearTheStack;
+            break;
+        }
+
+        // Pushing too much
+        if (moveTheseWidgets.size() > PUSH_LIMIT) {
+            moveTheseWidgets = clearTheStack;
+            break;
+        }
+        
+        // If we get past all of that, create a token for the next widget in line.
+        MoveWidgetLeft nextToken(
+            getFromTheMap(currentToken.endX, currentToken.endY),
+            currentToken.endX,
+            currentToken.endY,
+            true
+        );
+        currentToken = nextToken;
+    }
+
+    while (moveTheseWidgets.size() > 0) {
+        // Set the destination spot to be the widget that is moving.
+        setCharOnTheMap(moveTheseWidgets.top().endX, moveTheseWidgets.top().endY, moveTheseWidgets.top().widgetType);
+        // Set the original spot to be an EMPTY_SPACE.
+        setCharOnTheMap(moveTheseWidgets.top().startX, moveTheseWidgets.top().startY, EMPTY_SPACE);
+        
+        moveTheseWidgets.pop();
+    }
+}
+
 // Get player coordinates
 void findPlayers() { 
     playerCoordinates.clear();
@@ -252,6 +316,12 @@ void parseMoveWidgetDownVector() {
     }
 }
 
+void parseMoveWidgetLeftVector() {
+    for (int i = 0; i < vectorOfMoveWidgetLeftTokens.size(); i++) {
+        executeMoveLeftToken(vectorOfMoveWidgetLeftTokens.at(i));
+    }
+}
+
 void playerTurn() {
     // clear and re-populate the vector of player coordinates
     playerCoordinates.clear();
@@ -272,7 +342,7 @@ void playerTurn() {
             );
             vectorOfMoveWidgetUpTokens.push_back(newRequest);
         }
-        parseMoveWidgetUpVector();
+        // parseMoveWidgetUpVector();
         vectorOfMoveWidgetUpTokens.clear();
     } else if (input == "a" || input == "A") {
         cout << "The player is moving left" << endl;
@@ -302,7 +372,7 @@ void playerTurn() {
             );
             vectorOfMoveWidgetRightTokens.push_back(newRequest);
         }
-        parseMoveWidgetRightVector();
+        // parseMoveWidgetRightVector();
         vectorOfMoveWidgetRightTokens.clear();
     } else {
         cout << "Goobye Loser" << endl;
