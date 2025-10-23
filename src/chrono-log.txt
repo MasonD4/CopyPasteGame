@@ -418,3 +418,16 @@ Sunday October 19 2025
 - - As of yesterday, the move-down capability seems to work! A player instance can push up to 5
 - - things, and a vertical column of player instances has no issue moving one-at-a-time! I just need
 - - to (more or less) copy that code to the other directions!
+
+Wednesday October 22 2025
+- - I have checked the right movement implementation to make sure that it works, and I have finished
+- - implementing the up movement. I have collected all of the infinity stones; I have implemented
+- - all cardinal directions:
+- - - - Down
+- - - - Left
+- - - - Right
+- - - - Up
+- - My movement system is almost complete (or completely complete).
+- - Next, I will likely merge the testing branch with master, comment-out or remove the cout statments
+- - within the move()/playerTurn() functions, and then add an entry to this chronolog, cementing the
+- - completing of the current iteration of the movement system, and the end of this epoch.
