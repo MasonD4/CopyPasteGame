@@ -431,3 +431,9 @@ Wednesday October 22 2025
 - - Next, I will likely merge the testing branch with master, comment-out or remove the cout statments
 - - within the move()/playerTurn() functions, and then add an entry to this chronolog, cementing the
 - - completing of the current iteration of the movement system, and the end of this epoch.
+
+Friday October 24 2025
+- - We commented out the cout statments that reported stuff like "This widget is pushing too much, this widget is
+- - moving off the map, the player is moving right" etc..
+- - I believe that this marks the end of this era of the development, and I believe that the movement system is
+- - now fully functional (within this scope).
