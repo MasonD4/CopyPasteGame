@@ -36,7 +36,7 @@ Friday July 11 2025:
 
 Friday July 18 2025:
 // Got started on the jump function.
-// Also, potential new names for the jump ability: Warp, blink.
+// Also, potential new names for the jump ability: Warp, blink, dash, teleport (port), pop, phase, vault, jaunt, hop.
 
 Friday July 25 2025:
 // Added part of a coin condition in the jump function.

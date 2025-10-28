@@ -92,6 +92,8 @@ const char COIN_COUNTER = 'C';
 const char JUMP_COUNTER = 'J';
 const char COIN = '*'; // Maybe '$'
 const char HAZARD = '!'; 
+
+int jumpCount = 99; // The 99 is temporary, it should likely be set to zero (0).
 vector<pair<int, int>> playerCoordinates;
 
 // Action token vectors
@@ -121,40 +123,12 @@ int main() {
 
     // Print the map
     printMap();
-    // findPlayers();
-    // cout << "There are players at:" << endl;
-    // for (int i = 0; i < playerCoordinates.size(); i++) {
-    //     cout << "(" << playerCoordinates[i].first << ", " << playerCoordinates[i].second << ")" << endl;
-    // }
-    // theMap[playerCoordinates[0].second][playerCoordinates[0].first] = EMPTY_SPACE;
-    // theMap[playerCoordinates[0].second - 1][playerCoordinates[0].first + 1] = PLAYER;
-    // cout << endl;
-    // cout << endl;
-
-
-    // printMap();
-    // findPlayers();
-    // cout << "There are players at:" << endl;
-    // for (int i = 0; i < playerCoordinates.size(); i++) {
-    //     cout << "(" << playerCoordinates[i].first << ", " << playerCoordinates[i].second << ")" << endl;
-    // }
-    // cout << endl;
-    // cout << endl;
-
 
     while (true) {
         playerTurn();
         printMap();
     }
 }
-// Move template:
-// move(vector<vector<char>>& map, int rows, int cols, int x, int y, string direction, int recursiveCount)
-
-// void playerMove() {
-//     string input;
-//     cout << "Player turn: ";
-//     cin
-// }
 
 // This actually *executes* a move token (does the logic check, updates the map)
 void executeMoveDownToken(MoveWidgetDown downToken) {
