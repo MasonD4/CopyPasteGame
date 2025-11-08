@@ -437,3 +437,7 @@ Friday October 24 2025
 - - moving off the map, the player is moving right" etc..
 - - I believe that this marks the end of this era of the development, and I believe that the movement system is
 - - now fully functional (within this scope).
+
+Friday November 7 2025
+- - For the time being we have decided to rename the jump ability to "shift", with "vault" and "skip"
+- - in close second and third, respectively.
