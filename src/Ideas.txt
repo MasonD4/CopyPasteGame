@@ -1,0 +1,29 @@
+A hazard that slams downward, destroying the player if it is in its path. Perhaps its "AI" will work like this:
+- - If there is an immovable widget right above it, it slams down.
+- - If there is an immovable widget right under it, it moves up one space.
+- - If there neither the spot directly above or below it is blocked, it slams upward, destroying the player if in its path.
+
+Two widgets that work together to create movement.
+- - A "puller" widget that moves away from/flees the "pusher" widget.
+- - A "pusher" widget that chases the "puller".
+- - 
+- - Maybe there can be diffrerent types. Like a "smart" puller that, if it can't move forward, will turn and move in
+- - another direction, if possible.
+- - "Evil" pushers and pullers that hurt the player.
+- - 
+- - Perhaps pushers and pullers move simultaniously, so that a pusher can move into the exact location that the puller is in.
+- - EG:
+- - - - - - o = pusher
+- - o > - - > = puller
+- - - - - -
+- -
+- - - - - - 
+- - - o > - 
+- - - - - - 
+- - Actually, that might not work, as whether or not two widget move simultaneously depends on the direction they're moving in.
+- - Nonethless, a puller and pusher will generally be moving in the same direction.
+- - 
+- - Or maybe there won't be a dedicated pusher or puller, but rather I just put in 3 or 4 widgets that behave like:
+- - - - A: Chases B, flees C
+- - - - B: Chases C, flees A
+- - - - C: Chases A, flees B
