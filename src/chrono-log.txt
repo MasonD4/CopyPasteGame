@@ -441,3 +441,12 @@ Friday October 24 2025
 Friday November 7 2025
 - - For the time being we have decided to rename the jump ability to "shift", with "vault" and "skip"
 - - in close second and third, respectively.
+- -
+- - Also think more about what this ability is used  for.
+- - Perhaps also think about changing how the whole movement system works. 
+- - Also perhaps consider these other abilities:
+- - * Pull a widget 
+- - * Teleport a widget from behind you to in front of you. 
+- - * Move as many spaces in one direction as you can before hitting a wall (ie "Slide"). 
+- - 
+- - Maybe the player can both move one space, and then also slide as many spaces as possible before hitting a wall.
