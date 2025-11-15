@@ -84,6 +84,8 @@ string getMapString();
 vector<vector<char>> makeMapFromString(string);
 
 // I should probably make a function(s) that increments or decrements counters (or at least checks if they can)
+// Maybe I should make one function for each counter, and the input of the function can be the number that I
+// want to add to the counter (eg 1, -1, 2, etc...).
 
 // Global Variables
 
