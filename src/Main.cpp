@@ -72,6 +72,7 @@ void parseMoveWidgetUpVector();
 void playerTurn();
 void printMap();
 void setCharOnTheMap(int x, int y, char newChar);
+bool xCanStepOnY(char x, char y);
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
 bool isPushable(char);
 bool isOnMap(int x, int y);
@@ -89,9 +90,9 @@ const char EMPTY_SPACE = '-';
 const char WALL = '#';
 const char NEW_ROW = ']';
 const char COIN_COUNTER = 'C';
-const char COIN = '*'; // Maybe '$'
+const char COIN = '$'; // This could be a '*' or a '$'.
 
-int coinCount = 0; // The 99 is temporary, it should likely be set to zero (0).
+int coinCount = 0;
 vector<pair<int, int>> playerCoordinates;
 
 // Action token vectors
@@ -527,6 +528,12 @@ void setCharOnTheMap(int x, int y, char newChar) {
         return;
     }
     theMap[y][x] = newChar;
+}
+
+bool xCanStepOnY(char x, char y) {
+    if (y == EMPTY_SPACE) { return true; }
+    if (x == PLAYER && y == COIN) { return true; }
+    return false;
 }
 
 // I'm leaving this commented out until I actually add hazardous widgets 
