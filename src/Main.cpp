@@ -72,15 +72,18 @@ void parseMoveWidgetUpVector();
 void playerTurn();
 void printMap();
 void setCharOnTheMap(int x, int y, char newChar);
-bool xCanStepOnY(char x, char y);
+void xStepsOnYInteraction(char x, char y); // TODO
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
 bool isPushable(char);
 bool isOnMap(int x, int y);
 bool isThereAPlayer();
+bool xCanStepOnY(char x, char y);
 int determineNumber(char);
 char getFromTheMap(int x, int y);
 string getMapString();
 vector<vector<char>> makeMapFromString(string);
+
+// I should probably make a function(s) that increments or decrements counters (or at least checks if they can)
 
 // Global Variables
 
@@ -139,7 +142,7 @@ int main() {
 
 // This actually *executes* a move token (does the logic check, updates the map)
 void executeMoveDownToken(MoveWidgetDown downToken) {
-    stack<MoveWidgetDown> moveTheseWidgets;
+    stack<MoveWidgetDown> moveTheseWidgets; // A stack of all of the widgets that are being pushed by downToken, as well as downToken.
     stack<MoveWidgetDown> clearTheStack; // std::stack has no clear member :( I must improvise.
     MoveWidgetDown currentToken = downToken;
     // bool keepLooping = true;
@@ -152,7 +155,7 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
         // by throws, as these types of errors are common and normal in the game.
 
         // Check the starting position
-
+        
         if (!isOnMap(currentToken.startX, currentToken.startY)) {
             // cout << "Cannot execute the move down token; The starting location is off the map!(tm)" << endl;
             moveTheseWidgets = clearTheStack;
@@ -171,8 +174,12 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
             moveTheseWidgets = clearTheStack;
             break;
         }
-        if (getFromTheMap(currentToken.endX, currentToken.endY) == EMPTY_SPACE) {
-            break; // We have reached the end of the chain, finish looping and continue with the funciton.
+        if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
+            // Initially the above condition was `getFromTheMap(currentToken.endX, currentToken.endY) == EMPTY_SPACE`
+            // I'll leave it here, commented out just in case I need it again.
+            
+            // We have reached the end of the chain, finish looping and continue with the funciton.
+            break; 
         }
         if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
             // cout << "Cannot execute the move down token; The ending location is occupied by a" << endl;
@@ -238,7 +245,7 @@ void executeMoveLeftToken(MoveWidgetLeft leftToken) {
             moveTheseWidgets = clearTheStack;
             break;
         }
-        if (getFromTheMap(currentToken.endX, currentToken.endY) == EMPTY_SPACE) {
+        if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
             break; // We have reached the end of the chain, finish looping and continue with the funciton.
         }
         if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
@@ -303,7 +310,7 @@ void executeMoveRightToken(MoveWidgetRight rightToken) {
             moveTheseWidgets = clearTheStack;
             break;
         }
-        if (getFromTheMap(currentToken.endX, currentToken.endY) == EMPTY_SPACE) {
+        if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
             break; // We have reached the end of the chain, finish looping and continue with the funciton.
         }
         if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
@@ -368,7 +375,7 @@ void executeMoveUpToken(MoveWidgetUp upToken) {
             moveTheseWidgets = clearTheStack;
             break;
         }
-        if (getFromTheMap(currentToken.endX, currentToken.endY) == EMPTY_SPACE) {
+        if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
             break; // We have reached the end of the chain, finish looping and continue with the funciton.
         }
         if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
@@ -530,10 +537,8 @@ void setCharOnTheMap(int x, int y, char newChar) {
     theMap[y][x] = newChar;
 }
 
-bool xCanStepOnY(char x, char y) {
-    if (y == EMPTY_SPACE) { return true; }
-    if (x == PLAYER && y == COIN) { return true; }
-    return false;
+void xStepsOnYInteraction(char x, char y) {
+    // TODO
 }
 
 // I'm leaving this commented out until I actually add hazardous widgets 
@@ -568,6 +573,15 @@ bool isThereAPlayer() {
     else {
         return false;
     }
+}
+
+// Can one widget (x) step on another (y)
+// IE, If widget x moves onto a space occupied by widget y,
+// will widget y simply cease to exist?
+bool xCanStepOnY(char x, char y) {
+    if (y == EMPTY_SPACE) { return true; }
+    if (x == PLAYER && y == COIN) { return true; }
+    return false;
 }
 
 int determineNumber(char c) {
