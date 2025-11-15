@@ -72,7 +72,7 @@ void parseMoveWidgetUpVector();
 void playerTurn();
 void printMap();
 void setCharOnTheMap(int x, int y, char newChar);
-bool isDangerous(char);
+// bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
 bool isPushable(char);
 bool isOnMap(int x, int y);
 bool isThereAPlayer();
@@ -89,11 +89,9 @@ const char EMPTY_SPACE = '-';
 const char WALL = '#';
 const char NEW_ROW = ']';
 const char COIN_COUNTER = 'C';
-const char JUMP_COUNTER = 'J';
 const char COIN = '*'; // Maybe '$'
-const char HAZARD = '!'; 
 
-int jumpCount = 99; // The 99 is temporary, it should likely be set to zero (0).
+int coinCount = 0; // The 99 is temporary, it should likely be set to zero (0).
 vector<pair<int, int>> playerCoordinates;
 
 // Action token vectors
@@ -108,9 +106,13 @@ vector<vector<char>> theMap;
 int columns;
 int rows;
 
+
+// ===================================================================================================
+// MAIN (below) 
+// ===================================================================================================
 int main() {
     // Get input from the player
-    cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << COIN_COUNTER << JUMP_COUNTER << COIN << HAZARD << endl;
+    cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << COIN_COUNTER << COIN << endl;
     cout << "Insert the map string, and then press [ENTER] Twice: \n";
 
     // Take the input, refine it, and then turn it into a game map.
@@ -129,6 +131,10 @@ int main() {
         printMap();
     }
 }
+// ===================================================================================================
+// MAIN (above) 
+// ===================================================================================================
+
 
 // This actually *executes* a move token (does the logic check, updates the map)
 void executeMoveDownToken(MoveWidgetDown downToken) {
@@ -523,15 +529,16 @@ void setCharOnTheMap(int x, int y, char newChar) {
     theMap[y][x] = newChar;
 }
 
-bool isDangerous(char input) {
-    switch(input) {
-    case HAZARD: // temporary(?)
-        return true;
-        break;
-    default: 
-        return false;
-    }
-}
+// I'm leaving this commented out until I actually add hazardous widgets 
+// bool isDangerous(char input) {
+//     switch(input) {
+//     case HAZARD: // temporary(?)
+//         return true;
+//         break;
+//     default: 
+//         return false;
+//     }
+// }
 
 bool isPushable(char input) {
     if (input == WALL) { return false; }
