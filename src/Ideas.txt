@@ -27,3 +27,11 @@ Two widgets that work together to create movement.
 - - - - A: Chases B, flees C
 - - - - B: Chases C, flees A
 - - - - C: Chases A, flees B
+
+In my little black book, I wrote about an idea regarding a change to the vault ability (I refer to it as "vault" in those particular pages of the book).
+The page is dog-eared.
+Specifically, it is about the idea of "Vault Anchors".
+
+I think that "step-on-interactions" (events that happens when a widget steps on another) will happen at the moment the widget steps on the other.
+For example, if several instances of the player are moving at once, and one of them steps on a coin, that coin will be counted immediately, before the remaining
+instances of the player get to move. Doing things like this will probably make things easier.
