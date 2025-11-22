@@ -80,6 +80,7 @@ bool isThereAPlayer();
 bool xCanStepOnY(char x, char y);
 int determineNumber(char);
 char getFromTheMap(int x, int y);
+char numberToChar(int n);
 string getMapString();
 vector<vector<char>> makeMapFromString(string);
 
@@ -602,14 +603,28 @@ int determineNumber(char c) {
 
 char getFromTheMap(int x, int y) {
     if (x < 0 || x >= columns) {
-        cout << "Oh no! Can't use getFromTheMap; The x-value is invalid!" << endl;
+        // cout << "Oh no! Can't use getFromTheMap; The x-value is invalid!" << endl;
         throw string("Oh no! Can't use getFromTheMap; The x-value is invalid!");
     }
     if (y < 0 || y >= rows) {
-        cout << "Oh no! Can't use getFromTheMap; The y-value is invalid!" << endl;
+        // cout << "Oh no! Can't use getFromTheMap; The y-value is invalid!" << endl;
         throw string("Oh no! Can't use getFromTheMap; The y-value is invalid!");
     }
     return theMap[y][x];
+}
+
+char numberToChar(int n) {
+    if (n == 0) {return '0';}
+    else if (n == 1) {return '1';}
+    else if (n == 2) {return '2';}
+    else if (n == 3) {return '3';}
+    else if (n == 4) {return '4';}
+    else if (n == 5) {return '5';}
+    else if (n == 6) {return '6';}
+    else if (n == 7) {return '7';}
+    else if (n == 8) {return '8';}
+    else if (n == 9) {return '9';}
+    else {return 'x';}
 }
 
 string getMapString() {
