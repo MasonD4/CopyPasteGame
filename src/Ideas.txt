@@ -35,3 +35,8 @@ Specifically, it is about the idea of "Vault Anchors".
 I think that "step-on-interactions" (events that happens when a widget steps on another) will happen at the moment the widget steps on the other.
 For example, if several instances of the player are moving at once, and one of them steps on a coin, that coin will be counted immediately, before the remaining
 instances of the player get to move. Doing things like this will probably make things easier.
+
+Counter ideas:
+// Jump/dash counter (How many times you can use the "dash"/"jump"/"shift"/"Vault" ability)
+// Enemy kill count (How many enemies you have killed)
+// Countdown (The *Final* countdown. Once this reaches 0 the player dies)
