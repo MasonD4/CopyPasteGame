@@ -294,15 +294,32 @@ Counters
 [=============================================- @ -=============================================]
 
 List of counters:
-// Jump/dash counter (How many times you can use the "dash" ability)
-// Enemy kill count (How many enemies you have killed)
-// Countdown (The *Final* countdown. Once this reaches 0 the player dies)
 // Coins
 
 It's  possible that counters conpletely require a number to be next to them in order for them
 to operate. For example, if there is a countdown counter(s), it can not kill the player unless there is
 a zero next to it and no higher number. If there is no number next to it at all, the countdown won't kill you.
 If a counter has absolutely no numbers next to it, its value is -1, not 0.
+
+There will be a function for each type of counter. The function's purpose is to scan the map (yes, the whole map),
+look for instance(s) of the counter widget in question, read the numbers that are next to the counter, and then
+update the global variable that keeps track of whatever is being counted.
+Keep in mind: This gloabl counter variable(s) will only be update via these function(s).
+If a player steps on a coin, it will not update that globalCoinCount variable, it will simply
+call the function whose job is to update the map so that a number next to a coin counter is increased
+by 1. The globalCoinCount variable does not know about this until a function scans the map, looks at
+each coin counter widget, and then sums up how many coins the player should have.
+For example, if there is no coin counter (or if the coin counter(s) don't have a number attached) then the player can
+step on as many coins as he can bring himself to. Yet, globalCoinCount will never rise above zero because
+when the function is called, it will look at the map and see no sign of the player having collected a single cent.
+In other words: The globalCoinCount variable is based off of the current state of the map, NOT actionas/events that
+occur during a widget's turn. As such, nothing in the code, except these special functions are supposed to update the
+counter variables (eg globalCoinCount) only the map itself is supposed to inform the counter, and any attempts to update
+the value of a counter variable should be done vicariously via updating the map.
+I will refer to the function as a counter-scanner. In the case of the coin counter, it will be called `scanCoinCounters()`.
+How often should scanCoinCounters() be called? At the start of every "game cycle"? At the start of each widget's turn?
+No and no, respectively.
+It will be called whenever the globalCoinCount variable is about to be read from. Same for the other counter varables.
 
 [=============================================- @ -=============================================]
 Possible Puzzles
