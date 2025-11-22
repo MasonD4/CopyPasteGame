@@ -98,7 +98,7 @@ const char NEW_ROW = ']';
 const char COIN_COUNTER = 'C';
 const char COIN = '$'; // This could be a '*' or a '$'.
 
-int coinCount = 0;
+int globalCoinCount = 0;
 vector<pair<int, int>> playerCoordinates;
 
 // Action token vectors
