@@ -335,10 +335,21 @@ it will just make it as big/small as it can.
 For example, if a number cluster consists of two number widgets, a 1 and a 7 (sum to 8), and you try to use the function to add 20
 to the cluster, then the sum would be 28. 28 is too big to fit in two numbers, so instead both number widgets
 simply become 9 (sums to 18). Similarly, if you try to subtract 12, both widgets just become 0 (sums to 0).
-After it's done, the function returns the resulting sum.
+After it's done, the function returns an int pair containing:
+- The resulting sum.
+- The amount of number widgets within the number cluster.
+- - (this will be useful in figuring out what the maximum number that the cluster
+- - can contain is. For example, if it has 4 number widgets (the most any one cluster
+- - can have), then the maximum number it can containt is 36 (9 * 4). Meanwhile,
+- - a cluster with just two available number widgets can contain a maximum number
+- - 18.
 If you simply want to read it without editing it, just pass 0 into that third parameter.
-If you want to update a counter variable, just say
-counterVarName = foo(x, y, n);
+
+I'm having second thoughts about whether or not I even want
+there to be counter variables. Seeing as every time we want to use the variable
+we would need to invole the function to uldate the variable, it might just be
+better to forgo the variable and invoke the function whenever we want to count
+something. If a variable is needed, a local one can be defined where necessary.
 
 [=============================================- @ -=============================================]
 Possible Puzzles
