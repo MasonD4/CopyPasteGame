@@ -541,7 +541,10 @@ void setCharOnTheMap(int x, int y, char newChar) {
 }
 
 void xStepsOnYInteraction(char x, char y) {
-    // TODO
+    // If a player steps on a coin.
+    if (x == PLAYER && y == COIN) {
+        // Call the function that increases the coin counter
+    }
 }
 
 // I'm leaving this commented out until I actually add hazardous widgets 
@@ -556,9 +559,10 @@ void xStepsOnYInteraction(char x, char y) {
 // }
 
 bool isPushable(char input) {
+    // Note: Air SHOULD be considered as pushable, in the sense that if something tries to "push" it,
+    // it won't encounter any resistence.
     if (input == WALL) { return false; }
     else if (input == NEW_ROW) { return false; }
-    // Note: Air SHOULD be considered as pushable
     else { return true; }
 }
 
