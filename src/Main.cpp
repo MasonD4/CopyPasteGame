@@ -78,7 +78,8 @@ bool isPushable(char);
 bool isOnMap(int x, int y);
 bool isThereAPlayer();
 bool xCanStepOnY(char x, char y);
-int clamp(int input, int upper, int lower);
+int clamp(int input);
+int clamp(int input, int lower, int upper);
 int determineNumber(char);
 char getFromTheMap(int x, int y);
 char numberToChar(int n);
@@ -592,7 +593,11 @@ bool xCanStepOnY(char x, char y) {
     return false;
 }
 
-int clamp(int input, int upper, int lower){
+int clamp(int input) {
+    //
+}
+
+int clamp(int input, int lower, int upper){
     //
 }
 
