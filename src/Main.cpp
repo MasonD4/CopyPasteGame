@@ -78,6 +78,7 @@ bool isPushable(char);
 bool isOnMap(int x, int y);
 bool isThereAPlayer();
 bool xCanStepOnY(char x, char y);
+int clamp(int input, int upper, int lower);
 int determineNumber(char);
 char getFromTheMap(int x, int y);
 char numberToChar(int n);
@@ -591,6 +592,10 @@ bool xCanStepOnY(char x, char y) {
     return false;
 }
 
+int clamp(int input, int upper, int lower){
+    //
+}
+
 int determineNumber(char c) {
     if (c == '0') {return 0;}
     else if (c == '1') {return 1;}
@@ -628,7 +633,7 @@ char numberToChar(int n) {
     else if (n == 7) {return '7';}
     else if (n == 8) {return '8';}
     else if (n == 9) {return '9';}
-    else {return 'x';}
+    else {return '-';}
 }
 
 string getMapString() {
