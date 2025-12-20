@@ -78,6 +78,7 @@ bool isPushable(char);
 bool isOnMap(int x, int y);
 bool isThereAPlayer();
 bool xCanStepOnY(char x, char y);
+int addToCounter(int n, char counterType);
 int clamp(int input);
 int clamp(int input, int lower, int upper);
 int determineNumber(char);
@@ -591,6 +592,10 @@ bool xCanStepOnY(char x, char y) {
     if (y == EMPTY_SPACE) { return true; }
     if (x == PLAYER && y == COIN) { return true; }
     return false;
+}
+
+int addToCounter(int n, char counterType) {
+    //
 }
 
 int clamp(int input) {
