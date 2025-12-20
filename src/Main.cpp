@@ -594,11 +594,17 @@ bool xCanStepOnY(char x, char y) {
 }
 
 int clamp(int input) {
-    //
+    return clamp(input, 0, 9);
 }
 
 int clamp(int input, int lower, int upper){
-    //
+    if (input < lower) {
+        return lower;
+    } else if (input > upper) {
+        return upper;
+    } else {
+        return input;
+    }
 }
 
 int determineNumber(char c) {
