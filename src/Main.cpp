@@ -60,6 +60,7 @@ struct MoveWidgetUp {
 
 // Function Prototypes
 
+void addToCounter(int n, char counterType);
 void executeMoveDownToken(MoveWidgetDown downToken);
 void executeMoveLeftToken(MoveWidgetLeft leftToken);
 void executeMoveRightToken(MoveWidgetRight rightToken);
@@ -79,7 +80,6 @@ bool isOnMap(int x, int y);
 bool isThereAPlayer();
 bool xCanStepOnY(char x, char y);
 bool isNextToChar(int x, int y, char theChar);
-int addToCounter(int n, char counterType);
 int clamp(int input);
 int clamp(int input, int lower, int upper);
 int determineNumber(char);
@@ -118,6 +118,7 @@ int columns;
 int rows;
 
 
+
 // ===================================================================================================
 // MAIN (top) 
 // ===================================================================================================
@@ -146,6 +147,21 @@ int main() {
 // MAIN (bottom) 
 // ===================================================================================================
 
+
+
+void addToCounter(int n, char counterType) {
+    // This function will deposit n into the first number widget it sees.
+    // If the first number widget can not fit n, then the function will
+    // deposit what it can and then move onto the next number.
+    // Once n has been fully deposited, the function quits. 
+    // The function will not return anything.
+    // It is basically the "setter" of the counters.
+    // there will also be a "getter" function for the counters.
+    
+    // When looping through the map, 
+    // when you check to see what the current character is,
+    // use getFromTheMap(x, y).
+}
 
 // This actually *executes* a move token (does the logic check, updates the map)
 void executeMoveDownToken(MoveWidgetDown downToken) {
@@ -596,11 +612,8 @@ bool xCanStepOnY(char x, char y) {
 }
 
 bool isNextToChar(int x, int y, char theChar) {
-    //
-}
-
-int addToCounter(int n, char counterType) {
-    //
+    // When you check to see what each character is,
+    // use getFromTheMap(x, y).
 }
 
 int clamp(int input) {
