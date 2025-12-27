@@ -75,11 +75,11 @@ void printMap();
 void setCharOnTheMap(int x, int y, char newChar);
 void xStepsOnYInteraction(char x, char y); // TODO
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
+bool isNextToChar(int x, int y, char theChar);
 bool isPushable(char);
 bool isOnMap(int x, int y);
 bool isThereAPlayer();
 bool xCanStepOnY(char x, char y);
-bool isNextToChar(int x, int y, char theChar);
 int clamp(int input);
 int clamp(int input, int lower, int upper);
 int determineNumber(char);
@@ -578,6 +578,17 @@ void xStepsOnYInteraction(char x, char y) {
 //     }
 // }
 
+bool isNextToChar(int x, int y, char theChar) {
+    // When you check to see what each character is,
+    // use getFromTheMap(x, y).
+
+    if (/*The above char matches theChar*/) { return true; }
+    if (/*To the right*/) { return true; }
+    if (/*The bottom*/) { return true; }
+    if (/*To the left*/) { return true; }
+    return false;
+}
+
 bool isPushable(char input) {
     // Note: Air SHOULD be considered as pushable, in the sense that if something tries to "push" it,
     // it won't encounter any resistence.
@@ -609,11 +620,6 @@ bool xCanStepOnY(char x, char y) {
     if (y == EMPTY_SPACE) { return true; }
     if (x == PLAYER && y == COIN) { return true; }
     return false;
-}
-
-bool isNextToChar(int x, int y, char theChar) {
-    // When you check to see what each character is,
-    // use getFromTheMap(x, y).
 }
 
 int clamp(int input) {
