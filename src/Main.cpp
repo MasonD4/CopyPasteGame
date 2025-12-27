@@ -582,6 +582,9 @@ bool isNextToChar(int x, int y, char theChar) {
     // When you check to see what each character is,
     // use getFromTheMap(x, y).
 
+    // WARNING: this function does not allow you to check if (x, y) is next to a number. 
+    // I might make another function that checks if (x, y) is next to a number.
+
     try {
         char aboveChar = getFromTheMap(x, y - 1);
         if (aboveChar == theChar) { return true; }
