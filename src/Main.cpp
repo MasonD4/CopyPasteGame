@@ -582,10 +582,23 @@ bool isNextToChar(int x, int y, char theChar) {
     // When you check to see what each character is,
     // use getFromTheMap(x, y).
 
-    if (/*The above char matches theChar*/) { return true; }
-    if (/*To the right*/) { return true; }
-    if (/*The bottom*/) { return true; }
-    if (/*To the left*/) { return true; }
+    try {
+        char aboveChar = getFromTheMap(x, y - 1);
+        if (aboveChar == theChar) { return true; }
+    } catch (...) { }
+    try {
+        char rightChar = getFromTheMap(x + 1, y);
+        if (rightChar == theChar) { return true; }
+    } catch (...) { }
+    try {
+        char belowChar = getFromTheMap(x, y + 1);
+        if (belowChar == theChar) { return true; }
+    } catch (...) { }
+    try {
+        char leftChar = getFromTheMap(x - 1, y);
+        if (leftChar == theChar) { return true; }
+    } catch (...) { }
+    
     return false;
 }
 
