@@ -161,6 +161,15 @@ void addToCounter(int n, char counterType) {
     // When looping through the map, 
     // when you check to see what the current character is,
     // use getFromTheMap(x, y).
+
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            char currentChar = getFromTheMap(x, y);
+            if (determineNumber(currentChar) != -1) {
+                //
+            }
+        }
+    }
 }
 
 // This actually *executes* a move token (does the logic check, updates the map)
