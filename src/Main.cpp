@@ -165,8 +165,8 @@ void addToCounter(int n, char counterType) {
     for (int y = 0; y < rows; y++) {
         for (int x = 0; x < columns; x++) {
             char currentChar = getFromTheMap(x, y);
-            if (determineNumber(currentChar) != -1) {
-                //
+            if (determineNumber(currentChar) != -1 && isNextToChar(x, y, counterType)) {
+                // If the current widget is a number, and it is next to the specified counter, update it.
             }
         }
     }
