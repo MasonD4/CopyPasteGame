@@ -165,10 +165,17 @@ void addToCounter(int n, char counterType) {
     for (int y = 0; y < rows; y++) {
         for (int x = 0; x < columns; x++) {
             char currentChar = getFromTheMap(x, y);
-            if (determineNumber(currentChar) != -1 && isNextToChar(x, y, counterType)) {
+            int currentNum = determineNumber(currentChar); // Returns -1 if it's not a number.
+            if (currentNum != -1 && isNextToChar(x, y, counterType) == true) {
                 // If the current widget is a number, and it is next to the specified counter, update it.
+                int newNum = clamp(currentNum + n);
+                setCharOnTheMap(x, y, numberToChar(newNum));
+                int difference = newNum - currentNum;
+                n -= difference; // Works for both positive and negative n!
             }
+            if (n == 0) { break; }
         }
+        if (n == 0) { break; }
     }
 }
 
