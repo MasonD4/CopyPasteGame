@@ -166,7 +166,7 @@ void addToCounter(int n, char counterType) {
         for (int x = 0; x < columns; x++) {
             char currentChar = getFromTheMap(x, y);
             int currentNum = determineNumber(currentChar); // Returns -1 if it's not a number.
-            
+
             // If currentChar is a number 0-9 (IE not equal to -1) AND it is right next to the specified
             // counter:
             if (currentNum != -1 && isNextToChar(x, y, counterType) == true) {
@@ -632,6 +632,7 @@ bool isPushable(char input) {
     // it won't encounter any resistence.
     if (input == WALL) { return false; }
     else if (input == NEW_ROW) { return false; }
+    else if (input == COIN_COUNTER) { return false; }
     else { return true; }
 }
 
