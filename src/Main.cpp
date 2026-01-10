@@ -219,6 +219,7 @@ void executeMoveDownToken(MoveWidgetDown downToken) {
         if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
             // Initially the above condition was `getFromTheMap(currentToken.endX, currentToken.endY) == EMPTY_SPACE`
             // I'll leave it here, commented out just in case I need it again.
+            xStepsOnYInteraction(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY));
             
             // We have reached the end of the chain, finish looping and continue with the funciton.
             break; 
@@ -288,6 +289,7 @@ void executeMoveLeftToken(MoveWidgetLeft leftToken) {
             break;
         }
         if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
+            xStepsOnYInteraction(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY));
             break; // We have reached the end of the chain, finish looping and continue with the funciton.
         }
         if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
@@ -353,6 +355,7 @@ void executeMoveRightToken(MoveWidgetRight rightToken) {
             break;
         }
         if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
+            xStepsOnYInteraction(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY));
             break; // We have reached the end of the chain, finish looping and continue with the funciton.
         }
         if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
@@ -418,6 +421,7 @@ void executeMoveUpToken(MoveWidgetUp upToken) {
             break;
         }
         if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
+            xStepsOnYInteraction(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY));
             break; // We have reached the end of the chain, finish looping and continue with the funciton.
         }
         if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
