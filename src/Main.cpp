@@ -577,9 +577,12 @@ void setCharOnTheMap(int x, int y, char newChar) {
 }
 
 void xStepsOnYInteraction(char x, char y) {
+    // NOTE: As of now, I am not planning on creating an action token when X steps on Y.
+    // Just perform the action.
+    
     // If a player steps on a coin.
     if (x == PLAYER && y == COIN) {
-        // Call the function that increases the coin counter
+        addToCounter(1, COIN_COUNTER);
     }
 }
 
