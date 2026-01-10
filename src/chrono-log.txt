@@ -450,3 +450,6 @@ Friday November 7 2025
 - - * Move as many spaces in one direction as you can before hitting a wall (ie "Slide"). 
 - - 
 - - Maybe the player can both move one space, and then also slide as many spaces as possible before hitting a wall.
+
+Friday January 2 2026
+- - We did work on the addToCounter function, it might be done now.
