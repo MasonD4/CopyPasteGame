@@ -457,3 +457,5 @@ Friday January 2 2026
 Tuesday January 20 2026
 - - The game now supports color! It makes use of rang.hpp, which can be found at:
 - - https://github.com/agauniyal/rang
+- - Initially it just printed the entire map green.
+- - Now it specifically prints the player as cyan and everything else as white.

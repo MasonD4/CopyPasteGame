@@ -127,7 +127,7 @@ int rows;
 int main() {
     // Get input from the player
     cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << COIN_COUNTER << COIN << endl;
-    cout << rang::fg::green << "Insert the map string, and then press [ENTER] Twice: \n";
+    cout << "Insert the map string, and then press [ENTER] Twice: \n";
 
     // Take the input, refine it, and then turn it into a game map.
     columns = 0;
@@ -560,7 +560,6 @@ void playerTurn() {
         vectorOfMoveWidgetRightTokens.clear();
     } else {
         cout << "Goobye Loser" << endl;
-        cout << rang::style::reset;
         exit(EXIT_SUCCESS); // This is probably temporray
     }
 }
@@ -568,10 +567,15 @@ void playerTurn() {
 void printMap() {
     for (int rowI = 0; rowI < rows; rowI++) {
         for (int columnI = 0; columnI < columns; columnI++) {
+            // Replace this if-else chain with a function call to a function that sets the color
+            // given a char. Also remove the indentation, I just put that there for this comment.
+                if (theMap[rowI][columnI] == PLAYER) { cout << rang::fg::cyan; } 
+                else { cout << rang::fg::reset; }
             cout << theMap[rowI][columnI] << " ";
         }
         cout << endl;
     }
+    cout << rang::fg::reset;
 }
 
 void setCharOnTheMap(int x, int y, char newChar) {
