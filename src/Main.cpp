@@ -9,6 +9,8 @@
 #include <vector>
 #include <string>
 #include <stack>
+#include <stdlib.h>
+#include "rang.hpp"
 using namespace std;
 
 // The Action Tokens
@@ -125,7 +127,7 @@ int rows;
 int main() {
     // Get input from the player
     cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << COIN_COUNTER << COIN << endl;
-    cout << "Insert the map string, and then press [ENTER] Twice: \n";
+    cout << rang::fg::green << "Insert the map string, and then press [ENTER] Twice: \n";
 
     // Take the input, refine it, and then turn it into a game map.
     columns = 0;
@@ -558,6 +560,7 @@ void playerTurn() {
         vectorOfMoveWidgetRightTokens.clear();
     } else {
         cout << "Goobye Loser" << endl;
+        cout << rang::style::reset;
         exit(EXIT_SUCCESS); // This is probably temporray
     }
 }
