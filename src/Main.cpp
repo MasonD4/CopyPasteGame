@@ -63,6 +63,7 @@ struct MoveWidgetUp {
 // Function Prototypes
 
 void addToCounter(int n, char counterType);
+void charToColor(char inputChar);
 void executeMoveDownToken(MoveWidgetDown downToken);
 void executeMoveLeftToken(MoveWidgetLeft leftToken);
 void executeMoveRightToken(MoveWidgetRight rightToken);
@@ -182,6 +183,12 @@ void addToCounter(int n, char counterType) {
         }
         if (n == 0) { break; }
     }
+}
+
+void charToColor(char inputChar) {
+    if (inputChar == PLAYER) { cout << rang::fg::cyan; }
+    else if (inputChar == WALL) { cout << rang::fg::red; }
+    else { cout << rang::fg::reset; }
 }
 
 // This actually *executes* a move token (does the logic check, updates the map)
@@ -567,10 +574,7 @@ void playerTurn() {
 void printMap() {
     for (int rowI = 0; rowI < rows; rowI++) {
         for (int columnI = 0; columnI < columns; columnI++) {
-            // Replace this if-else chain with a function call to a function that sets the color
-            // given a char. Also remove the indentation, I just put that there for this comment.
-                if (theMap[rowI][columnI] == PLAYER) { cout << rang::fg::cyan; } 
-                else { cout << rang::fg::reset; }
+            charToColor(theMap[rowI][columnI]);
             cout << theMap[rowI][columnI] << " ";
         }
         cout << endl;

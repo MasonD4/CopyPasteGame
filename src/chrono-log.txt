@@ -459,3 +459,12 @@ Tuesday January 20 2026
 - - https://github.com/agauniyal/rang
 - - Initially it just printed the entire map green.
 - - Now it specifically prints the player as cyan and everything else as white.
+
+Tuesday January 27 2026
+- - I created a `charToColor()` function that accepts a char and then changes the color accordingly.
+- - It works by accepting a char as an input. It then sifts through a chain of if-else statements,
+- - looking for the char that was passed in to the function. If it finds it, it changes the color
+- - using rang. Otherwise, it uses rang reest to change the color to white.
+- -
+- - The `printMap()` function calls the `charToColor()` function everytime it's about to print
+- - character. At the end of the function, it uses rang reset to reset the color of the text.
