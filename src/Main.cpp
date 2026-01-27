@@ -187,8 +187,20 @@ void addToCounter(int n, char counterType) {
 
 void charToColor(char inputChar) {
     if (inputChar == PLAYER) { cout << rang::fg::cyan; }
-    else if (inputChar == WALL) { cout << rang::fg::red; }
-    else { cout << rang::fg::reset; }
+    // else if (inputChar == WALL) { cout << rang::fg::black << rang::bgB::black; }
+    // else if (inputChar == EMPTY_SPACE) { cout << rang::fgB::black; }
+    // else { cout << rang::style::reset; } // May not be necessary, as it resets the color in printMap().
+
+// Wall: fg::black [tested]
+// Wall: bgB::black [tested]
+// Wall: fg::black, bgB::black [tested]
+// Wall: bgB::black  // Empty space: fbB::black [tested]
+// Wall: fg::black, bgB::black  // Empty space: fbB::black [tested]
+// Empty space: fgB::black [tested]
+// Empty space: fg::black [tested]
+// Wall: fgB::black, bgB::black [tested]
+// Wall: fgB::black, bgB::black  //  Empty space: fg::black [tested]
+// Player: fg::red, bg::red  //  Wall: fg::black  //  Empty space: fgB::cyan, bgB::cyan [tested]
 }
 
 // This actually *executes* a move token (does the logic check, updates the map)
@@ -576,10 +588,10 @@ void printMap() {
         for (int columnI = 0; columnI < columns; columnI++) {
             charToColor(theMap[rowI][columnI]);
             cout << theMap[rowI][columnI] << " ";
+            cout << rang::style::reset;
         }
         cout << endl;
     }
-    cout << rang::fg::reset;
 }
 
 void setCharOnTheMap(int x, int y, char newChar) {
