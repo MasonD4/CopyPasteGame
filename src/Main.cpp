@@ -69,6 +69,7 @@ void executeMoveLeftToken(MoveWidgetLeft leftToken);
 void executeMoveRightToken(MoveWidgetRight rightToken);
 void executeMoveUpToken(MoveWidgetUp upToken);
 void findPlayers();
+void itsSoOver(int status);
 void parseMoveWidgetDownVector();
 void parseMoveWidgetLeftVector();
 void parseMoveWidgetRightVector();
@@ -203,6 +204,8 @@ void charToColor(char inputChar) {
     else if (inputChar == WALL) { cout << rang::bgB::black; }
     else if (inputChar == NEW_ROW) { cout << rang::bgB::black; }
     else if (inputChar == EMPTY_SPACE) { cout << rang::fgB::black; }
+    else if (inputChar == COIN) { cout << rang::fg::yellow; }
+    else if (inputChar == COIN_COUNTER) { cout << rang::fg::black << rang::bg::yellow; }
 }
 
 // This actually *executes* a move token (does the logic check, updates the map)
@@ -494,6 +497,12 @@ void findPlayers() {
     }
 }
 
+void itsSoOver(int status) {
+    rang::setControlMode(rang::control::Auto); // These may not be necessary.
+    cout << rang::style::reset;
+    exit(status);
+}
+
 // This runs through the global `vectorOfMoveWidgetDownTokens` and executes each one via an execute function.
 void parseMoveWidgetDownVector() {
     // This for-loop runs in reverse because the widgets at the end of the list are the ones
@@ -533,7 +542,7 @@ void playerTurn() {
     findPlayers();
     if (playerCoordinates.size() == 0){
         cout << "There are no players, so the player's turn will be skipped..." << endl;
-        exit(EXIT_SUCCESS);    // This is temporary, and should generally be `return;`
+        itsSoOver(EXIT_SUCCESS);
     }
 
     cout << "It is now the player's turn.\n> ";
@@ -581,7 +590,7 @@ void playerTurn() {
         vectorOfMoveWidgetRightTokens.clear();
     } else {
         cout << "Goobye Loser" << endl;
-        exit(EXIT_SUCCESS); // This is probably temporray
+        itsSoOver(EXIT_SUCCESS);
     }
 }
 
