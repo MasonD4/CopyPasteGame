@@ -110,3 +110,6 @@ A turret.
 - - similar to a wall, it is *still* not a physical obstruction. You can shove something past it,
 - - and the turret won't care. And if you push a widget in front of the turret, blocking it's line of sight,
 - - you can walk past it! Perhaps, if I add explosives, turrets will shoot them, just for fun :)
+
+A Rook
+- - Basically a turret, but will actually move to the spot that the player is on.

@@ -100,14 +100,15 @@ vector<vector<char>> makeMapFromString(string);
 // Global Variables
 
 const int PUSH_LIMIT = 5;
-const char PLAYER = '@';
-const char EMPTY_SPACE = '-';
-const char WALL = '#';
-const char NEW_ROW = ']';
-const char COIN_COUNTER = 'C';
 const char COIN = '$'; // This could be a '*' or a '$'.
+const char COIN_COUNTER = 'C';
+const char EMPTY_SPACE = '-';
+const char NEW_ROW = ']';
+const char PLAYER = '@';
+const char ROOK = '!';
+const char WALL = '#';
 
-int globalCoinCount = 0;
+// int globalCoinCount = 0; // This may not be necessary.
 vector<pair<int, int>> playerCoordinates;
 
 // Action token vectors
