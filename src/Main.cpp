@@ -105,6 +105,7 @@ const char NEW_ROW = ']';
 const char COIN_COUNTER = 'C';
 const char COIN = '$'; // This could be a '*' or a '$'.
 
+bool colorful = false;
 int globalCoinCount = 0;
 vector<pair<int, int>> playerCoordinates;
 
@@ -128,6 +129,10 @@ int rows;
 int main() {
     // Get input from the player
     cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << COIN_COUNTER << COIN << endl;
+    cout << "Enable color? (Y = yes): ";
+    string colorfulString;
+    getline(cin, colorfulString);
+    colorful = (colorfulString == "Y" || colorfulString == "y" || colorfulString == "Yes" || colorfulString == "yes") ? true : false;
     cout << "Insert the map string, and then press [ENTER] Twice: \n";
 
     // Take the input, refine it, and then turn it into a game map.
@@ -575,7 +580,7 @@ void playerTurn() {
 void printMap() {
     for (int rowI = 0; rowI < rows; rowI++) {
         for (int columnI = 0; columnI < columns; columnI++) {
-            charToColor(theMap[rowI][columnI]);
+            if (colorful) { charToColor(theMap[rowI][columnI]); }
             cout << theMap[rowI][columnI] << " ";
             cout << rang::style::reset;
         }
