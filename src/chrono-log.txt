@@ -470,5 +470,8 @@ Tuesday January 27 2026
 - - character. At the end of the function, it uses rang reset to reset the color of the text.
 
 Saturday January 31 2026
-- - We cam up with a new widget: The rook! It will look for players that are in the same row or column as it.
-- - If it finds when, it jumps to that player's location
+- - We came up with a new widget: The rook! It will look for players that are in the same row or column as it.
+- - If it finds when, it jumps to that player's location, destroying said player.
+- - This complicates things, as it is now the first widget type to have agency. Ie, it preforms an action on
+- - its own, without being pushed by the player. This means that I now have to figure out what system to use
+- - to calculate actions being done by other widgets. Specifically, I need to figure out the order of operations.
