@@ -186,21 +186,10 @@ void addToCounter(int n, char counterType) {
 }
 
 void charToColor(char inputChar) {
-    if (inputChar == PLAYER) { cout << rang::fg::cyan; }
-    // else if (inputChar == WALL) { cout << rang::fg::black << rang::bgB::black; }
-    // else if (inputChar == EMPTY_SPACE) { cout << rang::fgB::black; }
-    // else { cout << rang::style::reset; } // May not be necessary, as it resets the color in printMap().
-
-// Wall: fg::black [tested]
-// Wall: bgB::black [tested]
-// Wall: fg::black, bgB::black [tested]
-// Wall: bgB::black  // Empty space: fbB::black [tested]
-// Wall: fg::black, bgB::black  // Empty space: fbB::black [tested]
-// Empty space: fgB::black [tested]
-// Empty space: fg::black [tested]
-// Wall: fgB::black, bgB::black [tested]
-// Wall: fgB::black, bgB::black  //  Empty space: fg::black [tested]
-// Player: fg::red, bg::red  //  Wall: fg::black  //  Empty space: fgB::cyan, bgB::cyan [tested]
+    if (inputChar == PLAYER) { cout << rang::fg::green; }
+    else if (inputChar == WALL) { cout << rang::bgB::black; }
+    else if (inputChar == NEW_ROW) { cout << rang::bgB::black; }
+    else if (inputChar == EMPTY_SPACE) { cout << rang::fgB::black; }
 }
 
 // This actually *executes* a move token (does the logic check, updates the map)
