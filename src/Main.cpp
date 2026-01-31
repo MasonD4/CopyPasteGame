@@ -76,6 +76,7 @@ void parseMoveWidgetUpVector();
 void playerTurn();
 void printMap();
 void setCharOnTheMap(int x, int y, char newChar);
+void widgetTroupe();
 void xStepsOnYInteraction(char x, char y); // TODO
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
 bool isNextToChar(int x, int y, char theChar);
@@ -105,7 +106,6 @@ const char NEW_ROW = ']';
 const char COIN_COUNTER = 'C';
 const char COIN = '$'; // This could be a '*' or a '$'.
 
-bool colorful = false;
 int globalCoinCount = 0;
 vector<pair<int, int>> playerCoordinates;
 
@@ -127,12 +127,18 @@ int rows;
 // MAIN (top) 
 // ===================================================================================================
 int main() {
+    rang::setControlMode(rang::control::Auto); // These may not be necessary.
+    cout << rang::style::reset;
+    
     // Get input from the player
-    cout << PLAYER << EMPTY_SPACE << WALL << NEW_ROW << COIN_COUNTER << COIN << endl;
     cout << "Enable color? (Y = yes): ";
-    string colorfulString;
-    getline(cin, colorfulString);
-    colorful = (colorfulString == "Y" || colorfulString == "y" || colorfulString == "Yes" || colorfulString == "yes") ? true : false;
+    string colorful;
+    getline(cin, colorful);
+    if (!(colorful == "Y" || colorful == "y" || colorful == "Yes" || colorful == "yes")) {
+        rang::setControlMode(rang::control::Off);
+    }
+    
+    widgetTroupe();
     cout << "Insert the map string, and then press [ENTER] Twice: \n";
 
     // Take the input, refine it, and then turn it into a game map.
@@ -150,6 +156,8 @@ int main() {
         playerTurn();
         printMap();
     }
+
+    // Note: typically the program never reaches this point, it exits *within* playerTurn().
 }
 // ===================================================================================================
 // MAIN (bottom) 
@@ -580,7 +588,7 @@ void playerTurn() {
 void printMap() {
     for (int rowI = 0; rowI < rows; rowI++) {
         for (int columnI = 0; columnI < columns; columnI++) {
-            if (colorful) { charToColor(theMap[rowI][columnI]); }
+            charToColor(theMap[rowI][columnI]);
             cout << theMap[rowI][columnI] << " ";
             cout << rang::style::reset;
         }
@@ -598,6 +606,28 @@ void setCharOnTheMap(int x, int y, char newChar) {
         return;
     }
     theMap[y][x] = newChar;
+}
+
+void widgetTroupe() {
+    charToColor(WALL);
+    cout << WALL;
+    cout << rang::style::reset;
+    charToColor(COIN);
+    cout << COIN;
+    cout << rang::style::reset;
+    charToColor(PLAYER);
+    cout << PLAYER;
+    cout << rang::style::reset;
+    charToColor(EMPTY_SPACE);
+    cout << EMPTY_SPACE;
+    cout << rang::style::reset;
+    charToColor(COIN_COUNTER);
+    cout << COIN_COUNTER;
+    cout << rang::style::reset;
+    charToColor(NEW_ROW);
+    cout << NEW_ROW;
+    cout << rang::style::reset;
+    cout << endl;
 }
 
 void xStepsOnYInteraction(char x, char y) {
@@ -819,3 +849,4 @@ vector<vector<char>> makeMapFromString(const string input) {
 
     return output;
 }
+
