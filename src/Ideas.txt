@@ -88,7 +88,7 @@ Counter ideas:
 - - If it succeeds, then it invokes whatever special beavior is prescribed by that if-statement.
 - - If not, it invokes the "default" behavior, which is to check if Y is pushable. If so, X shoves Y.
 - - If not, Y is unaffected.
-- - For example, perhaps there can be explaosive widgets. And when an explosive it shoved into another explosive,
+- - For example, perhaps there can be explosive widgets. And when an explosive it shoved into another explosive,
 - - KABOOM!!!
 - -
 - - Also, due to the fact that such a mechanic can lead to large chains of reaction, it might be a good
@@ -98,3 +98,15 @@ Counter ideas:
 - - they can scroll up and see each step of the process.
 - - Also, whenever it prints out the map in response to a widget shoving a widget, it should perhaps also print
 - - a little label explaining that that is the purpose of the map being printed.
+
+A turret.
+- - This one is really quite simple.
+- - It's a widget that will detect if the player is on the same row or column as it (if there are no obstructions
+- - between the two). If so, it simply deletes the player.
+- - "But Mason!" I hear you asking "isn't that functionally the same thing as a wall? Ie, a space that you just
+- - can't walk on, and therefore must go around or teleport through?" Stupid question.
+- - Yes, it can functionally act similar to a wall. However, there is one key differnce:
+- - Even if the turret's line of sight is generally just "a line of tiles that I can't walk on", and therefore
+- - similar to a wall, it is *still* not a physical obstruction. You can shove something past it,
+- - and the turret won't care. And if you push a widget in front of the turret, blocking it's line of sight,
+- - you can walk past it! Perhaps, if I add explosives, turrets will shoot them, just for fun :)
