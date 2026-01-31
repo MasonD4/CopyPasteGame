@@ -207,6 +207,7 @@ void charToColor(char inputChar) {
     else if (inputChar == EMPTY_SPACE) { cout << rang::fgB::black; }
     else if (inputChar == COIN) { cout << rang::fg::yellow; }
     else if (inputChar == COIN_COUNTER) { cout << rang::fg::black << rang::bg::yellow; }
+    else if (inputChar == ROOK) { cout << rang::fg::red; }
 }
 
 // This actually *executes* a move token (does the logic check, updates the map)
@@ -621,6 +622,9 @@ void setCharOnTheMap(int x, int y, char newChar) {
 void widgetTroupe() {
     charToColor(WALL);
     cout << WALL;
+    cout << rang::style::reset;
+    charToColor(ROOK);
+    cout << ROOK;
     cout << rang::style::reset;
     charToColor(COIN);
     cout << COIN;

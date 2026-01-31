@@ -468,3 +468,7 @@ Tuesday January 27 2026
 - -
 - - The `printMap()` function calls the `charToColor()` function everytime it's about to print
 - - character. At the end of the function, it uses rang reset to reset the color of the text.
+
+Saturday January 31 2026
+- - We cam up with a new widget: The rook! It will look for players that are in the same row or column as it.
+- - If it finds when, it jumps to that player's location

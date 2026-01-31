@@ -113,3 +113,24 @@ A turret.
 
 A Rook
 - - Basically a turret, but will actually move to the spot that the player is on.
+- - This ability will likely be called "bash".
+- - Maybe, multiple rooks can bash the same player (or rather the same location), resulting in a
+- - "dogpile" where multiple rooks attack the same spot, and only one rook survives!
+- -
+- - Also, maybe it's not such a bad thing that, hypothetically, rooks can "chain". Eg:
+- - # # # # # # ]
+- - # - - - - - ]
+- - # - - - @ - ] Lets say that the leftmost rook is targeting the rightmost rook, which itself is targeting the
+- - # - - - - - ] player. And lets say that the left one moves first.
+- - # - ! - ! - ] This results in it getting to move a second time, once the parser gets to the spot
+- - # - - - - - ] once occupied by the rightmost rook and says "Well the rook that was here wants to bash the
+- - # # # # # # ] player, and there is clearly still a rook in that spot, so it is allowed to bash the player".
+- -
+- - Then again, I actually think that I want to avoid that.
+- - Nonethless, realistically I will not make rooks target other rooks.
+- - 
+- - I may want to create a function: One that takes in a char and checks if it can be bashed.
+- - `bool canBash(char)`, perhaps. 
+- - 
+- - Also, I might want to implement a widget that acts as "bait", which, if placed in front of a rook, will
+- - trigger the rook. Maybe the bait will be a ',' or a '~' or a ':' or a '+'. Or a '*'
