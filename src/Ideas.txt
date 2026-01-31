@@ -40,3 +40,61 @@ Counter ideas:
 // Jump/dash counter (How many times you can use the "dash"/"jump"/"shift"/"Vault" ability)
 // Enemy kill count (How many enemies you have killed)
 // Countdown (The *Final* countdown. Once this reaches 0 the player dies)
+
+"Pool ball" idea:
+- - There are widgets that can be pushed. Once pushed, they will slide as far as they can before hitting an
+- - obstruction. If they hit another instance of itself (ie, another "pool ball"), that widget will also
+- - start sliding. If it hits an obstruction, and it's ending location is right next to another "pool ball",
+- - that pool ball will be repelled by the pool ball that just slid into place, and will slide in the opposite
+- - direction.
+- - Examples:
+- - - - - - - -
+@ P - - - - # - P = pool ball
+- - - - - - - -
+- -
+- - - - - - - -
+- @ - - - P # - Pool pall was just pushed into an obstruction
+- - - - - - - -
+- -
+- -
+- - - - - - - -
+@ P - - - - # -
+- - - - - P - -
+- - - - - - - -
+- - - - - # - -
+- -
+- - - - - - - -
+@ - - - - P # - The pool ball was just pushed into an obstruction.
+- - - - - - - - It landed next to another pool ball, resulting in said pool ball sliding downwards,
+- - - - - P - - Away from the initial pool ball.
+- - - - - # - -
+- -
+- -
+- - Another possiblity:
+- - Maybe there isn't a specific pool ball widget. Instead, maybe their is an ability called "shove".
+- - The shove ability works as follows: You type in the shove command, as well as a direction.
+- - Then, if there is a *pushable* widget adjacent to you in the direction specified, it will get "shoved",
+- - which will result in it sliding in the specified direction as far as it can go before hitting an obstruction.
+- - An obstruction doesn't have to be a wall or any other unpushable widget. It can be a pushable widget too.
+- - Even if a shoved widget slides into a pushable widget, the shoved widget will stop moving.
+- - Then, depending on which widgets are adjacent to it, those widgets might also get shoved away from the
+- - intially shoved widget. For example, maybe widgets can only shove like widgets. So, if an 'm'
+- - (which is a lowercase letter, ans therefore pushable) gets shoved, and it runs into another 'm',
+- - that 'm' will also get shoved. But if it runs into any other type of widget, that other widget will be
+- - unaffected.
+- - Or perhaps every widget has a specific behavior regarding how they react when shoving/getting shoved by
+- - other specifc widgets. For example, maybe there could be a function that checks what happens when X shoves Y.
+- - It will look at X and Y, and then attempts to find an if-statement that accounts for the two of them.
+- - If it succeeds, then it invokes whatever special beavior is prescribed by that if-statement.
+- - If not, it invokes the "default" behavior, which is to check if Y is pushable. If so, X shoves Y.
+- - If not, Y is unaffected.
+- - For example, perhaps there can be explaosive widgets. And when an explosive it shoved into another explosive,
+- - KABOOM!!!
+- -
+- - Also, due to the fact that such a mechanic can lead to large chains of reaction, it might be a good
+- - idea to print the map every time a shoved widget shoves another widget. It doesn't have to
+- - actually stop the game or ask for player input (and it shouldn't),
+- - it just prints them out. So perhaps, if the player wants to,
+- - they can scroll up and see each step of the process.
+- - Also, whenever it prints out the map in response to a widget shoving a widget, it should perhaps also print
+- - a little label explaining that that is the purpose of the map being printed.
