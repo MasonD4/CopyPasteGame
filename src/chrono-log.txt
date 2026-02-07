@@ -475,3 +475,43 @@ Saturday January 31 2026
 - - This complicates things, as it is now the first widget type to have agency. Ie, it preforms an action on
 - - its own, without being pushed by the player. This means that I now have to figure out what system to use
 - - to calculate actions being done by other widgets. Specifically, I need to figure out the order of operations.
+
+Saturday February 7 2026
+- - Today, while thinking of how to implement the rook, I realized that the system I thought up
+- - has a major flaw.
+- - For context, the system I am talking about is a system I devised to handle the game's
+- - "order of operations". How it works:
+- - - - * Scan through the entire map and look at each widget.
+- - - - * If that widget wants to go somewhere or do something, create an action token for it and
+- - - - - - push the token onto a vector of similar move token types.
+- - - - * Once that is done, there should now be a few vectors, each containing a set of action
+- - - - - - tokens that correspond to that vector. For example, the MoveWidgetUp vector should
+- - - - - - contain a/a few MoveWidgetUp action token(s) (assuming there are any widgets wanting to
+- - - - - - move upwards).
+- - - - * Loop through each vector, executing each action token.
+- - So what's the flaw? Well, it is possible for actions to interfere with action tokens of
+- - different types.
+- - For example, let's say that there is a widget that wants to move to the
+- - right. Let's say that there is also a rook targeting that widget. Let's say that the rook
+- - gets to bash the widget before the widget gets to move. Here's what happens:
+- - - - * The rook bashes the widget, thus destroying said widget and taking its place.
+- - - - * Now it's the widget's turn to move. However, the widget doesn't exist anymore;
+- - - - - - the rook is in its place.
+- - - - * But the move token doesn't care. It only cares about looking at the position it was
+- - - - - - told to look at, and then moving whatever is there.
+- - - - * The rook is there, so the rook moves to the right.
+- - - - * This is not something I want.
+- - 
+- - Perhaps each action token will have an "update" function that recalculates certain info.
+- - Like for example, with a move token, think of this:
+- - - - * There is a widget, and it is planning to move up, so it has a MoveWidgetUp token.
+- - - - * However, the widget gets pushed to a new spot before it can execute its move token.
+- - - - * For this reason, we want it to update its move token to reflect its new position.
+- - - - * To do this, we call that widget's move token's update function, and pass in the widget's
+- - - - - - new coordinates.
+- - - - * The function will then use those coordinates to update the move token's starting
+- - - - - - coordinates.
+- - - - * Then, it will use the updated starting coordinates to calculate the new ending coordinates.
+- - Perhaps it can also have a "destroy" function (or a destructor), in case thw widget that
+- - corresponds to that token gets destroyed.
+- - Or perhaps, instead of a destroy function, the token just gets pulled from the vector.
