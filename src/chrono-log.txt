@@ -564,3 +564,27 @@ Saturday February 7 2026
 - - But, if I want to search for an action token based on its position, I need to check that
 - - position for each action type.
 - - It may not even be a big deal, I might just be prematurely optimizing.
+- -
+- - I think that for now I actually prefer this approach:
+- - * No 2D vector, have one 1D vector for each action type.
+- - * If you want to loop through all tokens of a particular type, loop through the corresponding
+- - - - vector.
+- - * If you want to find out if a widget in a particular location has a pending token,
+- - - - unfortunately you must look at every action token vector.
+- -
+- - That approach feels really unsatisfying, because it has to search across multiple vectors, but
+- - compare it to this next alternative approach:
+- - * Just have one, 2D vector for storing tokens.
+- - * It mimics the map. 
+- - * If you want to find out if a widget in a particular location has a pending token,
+- - - - just look at that location in the 2D token vector.
+- - * If you want to loop through all tokens of a particular type, you unfortunately need to look
+- - - - at the whole 2d vector, since it's not organized by action type.
+- - 
+- - That approach feels a little nicer, but it's not. For the first approach, the worst case
+- - is that you search for something by location, in which case it has to look at each action
+- - token vector, and look at each token to see if the location matches.
+- - For the second approach, the worst case is that you want to loop through every token of a
+- - particular type, in which case you have to look at the whole map.
+- - The amount of pending action tokens will likely be far less than the amount of positions
+- - on the map.
