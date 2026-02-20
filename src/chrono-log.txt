@@ -515,3 +515,27 @@ Saturday February 7 2026
 - - Perhaps it can also have a "destroy" function (or a destructor), in case thw widget that
 - - corresponds to that token gets destroyed.
 - - Or perhaps, instead of a destroy function, the token just gets pulled from the vector.
+- - 
+- - Something to consider: Maybe action tokens only need to be updated if they get pushed or touched
+- - or otherwise interacted with by another widget.
+- - 
+- - Maybe each action token will include the coordinates belonging to the widget performing the
+- - action (I think this is already the case). And maybe let's say that the only reason why 
+- - that token would need to be updated is if the widget it belongs to:
+- - * Gets moved
+- - * Gets destroyed
+- - * Gets turned into another widget type.
+- - In other words, maybe as long as a widget doesn't get moved, destroyed, or changed, then no
+- - matter what happens around it, it should still be allowed to attempt the action it's attempting.
+- - And so, whenever a widget is performing an action that has the potential to move, destroy, or
+- - change another, it will check to see if there are any pending action tokens that belong to a
+- - widget in that location. If so, it will update that move token.
+- -
+- - For example, if a wdiget is moving up, it will check the spot above it to see if
+- - there is anything other than air up there. If so, it checks if that space corresponds to
+- - an action token. If so, and if the original widget is successfully able to move up
+- - (which results in the widget above it getting pushed), it will update the other move token.
+- -
+- - Right now, to my knowldege, there are two types of actions that a widget can perform:
+- - * Move/push
+- - * Step on another widget

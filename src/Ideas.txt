@@ -3,6 +3,7 @@ A hazard that slams downward, destroying the player if it is in its path. Perhap
 - - If there is an immovable widget right under it, it moves up one space.
 - - If there neither the spot directly above or below it is blocked, it slams upward, destroying the player if in its path.
 
+
 Two widgets that work together to create movement.
 - - A "puller" widget that moves away from/flees the "pusher" widget.
 - - A "pusher" widget that chases the "puller".
@@ -28,18 +29,22 @@ Two widgets that work together to create movement.
 - - - - B: Chases C, flees A
 - - - - C: Chases A, flees B
 
+
 In my little black book, I wrote about an idea regarding a change to the vault ability (I refer to it as "vault" in those particular pages of the book).
 The page is dog-eared.
 Specifically, it is about the idea of "Vault Anchors".
+
 
 I think that "step-on-interactions" (events that happens when a widget steps on another) will happen at the moment the widget steps on the other.
 For example, if several instances of the player are moving at once, and one of them steps on a coin, that coin will be counted immediately, before the remaining
 instances of the player get to move. Doing things like this will probably make things easier.
 
+
 Counter ideas:
 // Jump/dash counter (How many times you can use the "dash"/"jump"/"shift"/"Vault" ability)
 // Enemy kill count (How many enemies you have killed)
 // Countdown (The *Final* countdown. Once this reaches 0 the player dies)
+
 
 "Pool ball" idea:
 - - There are widgets that can be pushed. Once pushed, they will slide as far as they can before hitting an
@@ -99,6 +104,7 @@ Counter ideas:
 - - Also, whenever it prints out the map in response to a widget shoving a widget, it should perhaps also print
 - - a little label explaining that that is the purpose of the map being printed.
 
+
 A turret.
 - - This one is really quite simple.
 - - It's a widget that will detect if the player is on the same row or column as it (if there are no obstructions
@@ -110,6 +116,7 @@ A turret.
 - - similar to a wall, it is *still* not a physical obstruction. You can shove something past it,
 - - and the turret won't care. And if you push a widget in front of the turret, blocking it's line of sight,
 - - you can walk past it! Perhaps, if I add explosives, turrets will shoot them, just for fun :)
+
 
 A Rook
 - - Basically a turret, but will actually move to the spot that the player is on.
@@ -134,3 +141,69 @@ A Rook
 - - 
 - - Also, I might want to implement a widget that acts as "bait", which, if placed in front of a rook, will
 - - trigger the rook. Maybe the bait will be a ',' or a '~' or a ':' or a '+'. Or a '*'
+
+
+chronolog Feb 7 2026: Redoing the action token system.
+Saturday February 7 2026
+- - Today, while thinking of how to implement the rook, I realized that the system I thought up
+- - has a major flaw.
+- - For context, the system I am talking about is a system I devised to handle the game's
+- - "order of operations". How it works:
+- - - - * Scan through the entire map and look at each widget.
+- - - - * If that widget wants to go somewhere or do something, create an action token for it and
+- - - - - - push the token onto a vector of similar move token types.
+- - - - * Once that is done, there should now be a few vectors, each containing a set of action
+- - - - - - tokens that correspond to that vector. For example, the MoveWidgetUp vector should
+- - - - - - contain a/a few MoveWidgetUp action token(s) (assuming there are any widgets wanting to
+- - - - - - move upwards).
+- - - - * Loop through each vector, executing each action token.
+- - So what's the flaw? Well, it is possible for actions to interfere with action tokens of
+- - different types.
+- - For example, let's say that there is a widget that wants to move to the
+- - right. Let's say that there is also a rook targeting that widget. Let's say that the rook
+- - gets to bash the widget before the widget gets to move. Here's what happens:
+- - - - * The rook bashes the widget, thus destroying said widget and taking its place.
+- - - - * Now it's the widget's turn to move. However, the widget doesn't exist anymore;
+- - - - - - the rook is in its place.
+- - - - * But the move token doesn't care. It only cares about looking at the position it was
+- - - - - - told to look at, and then moving whatever is there.
+- - - - * The rook is there, so the rook moves to the right.
+- - - - * This is not something I want.
+- - 
+- - Perhaps each action token will have an "update" function that recalculates certain info.
+- - Like for example, with a move token, think of this:
+- - - - * There is a widget, and it is planning to move up, so it has a MoveWidgetUp token.
+- - - - * However, the widget gets pushed to a new spot before it can execute its move token.
+- - - - * For this reason, we want it to update its move token to reflect its new position.
+- - - - * To do this, we call that widget's move token's update function, and pass in the widget's
+- - - - - - new coordinates.
+- - - - * The function will then use those coordinates to update the move token's starting
+- - - - - - coordinates.
+- - - - * Then, it will use the updated starting coordinates to calculate the new ending coordinates.
+- - Perhaps it can also have a "destroy" function (or a destructor), in case thw widget that
+- - corresponds to that token gets destroyed.
+- - Or perhaps, instead of a destroy function, the token just gets pulled from the vector.
+- - 
+- - Something to consider: Maybe action tokens only need to be updated if they get pushed or touched
+- - or otherwise interacted with by another widget.
+- - 
+- - Maybe each action token will include the coordinates belonging to the widget performing the
+- - action (I think this is already the case). And maybe let's say that the only reason why 
+- - that token would need to be updated is if the widget it belongs to:
+- - * Gets moved
+- - * Gets destroyed
+- - * Gets turned into another widget type.
+- - In other words, maybe as long as a widget doesn't get moved, destroyed, or changed, then no
+- - matter what happens around it, it should still be allowed to attempt the action it's attempting.
+- - And so, whenever a widget is performing an action that has the potential to move, destroy, or
+- - change another, it will check to see if there are any pending action tokens that belong to a
+- - widget in that location. If so, it will update that move token.
+- -
+- - For example, if a wdiget is moving up, it will check the spot above it to see if
+- - there is anything other than air up there. If so, it checks if that space corresponds to
+- - an action token. If so, and if the original widget is successfully able to move up
+- - (which results in the widget above it getting pushed), it will update the other move token.
+- -
+- - Right now, to my knowldege, there are two types of actions that a widget can perform:
+- - * Move/push
+- - * Step on another widget
