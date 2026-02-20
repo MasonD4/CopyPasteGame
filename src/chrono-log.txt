@@ -539,3 +539,28 @@ Saturday February 7 2026
 - - Right now, to my knowldege, there are two types of actions that a widget can perform:
 - - * Move/push
 - - * Step on another widget
+- - 
+- - Maybe, instead of action tokens containing pretty much all of the information about the
+- - action being performed (eg starting AND ending positions), it only needs to contain the
+- - position of the widget performing the move. Then, once it gets to that widget, it calculates
+- - what specifically it wants to do. The benefit of this? Highlighting that action tokens
+- - are only really meant to act as bookmarks, so the game know what actions are being performed
+- - by which widgets.
+- - Also, the purpose of the action token is to act as a bookmark for an action that will be 
+- - performed, but not yet. Therefore, if the action is being performed right this section
+- - (eg, during a step-on interaction), a token is unnecessary.
+- -
+- - An issue with the idea of a widget checking to see if a particular location has an action
+- - token tied to it is that it will need to check ALL vectors of action tokens.
+- - A potential workaround: have a 2d vector that mimics the map. However, instead of containing
+- - characters, it contains action tokens. Note: this will result in each action token being
+- - stored in two places: A vector corresponding to that action type, and the vector mimicking
+- - the map.
+- - If I don't want to have to store it in two places, maybe I can combine the vectors!
+- - I can have a single 3-dimensional vector, one dimension for the action type,
+- - one for x-position, one for y-position.
+- - Actually, maybe not. If I want to search for an action token by type, that's easy:
+- - Just search all of the spots in the vector in the dimension that corresponds to that type.
+- - But, if I want to search for an action token based on its position, I need to check that
+- - position for each action type.
+- - It may not even be a big deal, I might just be prematurely optimizing.

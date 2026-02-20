@@ -207,3 +207,4 @@ Saturday February 7 2026
 - - Right now, to my knowldege, there are two types of actions that a widget can perform:
 - - * Move/push
 - - * Step on another widget
+- - * I don't know if incrementing a counter is technically an action, but maybe that.
