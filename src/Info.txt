@@ -1,4 +1,5 @@
 This is an informational text file for Copy Paste Game.
+This is in the Master branch.
 
 To get to this project in CMD: 
 cd \Users\"Mason Dunn"\eclipse-workspaceC\CopyPasteGame
