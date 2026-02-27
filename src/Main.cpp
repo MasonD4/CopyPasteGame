@@ -1,5 +1,6 @@
 /* Title: Copy Paste Game
  * File: Main.cpp
+ * Branch: Orderoo
  *
  *  Created on: Apr 4, 2025
  *      Author: Mason Dunn
@@ -60,10 +61,17 @@ struct MoveWidgetUp {
     }
 };
 
+// Widget token
+struct widgetToken {
+    char widgetType;
+    int x, y;
+};
+
 // Function Prototypes
 
 void addToCounter(int n, char counterType);
 void charToColor(char inputChar);
+void everythingElse();
 void executeMoveDownToken(MoveWidgetDown downToken);
 void executeMoveLeftToken(MoveWidgetLeft leftToken);
 void executeMoveRightToken(MoveWidgetRight rightToken);
@@ -208,6 +216,18 @@ void charToColor(char inputChar) {
     else if (inputChar == COIN) { cout << rang::fg::yellow; }
     else if (inputChar == COIN_COUNTER) { cout << rang::fg::black << rang::bg::yellow; }
     else if (inputChar == ROOK) { cout << rang::fg::red; }
+}
+
+// This is the function that allows every widget besides the player takes its turn.
+void everythingElse() {
+    vector<widgetToken> v1; // XXX Change name!
+    vector<widgetToken> v2; // XXX Change name!
+
+    // Loop through the whole map and create a widget object (perhaps "widget token") for each widget *WITH AGENCY*.
+    // Thus far, the only widget with agency is the rook (!). I may want to make a function that checks to see if a given widget has (or can have) agency, but
+    // it may not be necessary. Then again, even if the rook ends up being the only thing with agency, it might be good to have the function around.
+    // Rememebr: Just because any pushable object can "move itself" when being pushed, doesn't necessarily mean it has agency, because the action it's taking is being
+    // initiated by something else.
 }
 
 // This actually *executes* a move token (does the logic check, updates the map)
