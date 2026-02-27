@@ -88,6 +88,7 @@ void setCharOnTheMap(int x, int y, char newChar);
 void widgetTroupe();
 void xStepsOnYInteraction(char x, char y); // TODO
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
+bool hasAgency(char input);
 bool isNextToChar(int x, int y, char theChar);
 bool isPushable(char);
 bool isOnMap(int x, int y);
@@ -684,6 +685,11 @@ void xStepsOnYInteraction(char x, char y) {
 //         return false;
 //     }
 // }
+
+bool hasAgency(char widget) {
+    if (widget == ROOK) { return true; }
+    else { return false; }
+}
 
 bool isNextToChar(int x, int y, char theChar) {
     // When you check to see what each character is,
