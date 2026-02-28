@@ -588,3 +588,11 @@ Saturday February 7 2026
 - - particular type, in which case you have to look at the whole map.
 - - The amount of pending action tokens will likely be far less than the amount of positions
 - - on the map.
+
+Saturday February 28 2026
+- - Kyle and I worked on the everythingElse() function. Also, right now, the v1 and v2 arrays
+- - each hold pointers that point towards dynamically allocated widgetTokens.
+- - So, naturally, I have to deallocate them. However, while searching up how to do this, I found
+- - out that a lot of people actually discourage the use of "raw" pointers for dynamic
+- - memory. Instead, a lot of people recommend `std::unique_ptr`. I think I'll hop on
+- - the bandwagon. 
