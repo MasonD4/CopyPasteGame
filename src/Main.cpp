@@ -165,6 +165,7 @@ int main() {
 
     while (true) {
         playerTurn();
+        everythingElse();
         printMap();
     }
 
@@ -221,14 +222,38 @@ void charToColor(char inputChar) {
 
 // This is the function that allows every widget besides the player takes its turn.
 void everythingElse() {
-    vector<widgetToken> v1; // XXX Change name!
-    vector<widgetToken> v2; // XXX Change name!
+    vector<widgetToken*> v1; // XXX Change name!
+    vector<widgetToken*> v2; // XXX Change name!
 
     // Loop through the whole map and create a widget object (perhaps "widget token") for each widget *WITH AGENCY*.
     // Thus far, the only widget with agency is the rook (!). I may want to make a function that checks to see if a given widget has (or can have) agency, but
     // it may not be necessary. Then again, even if the rook ends up being the only thing with agency, it might be good to have the function around.
-    // Rememebr: Just because any pushable object can "move itself" when being pushed, doesn't necessarily mean it has agency, because the action it's taking is being
+    // Remember: Just because any pushable object can "move itself" when being pushed, doesn't necessarily mean it has agency, because the action it's taking is being
     // initiated by something else.
+    for (int y = 0; y < theMap.size(); y++) {
+        for (int x = 0; x < theMap.at(y).size(); x++) {
+            // Check to see if the current widget has (firsthand) agency
+            char currentWidget = getFromTheMap(x, y);
+            if (hasAgency(currentWidget)) {
+                cout << currentWidget << ", (" << x << ", " << y << ")." << endl;
+                v1.push_back(new widgetToken());
+                v1.at(v1.size() - 1)->widgetType = currentWidget;
+                v1.at(v1.size() - 1)->x = x;
+                v1.at(v1.size() - 1)->y = y;
+            }
+        }
+    }
+    
+    for (widgetToken * currentToken : v1) {
+        cout << "{ Type: " << currentToken->widgetType << " }" << endl;
+        cout << "{ Location: (" << currentToken->x << ", " << currentToken->y << ") }" << endl;
+        cout << endl;
+    }
+
+    while (v1.size() > 0) {
+        delete v1.at(0);
+        v1.erase(v1.begin());
+    }
 }
 
 // This actually *executes* a move token (does the logic check, updates the map)
