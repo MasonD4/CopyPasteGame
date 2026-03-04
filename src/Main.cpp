@@ -11,6 +11,7 @@
 #include <string>
 #include <stack>
 #include <stdlib.h>
+#include <memory>
 #include "rang.hpp"
 using namespace std;
 
