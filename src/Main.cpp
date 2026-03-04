@@ -223,8 +223,12 @@ void charToColor(char inputChar) {
 
 // This is the function that allows every widget besides the player takes its turn.
 void everythingElse() {
-    vector<widgetToken*> v1; // XXX Change name!
-    vector<widgetToken*> v2; // XXX Change name!
+    // Right now I am playing with unique pointers, because I want to dynamically allocate memory, and I heard thatg unique pointers are far better than
+    // raw pointers in that regard. But, I don't think I am doing it right (I am referring to lines 230 and 231, where v1 and v2 are defined, not the 
+    // entire function, which is unfinished and hasn't been integrated with the unique pointers yet).
+    // Do I even need to dynamically allocate memory? Maybe I'm overthinking it. Maybe the vector will handle that.
+    vector<unique_ptr<widgetToken>> v1; // XXX Change name!
+    vector<unique_ptr<widgetToken>> v2; // XXX Change name!
 
     // Loop through the whole map and create a widget object (perhaps "widget token") for each widget *WITH AGENCY*.
     // Thus far, the only widget with agency is the rook (!). I may want to make a function that checks to see if a given widget has (or can have) agency, but
