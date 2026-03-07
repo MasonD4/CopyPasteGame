@@ -66,6 +66,13 @@ struct MoveWidgetUp {
 struct widgetToken {
     char widgetType;
     int x, y;
+
+    widgetToken()
+        : widgetType('-'), x(0), y(0) {
+    }
+    widgetToken(char widgetTypeA, int xA, int yA)
+        : widgetType(widgetTypeA), x(xA), y(yA) {
+    }
 };
 
 // Function Prototypes
@@ -227,37 +234,30 @@ void everythingElse() {
     // raw pointers in that regard. But, I don't think I am doing it right (I am referring to lines 230 and 231, where v1 and v2 are defined, not the 
     // entire function, which is unfinished and hasn't been integrated with the unique pointers yet).
     // Do I even need to dynamically allocate memory? Maybe I'm overthinking it. Maybe the vector will handle that.
-    vector<unique_ptr<widgetToken>> v1; // XXX Change name!
-    vector<unique_ptr<widgetToken>> v2; // XXX Change name!
-
+    vector<widgetToken> v1; // XXX Change name!
+    vector<widgetToken> v2; // XXX Change name!
+    
     // Loop through the whole map and create a widget object (perhaps "widget token") for each widget *WITH AGENCY*.
     // Thus far, the only widget with agency is the rook (!). I may want to make a function that checks to see if a given widget has (or can have) agency, but
     // it may not be necessary. Then again, even if the rook ends up being the only thing with agency, it might be good to have the function around.
     // Remember: Just because any pushable object can "move itself" when being pushed, doesn't necessarily mean it has agency, because the action it's taking is being
     // initiated by something else.
+    // int currentV1Index = 0;
     for (int y = 0; y < theMap.size(); y++) {
         for (int x = 0; x < theMap.at(y).size(); x++) {
             // Check to see if the current widget has (firsthand) agency
             char currentWidget = getFromTheMap(x, y);
             if (hasAgency(currentWidget)) {
                 cout << currentWidget << ", (" << x << ", " << y << ")." << endl;
-                v1.push_back(new widgetToken());
-                v1.at(v1.size() - 1)->widgetType = currentWidget;
-                v1.at(v1.size() - 1)->x = x;
-                v1.at(v1.size() - 1)->y = y;
+                v1.emplace_back(currentWidget, x, y);
             }
         }
     }
     
-    for (widgetToken * currentToken : v1) {
-        cout << "{ Type: " << currentToken->widgetType << " }" << endl;
-        cout << "{ Location: (" << currentToken->x << ", " << currentToken->y << ") }" << endl;
+    for (const widgetToken& currentToken : v1) {
+        cout << "{ Type: " << currentToken.widgetType << " }" << endl;
+        cout << "{ Location: (" << currentToken.x << ", " << currentToken.y << ") }" << endl;
         cout << endl;
-    }
-
-    while (v1.size() > 0) {
-        delete v1.at(0);
-        v1.erase(v1.begin());
     }
 }
 
