@@ -109,6 +109,7 @@ char getFromTheMap(int x, int y);
 char numberToChar(int n);
 string getMapString();
 vector<vector<char>> makeMapFromString(string);
+vector<widgetToken> gatherAgents();
 
 // I should probably make a function(s) that increments or decrements counters (or at least checks if they can)
 // Maybe I should make one function for each counter, and the input of the function can be the number that I
@@ -234,25 +235,10 @@ void everythingElse() {
     // raw pointers in that regard. But, I don't think I am doing it right (I am referring to lines 230 and 231, where v1 and v2 are defined, not the 
     // entire function, which is unfinished and hasn't been integrated with the unique pointers yet).
     // Do I even need to dynamically allocate memory? Maybe I'm overthinking it. Maybe the vector will handle that.
-    vector<widgetToken> agents; // XXX Change name!
+    vector<widgetToken> agents;
     vector<widgetToken> v2; // XXX Change name!
     
-    // Loop through the whole map and create a widget object (perhaps "widget token") for each widget *WITH AGENCY*.
-    // Thus far, the only widget with agency is the rook (!). I may want to make a function that checks to see if a given widget has (or can have) agency, but
-    // it may not be necessary. Then again, even if the rook ends up being the only thing with agency, it might be good to have the function around.
-    // Remember: Just because any pushable object can "move itself" when being pushed, doesn't necessarily mean it has agency, because the action it's taking is being
-    // initiated by something else.
-    // int currentV1Index = 0;
-    for (int y = 0; y < theMap.size(); y++) {
-        for (int x = 0; x < theMap.at(y).size(); x++) {
-            // Check to see if the current widget has (firsthand) agency
-            char currentWidget = getFromTheMap(x, y);
-            if (hasAgency(currentWidget)) {
-                cout << currentWidget << ", (" << x << ", " << y << ")." << endl;
-                agents.emplace_back(currentWidget, x, y);
-            }
-        }
-    }
+    agents = gatherAgents();
     
     for (const widgetToken& currentToken : agents) {
         cout << "{ Type: " << currentToken.widgetType << " }" << endl;
@@ -920,3 +906,26 @@ vector<vector<char>> makeMapFromString(const string input) {
     return output;
 }
 
+// It's called "getherAgents" because it creates a vector of widget tokens, and each token
+// corresponds to a widget with agency (the ability to act on its own).
+vector<widgetToken> gatherAgents() {
+    // Loop through the whole map and create a widget token for each widget *WITH AGENCY*.
+    // Thus far, the only widget with agency is the rook (!).
+    // Remember: Just because any pushable object can "move itself" when being pushed, doesn't necessarily mean it
+    // has agency. The action it's taking is being initiated by something else.
+
+    vector<widgetToken> agents;
+
+    for (int y = 0; y < theMap.size(); y++) {
+        for (int x = 0; x < theMap.at(y).size(); x++) {
+            // Check to see if the current widget has (firsthand) agency
+            char currentWidget = getFromTheMap(x, y);
+            if (hasAgency(currentWidget)) {
+                // cout << currentWidget << ", (" << x << ", " << y << ")." << endl;
+                agents.emplace_back(currentWidget, x, y);
+            }
+        }
+    }
+
+    return agents;
+}
