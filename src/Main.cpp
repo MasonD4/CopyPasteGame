@@ -234,7 +234,7 @@ void everythingElse() {
     // raw pointers in that regard. But, I don't think I am doing it right (I am referring to lines 230 and 231, where v1 and v2 are defined, not the 
     // entire function, which is unfinished and hasn't been integrated with the unique pointers yet).
     // Do I even need to dynamically allocate memory? Maybe I'm overthinking it. Maybe the vector will handle that.
-    vector<widgetToken> v1; // XXX Change name!
+    vector<widgetToken> agents; // XXX Change name!
     vector<widgetToken> v2; // XXX Change name!
     
     // Loop through the whole map and create a widget object (perhaps "widget token") for each widget *WITH AGENCY*.
@@ -249,12 +249,12 @@ void everythingElse() {
             char currentWidget = getFromTheMap(x, y);
             if (hasAgency(currentWidget)) {
                 cout << currentWidget << ", (" << x << ", " << y << ")." << endl;
-                v1.emplace_back(currentWidget, x, y);
+                agents.emplace_back(currentWidget, x, y);
             }
         }
     }
     
-    for (const widgetToken& currentToken : v1) {
+    for (const widgetToken& currentToken : agents) {
         cout << "{ Type: " << currentToken.widgetType << " }" << endl;
         cout << "{ Location: (" << currentToken.x << ", " << currentToken.y << ") }" << endl;
         cout << endl;
