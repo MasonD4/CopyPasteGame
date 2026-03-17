@@ -596,3 +596,11 @@ Saturday February 28 2026
 - - out that a lot of people actually discourage the use of "raw" pointers for dynamic
 - - memory. Instead, a lot of people recommend `std::unique_ptr`. I think I'll hop on
 - - the bandwagon. 
+
+Saturday March 7 2026
+- - Nvm. Dynamic memory allocation just flat out isn't necessary
+
+Saturday March 14 2026
+- - Added a new function called `gatherAgents()`. It just populates the vector `v1`,
+- - which was renamed to `agents` in the previous commit.
+- - It's purpose is pretty much just to make `everythingElse()` leaner.
