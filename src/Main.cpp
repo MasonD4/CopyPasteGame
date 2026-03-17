@@ -236,9 +236,14 @@ void everythingElse() {
     // entire function, which is unfinished and hasn't been integrated with the unique pointers yet).
     // Do I even need to dynamically allocate memory? Maybe I'm overthinking it. Maybe the vector will handle that.
     vector<widgetToken> agents;
-    vector<widgetToken> v2; // XXX Change name!
+    vector<widgetToken> imminentActors;
     
     agents = gatherAgents();
+
+    // Loop through agents, and find any agents who intend to perform a bash this turn.
+    for (int i = 0; i < agents.size(); i++) {
+        // if (agents.at(i).widgetType == ROOK) 
+    }
     
     for (const widgetToken& currentToken : agents) {
         cout << "{ Type: " << currentToken.widgetType << " }" << endl;
