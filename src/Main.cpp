@@ -97,6 +97,7 @@ void widgetTroupe();
 void xStepsOnYInteraction(char x, char y); // TODO
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
 bool hasAgency(char input);
+bool intendToBash(int x, int y);
 bool isNextToChar(int x, int y, char theChar);
 bool isPushable(char);
 bool isOnMap(int x, int y);
@@ -710,6 +711,10 @@ void xStepsOnYInteraction(char x, char y) {
 bool hasAgency(char widget) {
     if (widget == ROOK) { return true; }
     else { return false; }
+}
+
+bool intendToBash(int x, int y) {
+    //
 }
 
 bool isNextToChar(int x, int y, char theChar) {
