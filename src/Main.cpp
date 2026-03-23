@@ -96,6 +96,8 @@ void setCharOnTheMap(int x, int y, char newChar);
 void widgetTroupe();
 void xStepsOnYInteraction(char x, char y); // TODO
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
+bool canBash(char input);
+bool canBeBashed(char input);
 bool hasAgency(char input);
 bool intendToBash(int x, int y);
 bool isNextToChar(int x, int y, char theChar);
@@ -119,6 +121,7 @@ vector<widgetToken> gatherAgents();
 // Global Variables
 
 const int PUSH_LIMIT = 5;
+const int BASH_RANGE = 10;
 const char COIN = '$'; // This could be a '*' or a '$'.
 const char COIN_COUNTER = 'C';
 const char EMPTY_SPACE = '-';
@@ -144,9 +147,8 @@ int rows;
 
 
 
-// ===================================================================================================
-// MAIN (top) 
-// ===================================================================================================
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////// MAIN /////////////////////////////////////////////////////
 int main() {
     rang::setControlMode(rang::control::Auto); // These may not be necessary.
     cout << rang::style::reset;
@@ -181,9 +183,7 @@ int main() {
 
     // Note: typically the program never reaches this point, it exits *within* playerTurn().
 }
-// ===================================================================================================
-// MAIN (bottom) 
-// ===================================================================================================
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -708,13 +708,33 @@ void xStepsOnYInteraction(char x, char y) {
 //     }
 // }
 
+// Checks if a widget can perform the bash action.
+bool canBash(char input) {
+    if (input == ROOK) { return true; }
+    else { return false; }
+}
+
+// Checks if a widget can be bashed.
+bool canBeBashed(char input) {
+    if (input == PLAYER) { return true; }
+    else { return false; }
+}
+
 bool hasAgency(char widget) {
     if (widget == ROOK) { return true; }
     else { return false; }
 }
 
+// Checks if a widget can bash, and if so, if there are any bashable widgets within it's line of sight.
+// If so, it returns true.
+// Note: this function doesn't care if the widget can potentially perform actions other than bash.
+// If it can bash, and there is a bashable target available, this function returns true.
+//////////////////////////////////////////////////~ & ~//////////////////////////////////////////////////
+// ALSO, this function may not even be needed. In the everythingElse() function, when it is checking to see
+// which widgets to add to v2, simply checking if a widget CAN perform a bash may be enough to add it to v2.
 bool intendToBash(int x, int y) {
-    //
+    if ( !canBash(getFromTheMap(x, y)) ) { return false; }
+    // This function is incomplete. Add to it...
 }
 
 bool isNextToChar(int x, int y, char theChar) {
