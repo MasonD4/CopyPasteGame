@@ -79,6 +79,7 @@ struct widgetToken {
 
 void addToCounter(int n, char counterType);
 void charToColor(char inputChar);
+void EEBash(vector<widgetToken>& agents);
 void everythingElse();
 void executeMoveDownToken(MoveWidgetDown downToken);
 void executeMoveLeftToken(MoveWidgetLeft leftToken);
@@ -99,7 +100,6 @@ void xStepsOnYInteraction(char x, char y); // TODO
 bool canBash(char input);
 bool canBeBashed(char input);
 bool hasAgency(char input);
-bool intendToBash(int x, int y);
 bool isNextToChar(int x, int y, char theChar);
 bool isPushable(char);
 bool isOnMap(int x, int y);
@@ -230,21 +230,60 @@ void charToColor(char inputChar) {
     else if (inputChar == ROOK) { cout << rang::fg::red; }
 }
 
+// The "EE" in "EEBash" stand for "Everything Else". It's basically an aux function for everythingElse().
+// Purpose: Looke through the `agents` vector and find any widgets capable of bashing.
+// Note: This function is making the assumption that if it CAN bash, it WANTS to.
+void EEBash(vector<widgetToken>& agents) {
+    vector<widgetToken> willBash;
+    // Find all of the widgets (if any) in agents that are capable of bashing. Put them in willBash. Remove them from agents.
+    for (int i = 0; i < agents.size(); i++) {
+        if ( canBash(agents.at(i)) ) {
+            willBash.push_back(agents.at(i));
+            agents.erase(agents.begin() + i);
+        }
+    }
+    for (int i = 0; i < willBash.size(); i++) {
+        const widgetToken currentWidget = willBash.at(i); // I made it const to remind myself it isn't necessary or helpful to edit currentWidget.
+        // Check 10 spaces above the currentWidget 
+        // (remember: moving up decreases y, counterintuitively)
+        for (int yPos = -1; yPos >= -1 * BASH_RANGE; yPos--) {
+            if (yPos + currentWidget.y < 0) { break; }
+            else if (getFromTheMap(currentWidget.x, currentWidget.y + yPos) == EMPTY_SPACE) { continue; }
+            else if ( canBeBashed(getFromTheMap(currentWidget.x, currentWidget.y + yPos)) ) { /*  Perform the bash */ }
+            else { break; }
+        }
+        // Check 10 spaces below the currentWidget
+        for (int yPos = 1; yPos <= BASH_RANGE; yPos++) {
+            if (yPos + currentWidget.y >= rows) { break; }
+            else if (getFromTheMap(currentWidget.x, currentWidget.y + yPos) == EMPTY_SPACE) { continue; }
+            else if ( canBeBashed(getFromTheMap(currentWidget.x, currentWidget.y + yPos)) ) { /*  Perform the bash */ }
+            else { break; }
+        }
+        // Check 10 spaces to the right of the currentWidget
+        for (int xPos = 1; xPos <= BASH_RANGE; xPos++) {
+            if (xPos + currentWidget.x >= columns) { break; }
+            else if (getFromTheMap(currentWidget.x + xPos, currentWidget.y) == EMPTY_SPACE) { continue; }
+            else if ( canBeBashed(getFromTheMap(currentWidget.x + xPos, currentWidget.y)) ) { /*  Perform the bash */ }
+            else { break; }
+        }
+        // Check 10 spaces to the left of the currentWidget
+        for (int xPos = -1; xPos >= -1 * BASH_RANGE; xPos--) {
+            if (xPos + currentWidget.x < 0) { break; }
+            else if (getFromTheMap(currentWidget.x + xPos, currentWidget.y) == EMPTY_SPACE) { continue; }
+            else if ( canBeBashed(getFromTheMap(currentWidget.x + xPos, currentWidget.y)) ) { /*  Perform the bash */ }
+            else { break; }
+        }
+    }
+}
+
 // This is the function that allows every widget besides the player takes its turn.
 void everythingElse() {
-    // Right now I am playing with unique pointers, because I want to dynamically allocate memory, and I heard thatg unique pointers are far better than
-    // raw pointers in that regard. But, I don't think I am doing it right (I am referring to lines 230 and 231, where v1 and v2 are defined, not the 
-    // entire function, which is unfinished and hasn't been integrated with the unique pointers yet).
-    // Do I even need to dynamically allocate memory? Maybe I'm overthinking it. Maybe the vector will handle that.
     vector<widgetToken> agents;
-    vector<widgetToken> imminentActors;
     
     agents = gatherAgents();
 
     // Loop through agents, and find any agents who intend to perform a bash this turn.
-    for (int i = 0; i < agents.size(); i++) {
-        // if (agents.at(i).widgetType == ROOK) 
-    }
+    EEBash(agents);
     
     for (const widgetToken& currentToken : agents) {
         cout << "{ Type: " << currentToken.widgetType << " }" << endl;
