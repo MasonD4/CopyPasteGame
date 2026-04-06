@@ -725,18 +725,6 @@ bool hasAgency(char widget) {
     else { return false; }
 }
 
-// Checks if a widget can bash, and if so, if there are any bashable widgets within it's line of sight.
-// If so, it returns true.
-// Note: this function doesn't care if the widget can potentially perform actions other than bash.
-// If it can bash, and there is a bashable target available, this function returns true.
-//////////////////////////////////////////////////~ & ~//////////////////////////////////////////////////
-// ALSO, this function may not even be needed. In the everythingElse() function, when it is checking to see
-// which widgets to add to v2, simply checking if a widget CAN perform a bash may be enough to add it to v2.
-bool intendToBash(int x, int y) {
-    if ( !canBash(getFromTheMap(x, y)) ) { return false; }
-    // This function is incomplete. Add to it...
-}
-
 bool isNextToChar(int x, int y, char theChar) {
     // When you check to see what each character is,
     // use getFromTheMap(x, y).
