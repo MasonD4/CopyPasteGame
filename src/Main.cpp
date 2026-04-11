@@ -241,9 +241,11 @@ void everythingElse() {
     
     agents = gatherAgents();
 
-    // Loop through agents, and find any agents who intend to perform a bash this turn.
+    // Loop through agents, and find any agents who can perform a bash.
     for (int i = 0; i < agents.size(); i++) {
-        // if (agents.at(i).widgetType == ROOK) 
+        if ( canBash(agents.at(i).widgetType) ) {
+            imminentActors.push_back(agents.at(i));
+        }
     }
     
     for (const widgetToken& currentToken : agents) {
