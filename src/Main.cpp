@@ -75,6 +75,13 @@ struct widgetToken {
     }
 };
 
+enum class Direction {
+    UP,
+    DOWN,
+    RIGHT,
+    LEFT
+};
+
 // Function Prototypes
 
 void addToCounter(int n, char counterType);
