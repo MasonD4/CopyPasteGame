@@ -230,55 +230,10 @@ void charToColor(char inputChar) {
     else if (inputChar == ROOK) { cout << rang::fg::red; }
 }
 
-// The "EE" in "EEBash" stand for "Everything Else". It's basically an aux function for everythingElse().
-// Purpose: Looke through the `agents` vector and find any widgets capable of bashing.
-// Note: This function is making the assumption that if it CAN bash, it WANTS to.
-void EEBash(vector<widgetToken>& agents) {
-    vector<widgetToken> willBash;
-    // Find all of the widgets (if any) in agents that are capable of bashing. Put them in willBash. Remove them from agents.
-    for (int i = 0; i < agents.size(); i++) {
-        if ( canBash(agents.at(i)) ) {
-            willBash.push_back(agents.at(i));
-            agents.erase(agents.begin() + i);
-        }
-    }
-    for (int i = 0; i < willBash.size(); i++) {
-        const widgetToken currentWidget = willBash.at(i); // I made it const to remind myself it isn't necessary or helpful to edit currentWidget.
-        // Check 10 spaces above the currentWidget 
-        // (remember: moving up decreases y, counterintuitively)
-        for (int yPos = -1; yPos >= -1 * BASH_RANGE; yPos--) {
-            if (yPos + currentWidget.y < 0) { break; }
-            else if (getFromTheMap(currentWidget.x, currentWidget.y + yPos) == EMPTY_SPACE) { continue; }
-            else if ( canBeBashed(getFromTheMap(currentWidget.x, currentWidget.y + yPos)) ) { /*  Perform the bash */ }
-            else { break; }
-        }
-        // Check 10 spaces below the currentWidget
-        for (int yPos = 1; yPos <= BASH_RANGE; yPos++) {
-            if (yPos + currentWidget.y >= rows) { break; }
-            else if (getFromTheMap(currentWidget.x, currentWidget.y + yPos) == EMPTY_SPACE) { continue; }
-            else if ( canBeBashed(getFromTheMap(currentWidget.x, currentWidget.y + yPos)) ) { /*  Perform the bash */ }
-            else { break; }
-        }
-        // Check 10 spaces to the right of the currentWidget
-        for (int xPos = 1; xPos <= BASH_RANGE; xPos++) {
-            if (xPos + currentWidget.x >= columns) { break; }
-            else if (getFromTheMap(currentWidget.x + xPos, currentWidget.y) == EMPTY_SPACE) { continue; }
-            else if ( canBeBashed(getFromTheMap(currentWidget.x + xPos, currentWidget.y)) ) { /*  Perform the bash */ }
-            else { break; }
-        }
-        // Check 10 spaces to the left of the currentWidget
-        for (int xPos = -1; xPos >= -1 * BASH_RANGE; xPos--) {
-            if (xPos + currentWidget.x < 0) { break; }
-            else if (getFromTheMap(currentWidget.x + xPos, currentWidget.y) == EMPTY_SPACE) { continue; }
-            else if ( canBeBashed(getFromTheMap(currentWidget.x + xPos, currentWidget.y)) ) { /*  Perform the bash */ }
-            else { break; }
-        }
-    }
-}
-
 // This is the function that allows every widget besides the player takes its turn.
 void everythingElse() {
     vector<widgetToken> agents;
+    vector<widgetToken> imminentActors;
     
     agents = gatherAgents();
 
