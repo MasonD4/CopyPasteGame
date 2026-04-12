@@ -1,3 +1,55 @@
+The movement system
+- - Right now I'm thinking that the movement system (for moving pieces one space orthogonally)
+- - should be simpler than I'm making it. Here is how I think it can cleanly go:
+- - - - You have a list of all of the widgets moving in a particular direction.
+- - - - You have a function that parses through this list in whichever order it needs to.
+- - - - - - This function will look at each widget/widget token/action token and plug it into
+- - - - - - A function called `attemptMove()`, which takes in a widget token and a direction.
+- - - - attemptMove()'s job is to simply check if a move is possible. If so, it calls another function,
+- - - - - - `performMove()`. Here is how attemptMove() roughly works:
+- - - - - - It checks if the current widget can move, if its position is valid, and other such stuff.
+- - - - - - Then, it checks if the ending position is on the map. If so,
+- - - - - - It checks if the widget in the ending position is air or can be stepped on. If so,
+- - - - - - - - it calls performMove(), and passes in the action token and the direction.
+- - - - - - If not, it checks if the widget in the ending position can be pushed. If so,
+- - - - - - - - it calls another function, `attemptPush()` on that pushable widget. attemptPush()
+- - - - - - - - is just like attemptMove(), except it has an extra integer parament used to ensure
+- - - - - - - - the push limit isn't exceeded.
+- - - - - - After calling attemptPush(), it checks if the ending position can be moved to now.
+- - - - - - - - If so, it calls performMove().
+- - - - - - - - If not, it checks any other conditions, if necessary. If they all fail, then the ending
+- - - - - - - - position is either invalid or obstructed by something immovable. 
+- - performMove() would be really simple:
+- - - - It checks the direction and changes one of the spaces adjacent to the moving widget to
+- - - - that widget. Then, it turns the widget in the original space to air.
+- - - - Then, it calls xStepsOnYInteraction(), or whatever that's called.
+- - 
+- - The reason I thought of it is because I think bash will follow a similar pattern.
+- - You call `` on whichever widgets you need to.
+- - Within attemptBash(), it checks if there is a valid wdget to bash. If so, it calls
+- - `` (which pretty much replaces the bashing widget with air and the bashed widget
+- - with the bashing widget). If not, it simply calls off the bash. 
+- - Note: if I decide that I want the bash action to be seperated based on direction, then the
+- - direction of the bash should be chosen earlier in the pipeline than attemptBash(). this is because
+- - attemptBash() assumes the specifics of the bash have already been figured out. It's only job is
+- - to check if that specific bash is possible. If so, it calls performBash() and passes in
+- - the token or whatever. If not, it simply quits.
+- - It's possible that attemptBash() and attemptMove() will return a bool, in order to directly
+- - report whether or not it was successful.
+- -
+- - Basically, actions such as move and bash should follow a clean and modular pipeline.
+- - (using the move action as an example):
+- - * The first step(s) of the pipeline, whatever they may be, aim to figure out:
+- - - - * What's moving (if there are multiple widgets moving, it picks an order and sends them
+- - - - - - through the pipeline one-by-one).
+- - - - * Where it's moving from.
+- - - - * What location/direction it's moving to.
+- - * The next step is to call attemptMove(). It assumes that the details of the move have been
+- - - - figured out. It's job is to find out if, given the details, that move can be executed. 
+- - * The last step is to call performMove(). performMove() doesn't ask questions. It assumes that
+- - - - the details are correct and the move is valid. It's job is to actually edit the map so as to
+- - - - fulfill the move (and call xStepsOnYInteraction()). It should be just a few lines of code.
+
 A hazard that slams downward, destroying the player if it is in its path. Perhaps its "AI" will work like this:
 - - If there is an immovable widget right above it, it slams down.
 - - If there is an immovable widget right under it, it moves up one space.
