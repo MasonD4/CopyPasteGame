@@ -15,53 +15,6 @@
 #include "rang.hpp"
 using namespace std;
 
-// The Action Tokens
-
-// Action token: Move widget down
-struct MoveWidgetDown {
-    char widgetType;
-    int startX, startY, endX, endY;
-    bool stillValid;
-    MoveWidgetDown(char wT, int x, int y, bool sV) :
-    widgetType(wT), startX(x), startY(y), endX(x), endY(y + 1), stillValid(sV) {}
-    void print() {
-        cout << "MoveWidgetDown{'" << widgetType << "', (" << startX << ", " << startY << "), (" << endX << ", " << endY << "), " << stillValid << "}" << endl;
-    }
-};
-// Action token: Move widget left
-struct MoveWidgetLeft {
-    char widgetType;
-    int startX, startY, endX, endY;
-    bool stillValid;
-    MoveWidgetLeft(char wT, int x, int y, bool sV) :
-    widgetType(wT), startX(x), startY(y), endX(x - 1), endY(y), stillValid(sV) {}
-    void print() {
-        cout << "MoveWidgetLeft{'" << widgetType << "', (" << startX << ", " << startY << "), (" << endX << ", " << endY << "), " << stillValid << "}" << endl;
-    }
-};
-// Action token: Move widget right
-struct MoveWidgetRight {
-    char widgetType;
-    int startX, startY, endX, endY;
-    bool stillValid;
-    MoveWidgetRight(char wT, int x, int y, bool sV) :
-    widgetType(wT), startX(x), startY(y), endX(x + 1), endY(y), stillValid(sV) {}
-    void print() {
-        cout << "MoveWidgetRight{'" << widgetType << "', (" << startX << ", " << startY << "), (" << endX << ", " << endY << "), " << stillValid << "}" << endl;
-    }
-};
-// Action token: Move widget up
-struct MoveWidgetUp {
-    char widgetType;
-    int startX, startY, endX, endY;
-    bool stillValid;
-    MoveWidgetUp(char wT, int x, int y, bool sV) :
-    widgetType(wT), startX(x), startY(y), endX(x), endY(y - 1), stillValid(sV) {}
-    void print() {
-        cout << "MoveWidgetUp{'" << widgetType << "', (" << startX << ", " << startY << "), (" << endX << ", " << endY << "), " << stillValid << "}" << endl;
-    }
-};
-
 // Widget token
 struct widgetToken {
     char widgetType;
@@ -86,18 +39,9 @@ enum class Direction {
 
 void addToCounter(int n, char counterType);
 void charToColor(char inputChar);
-void EEBash(vector<widgetToken>& agents);
 void everythingElse();
-void executeMoveDownToken(MoveWidgetDown downToken);
-void executeMoveLeftToken(MoveWidgetLeft leftToken);
-void executeMoveRightToken(MoveWidgetRight rightToken);
-void executeMoveUpToken(MoveWidgetUp upToken);
 void findPlayers();
 void itsSoOver(int status);
-void parseMoveWidgetDownVector();
-void parseMoveWidgetLeftVector();
-void parseMoveWidgetRightVector();
-void parseMoveWidgetUpVector();
 void playerTurn();
 void printMap();
 void setCharOnTheMap(int x, int y, char newChar);
@@ -140,59 +84,10 @@ const char WALL = '#';
 // int globalCoinCount = 0; // This may not be necessary.
 vector<pair<int, int>> playerCoordinates;
 
-// Action token vectors
-
-vector<MoveWidgetDown> vectorOfMoveWidgetDownTokens;
-vector<MoveWidgetLeft> vectorOfMoveWidgetLeftTokens;
-vector<MoveWidgetRight> vectorOfMoveWidgetRightTokens;
-vector<MoveWidgetUp> vectorOfMoveWidgetUpTokens;
-
 // The Game Map
 vector<vector<char>> theMap;
 int columns;
 int rows;
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////// MAIN /////////////////////////////////////////////////////
-int main() {
-    rang::setControlMode(rang::control::Auto); // These may not be necessary.
-    cout << rang::style::reset;
-    
-    // Get input from the player
-    cout << "Enable color? (Y = yes): ";
-    string colorful;
-    getline(cin, colorful);
-    if (!(colorful == "Y" || colorful == "y" || colorful == "Yes" || colorful == "yes")) {
-        rang::setControlMode(rang::control::Off);
-    }
-    
-    widgetTroupe();
-    cout << "Insert the map string, and then press [ENTER] Twice: \n";
-
-    // Take the input, refine it, and then turn it into a game map.
-    columns = 0;
-    rows = 0;
-    string mapString = getMapString();
-    theMap = makeMapFromString(mapString);
-    cout << "Just exited the makeMap function" << endl;
-    parseMoveWidgetDownVector();
-
-    // Print the map
-    printMap();
-
-    while (true) {
-        playerTurn();
-        everythingElse();
-        printMap();
-    }
-
-    // Note: typically the program never reaches this point, it exits *within* playerTurn().
-}
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 void addToCounter(int n, char counterType) {
     // This function will deposit n into the first number widget it sees.
@@ -258,282 +153,6 @@ void everythingElse() {
     }
 }
 
-// This actually *executes* a move token (does the logic check, updates the map)
-void executeMoveDownToken(MoveWidgetDown downToken) {
-    stack<MoveWidgetDown> moveTheseWidgets; // A stack of all of the widgets that are being pushed by downToken, as well as downToken.
-    stack<MoveWidgetDown> clearTheStack; // std::stack has no clear member :( I must improvise.
-    MoveWidgetDown currentToken = downToken;
-    // bool keepLooping = true;
-
-    while (true /*keepLooping*/) {
-        moveTheseWidgets.push(currentToken);
-
-        // I may want to turn these if's into an else-if chain.
-        // Also, the cout statements will most-likely be temporary. Also, they will NOT be replaced
-        // by throws, as these types of errors are common and normal in the game.
-
-        // Check the starting position
-        
-        if (!isOnMap(currentToken.startX, currentToken.startY)) {
-            // cout << "Cannot execute the move down token; The starting location is off the map!(tm)" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        if (currentToken.widgetType == EMPTY_SPACE) {
-            // cout << "Will not execute the move down token; The Widget being moved is an empty space!" << endl;
-            moveTheseWidgets.pop();
-            break;
-        }
-
-        // Check the ending position
-
-        if (!isOnMap(currentToken.endX, currentToken.endY)) {
-            // cout << "Cannot execute the move down token; The ending location is off the map!(tm)" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
-            // Initially the above condition was `getFromTheMap(currentToken.endX, currentToken.endY) == EMPTY_SPACE`
-            // I'll leave it here, commented out just in case I need it again.
-            xStepsOnYInteraction(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY));
-            
-            // We have reached the end of the chain, finish looping and continue with the funciton.
-            break; 
-        }
-        if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
-            // cout << "Cannot execute the move down token; The ending location is occupied by a" << endl;
-            // cout << "non-pushable widget!" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-
-        // Pushing too much
-        // The '+1' is there to include the original widget (downToken)
-        // - - Update: Nvm, for some reason with the +1 it allows it to push 6 widgets instead of 5.
-        if (moveTheseWidgets.size() > PUSH_LIMIT /* +1 */) {
-            // cout << "Unfortunately this down token is pushing too much!!!" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        
-        // If we get past all of that, create a token for the next widget in line.
-        MoveWidgetDown nextToken(
-            getFromTheMap(currentToken.endX, currentToken.endY),
-            currentToken.endX,
-            currentToken.endY,
-            true
-        );
-        currentToken = nextToken;
-    }
-
-    while (moveTheseWidgets.size() > 0) {
-        // Set the destination spot to be the widget that is moving.
-        setCharOnTheMap(moveTheseWidgets.top().endX, moveTheseWidgets.top().endY, moveTheseWidgets.top().widgetType);
-        // Set the original spot to be an EMPTY_SPACE.
-        setCharOnTheMap(moveTheseWidgets.top().startX, moveTheseWidgets.top().startY, EMPTY_SPACE);
-        
-        moveTheseWidgets.pop();
-    }
-}
-
-void executeMoveLeftToken(MoveWidgetLeft leftToken) {
-    stack<MoveWidgetLeft> moveTheseWidgets;
-    stack<MoveWidgetLeft> clearTheStack;
-    MoveWidgetLeft currentToken = leftToken;
-
-    while (true) {
-        moveTheseWidgets.push(currentToken);
-
-        // Check the starting position
-
-        if (!isOnMap(currentToken.startX, currentToken.startY)) {
-            // cout << "Cannot execute the move left token; The starting location is off the map!(tm)" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        if (currentToken.widgetType == EMPTY_SPACE) {
-            // cout << "Will not execute the move left token; The Widget being moved is an empty space!" << endl;
-            moveTheseWidgets.pop();
-            break;
-        }
-
-        // Check the ending position
-
-        if (!isOnMap(currentToken.endX, currentToken.endY)) {
-            // cout << "Cannot execute the move left token; The ending location is off the map!(tm)" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
-            xStepsOnYInteraction(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY));
-            break; // We have reached the end of the chain, finish looping and continue with the funciton.
-        }
-        if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
-            // cout << "Cannot execute the move left token; The ending location is occupied by a" << endl;
-            // cout << "non-pushable widget!" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-
-        // Pushing too much
-        if (moveTheseWidgets.size() > PUSH_LIMIT) {
-            // cout << "Unfortunately this left token is pushing too much!!!" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        
-        // If we get past all of that, create a token for the next widget in line.
-        MoveWidgetLeft nextToken(
-            getFromTheMap(currentToken.endX, currentToken.endY),
-            currentToken.endX,
-            currentToken.endY,
-            true
-        );
-        currentToken = nextToken;
-    }
-
-    while (moveTheseWidgets.size() > 0) {
-        // Set the destination spot to be the widget that is moving.
-        setCharOnTheMap(moveTheseWidgets.top().endX, moveTheseWidgets.top().endY, moveTheseWidgets.top().widgetType);
-        // Set the original spot to be an EMPTY_SPACE.
-        setCharOnTheMap(moveTheseWidgets.top().startX, moveTheseWidgets.top().startY, EMPTY_SPACE);
-        
-        moveTheseWidgets.pop();
-    }
-}
-
-void executeMoveRightToken(MoveWidgetRight rightToken) {
-    stack<MoveWidgetRight> moveTheseWidgets;
-    stack<MoveWidgetRight> clearTheStack;
-    MoveWidgetRight currentToken = rightToken;
-
-    while (true) {
-        moveTheseWidgets.push(currentToken);
-
-        // Check the starting position
-
-        if (!isOnMap(currentToken.startX, currentToken.startY)) {
-            // cout << "Cannot execute the move right token; The starting location is off the map!(tm)" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        if (currentToken.widgetType == EMPTY_SPACE) {
-            // cout << "Will not execute the move right token; The Widget being moved is an empty space!" << endl;
-            moveTheseWidgets.pop();
-            break;
-        }
-
-        // Check the ending position
-
-        if (!isOnMap(currentToken.endX, currentToken.endY)) {
-            // cout << "Cannot execute the move right token; The ending location is off the map!(tm)" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
-            xStepsOnYInteraction(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY));
-            break; // We have reached the end of the chain, finish looping and continue with the funciton.
-        }
-        if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
-            // cout << "Cannot execute the move right token; The ending location is occupied by a" << endl;
-            // cout << "non-pushable widget!" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-
-        // Pushing too much
-        if (moveTheseWidgets.size() > PUSH_LIMIT) {
-            // cout << "Unfortunately this right token is pushing too much!!!" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        
-        // If we get past all of that, create a token for the next widget in line.
-        MoveWidgetRight nextToken(
-            getFromTheMap(currentToken.endX, currentToken.endY),
-            currentToken.endX,
-            currentToken.endY,
-            true
-        );
-        currentToken = nextToken;
-    }
-
-    while (moveTheseWidgets.size() > 0) {
-        // Set the destination spot to be the widget that is moving.
-        setCharOnTheMap(moveTheseWidgets.top().endX, moveTheseWidgets.top().endY, moveTheseWidgets.top().widgetType);
-        // Set the original spot to be an EMPTY_SPACE.
-        setCharOnTheMap(moveTheseWidgets.top().startX, moveTheseWidgets.top().startY, EMPTY_SPACE);
-        
-        moveTheseWidgets.pop();
-    }
-}
-
-void executeMoveUpToken(MoveWidgetUp upToken) {
-    stack<MoveWidgetUp> moveTheseWidgets;
-    stack<MoveWidgetUp> clearTheStack;
-    MoveWidgetUp currentToken = upToken;
-
-    while (true) {
-        moveTheseWidgets.push(currentToken);
-
-        // Check the starting position
-
-        if (!isOnMap(currentToken.startX, currentToken.startY)) {
-            // cout << "Cannot execute the move up token; The starting location is off the map!(tm)" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        if (currentToken.widgetType == EMPTY_SPACE) {
-            // cout << "Will not execute the move up token; The Widget being moved is an empty space!" << endl;
-            moveTheseWidgets.pop();
-            break;
-        }
-
-        // Check the ending position
-
-        if (!isOnMap(currentToken.endX, currentToken.endY)) {
-            // cout << "Cannot execute the move up token; The ending location is off the map!(tm)" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        if ( xCanStepOnY(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY)) ) {
-            xStepsOnYInteraction(currentToken.widgetType, getFromTheMap(currentToken.endX, currentToken.endY));
-            break; // We have reached the end of the chain, finish looping and continue with the funciton.
-        }
-        if (!isPushable( getFromTheMap(currentToken.endX, currentToken.endY) )) {
-            // cout << "Cannot execute the move up token; The ending location is occupied by a" << endl;
-            // cout << "non-pushable widget!" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-
-        // Pushing too much
-        if (moveTheseWidgets.size() > PUSH_LIMIT) {
-            // cout << "Unfortunately this up token is pushing too much!!!" << endl;
-            moveTheseWidgets = clearTheStack;
-            break;
-        }
-        
-        // If we get past all of that, create a token for the next widget in line.
-        MoveWidgetUp nextToken(
-            getFromTheMap(currentToken.endX, currentToken.endY),
-            currentToken.endX,
-            currentToken.endY,
-            true
-        );
-        currentToken = nextToken;
-    }
-
-    while (moveTheseWidgets.size() > 0) {
-        // Set the destination spot to be the widget that is moving.
-        setCharOnTheMap(moveTheseWidgets.top().endX, moveTheseWidgets.top().endY, moveTheseWidgets.top().widgetType);
-        // Set the original spot to be an EMPTY_SPACE.
-        setCharOnTheMap(moveTheseWidgets.top().startX, moveTheseWidgets.top().startY, EMPTY_SPACE);
-        
-        moveTheseWidgets.pop();
-    }
-}
-
 // Get player coordinates
 void findPlayers() { 
     playerCoordinates.clear();
@@ -553,95 +172,8 @@ void itsSoOver(int status) {
     exit(status);
 }
 
-// This runs through the global `vectorOfMoveWidgetDownTokens` and executes each one via an execute function.
-void parseMoveWidgetDownVector() {
-    // This for-loop runs in reverse because the widgets at the end of the list are the ones
-    // closest to the bottom of the map (due to the game parsing from left-to-right, top-to-bottom).
-    //  For widgets that move down, we want the ones at the bottom to move first.
-    // (See chronolog Friday October 3 2025)
-    for (int i = vectorOfMoveWidgetDownTokens.size() - 1; i >= 0; i--) {
-        executeMoveDownToken(vectorOfMoveWidgetDownTokens.at(i));
-    }
-}
-
-void parseMoveWidgetLeftVector() {
-    // In contrast to parseMoveWidgetDownVector(), this one parses from 
-    // 0 to vectorOfMoveWidgetLeftTokens.size() 
-    // (i.e. left-to-right) so that the leftmost widgets move first.
-    // (See chronolog Friday October 3 2025)
-    for (int i = 0; i < vectorOfMoveWidgetLeftTokens.size(); i++) {
-        executeMoveLeftToken(vectorOfMoveWidgetLeftTokens.at(i));
-    }
-}
-
-void parseMoveWidgetRightVector() {
-    for (int i = vectorOfMoveWidgetRightTokens.size() - 1; i >= 0; i--) {
-        executeMoveRightToken(vectorOfMoveWidgetRightTokens.at(i));
-    }
-}
-
-void parseMoveWidgetUpVector() {
-    for (int i = 0; i < vectorOfMoveWidgetUpTokens.size(); i++) {
-        executeMoveUpToken(vectorOfMoveWidgetUpTokens.at(i));
-    }
-}
-
 void playerTurn() {
-    // clear and re-populate the vector of player coordinates
-    playerCoordinates.clear();
-    findPlayers();
-    if (playerCoordinates.size() == 0){
-        cout << "There are no players, so the player's turn will be skipped..." << endl;
-        itsSoOver(EXIT_SUCCESS);
-    }
-
-    cout << "It is now the player's turn.\n> ";
-    string input;
-    cin >> input;
-    if (input == "w" || input == "W") {
-        // cout << "The player is moving up" << endl;
-        for (int i = 0; i < playerCoordinates.size(); i++) {
-            MoveWidgetUp newRequest(
-                PLAYER, playerCoordinates[i].first, playerCoordinates[i].second, true
-            );
-            vectorOfMoveWidgetUpTokens.push_back(newRequest);
-        }
-        parseMoveWidgetUpVector();
-        vectorOfMoveWidgetUpTokens.clear();
-    } else if (input == "a" || input == "A") {
-        // cout << "The player is moving left" << endl;
-        for (int i = 0; i < playerCoordinates.size(); i++) {
-            MoveWidgetLeft newRequest(
-                PLAYER, playerCoordinates[i].first, playerCoordinates[i].second, true
-            );
-            vectorOfMoveWidgetLeftTokens.push_back(newRequest);
-        }
-        parseMoveWidgetLeftVector();
-        vectorOfMoveWidgetLeftTokens.clear();
-    } else if (input == "s" || input == "S") {
-        // cout << "The player is moving down" << endl;
-        for (int i = 0; i < playerCoordinates.size(); i++) {
-            MoveWidgetDown newRequest(
-                PLAYER, playerCoordinates[i].first, playerCoordinates[i].second, true
-            );
-            vectorOfMoveWidgetDownTokens.push_back(newRequest);
-        }
-        parseMoveWidgetDownVector();
-        vectorOfMoveWidgetDownTokens.clear();
-    } else if (input == "d" || input == "D") {
-        // cout << "The player is moving right" << endl;
-        for (int i = 0; i < playerCoordinates.size(); i++) {
-            MoveWidgetRight newRequest(
-                PLAYER, playerCoordinates[i].first, playerCoordinates[i].second, true
-            );
-            vectorOfMoveWidgetRightTokens.push_back(newRequest);
-        }
-        parseMoveWidgetRightVector();
-        vectorOfMoveWidgetRightTokens.clear();
-    } else {
-        cout << "Goobye Loser" << endl;
-        itsSoOver(EXIT_SUCCESS);
-    }
+    // XXX under renovations
 }
 
 void printMap() {
@@ -952,3 +484,32 @@ vector<widgetToken> gatherAgents() {
 
     return agents;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////// MAIN /////////////////////////////////////////////////////
+int main() {
+    rang::setControlMode(rang::control::Auto); // These may not be necessary.
+    cout << rang::style::reset;
+    
+    // Get input from the player
+    cout << "Enable color? (Y = yes): ";
+    string colorful;
+    getline(cin, colorful);
+    if (!(colorful == "Y" || colorful == "y" || colorful == "Yes" || colorful == "yes")) {
+        rang::setControlMode(rang::control::Off);
+    }
+    
+    widgetTroupe();
+    cout << "Insert the map string, and then press [ENTER] Twice: \n";
+
+    // Take the input, refine it, and then turn it into a game map.
+    columns = 0;
+    rows = 0;
+    string mapString = getMapString();
+    theMap = makeMapFromString(mapString);
+    cout << "Just exited the makeMap function" << endl;
+
+    // Print the map
+    printMap();
+}
+////////////////////////////////////////////////////////////////////////////////////////////////
