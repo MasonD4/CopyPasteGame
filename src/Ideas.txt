@@ -13,7 +13,7 @@ The movement system
 - - - - - - - - it calls performMove(), and passes in the action token and the direction.
 - - - - - - If not, it checks if the widget in the ending position can be pushed. If so,
 - - - - - - - - it calls another function, `attemptPush()` on that pushable widget. attemptPush()
-- - - - - - - - is just like attemptMove(), except it has an extra integer parament used to ensure
+- - - - - - - - is just like attemptMove(), except it has an extra integer parameter used to ensure
 - - - - - - - - the push limit isn't exceeded.
 - - - - - - After calling attemptPush(), it checks if the ending position can be moved to now.
 - - - - - - - - If so, it calls performMove().
@@ -25,9 +25,9 @@ The movement system
 - - - - Then, it calls xStepsOnYInteraction(), or whatever that's called.
 - - 
 - - The reason I thought of it is because I think bash will follow a similar pattern.
-- - You call `` on whichever widgets you need to.
+- - You call `attemptBash()` on whichever widgets you need to.
 - - Within attemptBash(), it checks if there is a valid wdget to bash. If so, it calls
-- - `` (which pretty much replaces the bashing widget with air and the bashed widget
+- - `performBash()` (which pretty much replaces the bashing widget with air and the bashed widget
 - - with the bashing widget). If not, it simply calls off the bash. 
 - - Note: if I decide that I want the bash action to be seperated based on direction, then the
 - - direction of the bash should be chosen earlier in the pipeline than attemptBash(). this is because
@@ -49,6 +49,7 @@ The movement system
 - - * The last step is to call performMove(). performMove() doesn't ask questions. It assumes that
 - - - - the details are correct and the move is valid. It's job is to actually edit the map so as to
 - - - - fulfill the move (and call xStepsOnYInteraction()). It should be just a few lines of code.
+The end.
 
 A hazard that slams downward, destroying the player if it is in its path. Perhaps its "AI" will work like this:
 - - If there is an immovable widget right above it, it slams down.
