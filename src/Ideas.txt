@@ -194,6 +194,17 @@ A Rook
 - - Also, I might want to implement a widget that acts as "bait", which, if placed in front of a rook, will
 - - trigger the rook. Maybe the bait will be a ',' or a '~' or a ':' or a '+'. Or a '*'
 
+One-time teleportation stations
+- - These One-time teleportation stations (OTTSs) are widgets that allow you to teleport them
+- - from anywhere on the map, by typing in the appropriate command, followed by a number
+- - and/or the coordinates of the OTTS you are teleporting to. How will the be numbered?
+- - Simple: look at the entire map in reading order (left -> right, top -> bottom).
+- - The first OTTS you find is 1. The next is 2. So on...
+- - The command to use an OTTS will probably be `tp`
+- - There will be no counter needed to keep track of how many times you can use the `tp` command.
+- - The catch is that when you teleport to an OTTS, you teleport on top it, thereby destroying it.
+- - The amount of times you can use `tp` is therefore determined by the amount of OTTSs.
+
 
 chronolog Feb 7 2026: Redoing the action token system.
 Saturday February 7 2026
