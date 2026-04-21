@@ -12,6 +12,8 @@
 #include <stack>
 #include <stdlib.h>
 #include <memory>
+#include <thread> // This isn't needed for the game, I'm just using it for testing.
+#include <chrono> // This isn't needed for the game, I'm just using it for testing.
 #include "rang.hpp"
 using namespace std;
 
@@ -175,7 +177,7 @@ void itsSoOver(int status) {
 }
 
 void performMove(int x, int y, Direction direction) {
-    char newChar = getFromTheMap(x, y);
+    char charA = getFromTheMap(x, y); // The widget that's moving.
     int deltaX = 0;
     int deltaY = 0;
 
@@ -188,7 +190,10 @@ void performMove(int x, int y, Direction direction) {
         return;
     }
 
-    setCharOnTheMap(x + deltaX, y + deltaY, newChar);
+    char charB = getFromTheMap(x + deltaX, y + deltaY); // The char being stepped on.
+    setCharOnTheMap(x + deltaX, y + deltaY, charA);
+    setCharOnTheMap(x, y, EMPTY_SPACE);
+    xStepsOnYInteraction(charA, charB);
 }
 
 void playerTurn() {
@@ -531,11 +536,21 @@ int main() {
     // Take the input, refine it, and then turn it into a game map.
     columns = 0;
     rows = 0;
-    string mapString = getMapString();
+    // string mapString = getMapString(); // Temporarily commented this out for testing.
+    string mapString = "C0-]-@-]-$-#";
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
     // Print the map
+    printMap();
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    performMove(1, 1, Direction::RIGHT);
+    printMap();
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    performMove(2, 1, Direction::DOWN);
+    printMap();
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    performMove(2, 2, Direction::LEFT);
     printMap();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
