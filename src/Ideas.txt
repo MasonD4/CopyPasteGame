@@ -49,6 +49,20 @@ The movement system
 - - * The last step is to call performMove(). performMove() doesn't ask questions. It assumes that
 - - - - the details are correct and the move is valid. It's job is to actually edit the map so as to
 - - - - fulfill the move (and call xStepsOnYInteraction()). It should be just a few lines of code.
+- -
+- - Here is an overview of this 4-layer pipeline:
+- - - - Layer 1: Compile a list of the widgets that can *potentially* perform the action in
+- - - - - - question, and then figure out the order in which to feed them to layer 2.
+- - - - Layer 2: For a given widget, specify the arguments that will be passed on to layer 3
+- - - - - - (the attempt action layer). For example, the attemptMove() function takes in coordinates
+- - - - - - and a direction. So, for each widget, layer 2 needs to figure out that widget's
+- - - - - - coordinates and the direction that they want to move in. Then it calls attemptMove()
+- - - - - - and passes in this info.
+- - - - Layer 3: Given the specifics of the action that a particular widget wants to take, figure
+- - - - - - out if that action is valid. For example, attemptMove() will be given the
+- - - - - - coordinates of a widget and the direction it wants to move in. If that move is valid,
+- - - - - - it calls performMove() and passes in the coordinates and the direction.
+- - - - Layer 4: Perofrm the action.
 The end.
 
 A hazard that slams downward, destroying the player if it is in its path. Perhaps its "AI" will work like this:
