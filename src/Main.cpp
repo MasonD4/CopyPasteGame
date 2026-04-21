@@ -42,11 +42,13 @@ void charToColor(char inputChar);
 void everythingElse();
 void findPlayers();
 void itsSoOver(int status);
+void performMove(int x, int y, Direction direction);
 void playerTurn();
 void printMap();
 void setCharOnTheMap(int x, int y, char newChar);
 void widgetTroupe();
-void xStepsOnYInteraction(char x, char y); // TODO
+void xStepsOnYInteraction(char x, char y);
+bool attemptMove(int x, int y, Direction direction);
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
 bool canBash(char input);
 bool canBeBashed(char input);
@@ -172,6 +174,23 @@ void itsSoOver(int status) {
     exit(status);
 }
 
+void performMove(int x, int y, Direction direction) {
+    char newChar = getFromTheMap(x, y);
+    int deltaX = 0;
+    int deltaY = 0;
+
+    if (direction == Direction::DOWN) { deltaY++; } // Remember: an increase in y = down!
+    else if (direction == Direction::LEFT) { deltaX--; }
+    else if (direction == Direction::RIGHT) { deltaX++; }
+    else if (direction == Direction::UP) { deltaY--; }
+    else {
+        cout << "performMove was given an invalid direction, somehow..." << endl;
+        return;
+    }
+
+    setCharOnTheMap(x + deltaX, y + deltaY, newChar);
+}
+
 void playerTurn() {
     // XXX under renovations
 }
@@ -232,6 +251,13 @@ void xStepsOnYInteraction(char x, char y) {
     if (x == PLAYER && y == COIN) {
         addToCounter(1, COIN_COUNTER);
     }
+}
+
+// This function assumes that the specifics of a move have been figured out.
+// Its job is to see if that move is possible. If so, it calls performMove() and
+// returns true; Otherwise, it prevents the move and returns false.
+bool attemptMove(int x, int y, Direction direction) {
+    // TODO
 }
 
 // I'm leaving this commented out until I actually add hazardous widgets 
