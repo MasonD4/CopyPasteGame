@@ -45,19 +45,6 @@ enum class ValidMove {
 
 // Function Prototypes
 
-void addToCounter(int n, char counterType);
-void charToColor(char inputChar);
-void everythingElse();
-void findPlayers();
-void itsSoOver(int status);
-void performMove(int x, int y, Direction direction);
-void playerTurn();
-void printMap();
-void setCharOnTheMap(int x, int y, char newChar);
-void widgetTroupe();
-void xStepsOnYInteraction(char moving, char steppedOn, int x, int y);
-ValidMove attemptMove(int x, int y, Direction direction);
-bool attemptPush(int x, int y, Direction direction, int pushCount); // TODO
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
 bool canBash(char input);
 bool canBeBashed(char input);
@@ -74,8 +61,23 @@ int determineNumber(char);
 char getFromTheMap(int x, int y);
 char numberToChar(int n);
 string getMapString();
+ValidMove attemptMove(int x, int y, Direction direction);
+ValidMove attemptPush(int x, int y, Direction direction, int pushCount); // TODO
 vector<vector<char>> makeMapFromString(string);
 vector<widgetToken> gatherAgents();
+void addToCounter(int n, char counterType);
+void charToColor(char inputChar);
+void everythingElse();
+void findPlayers();
+void itsSoOver(int status);
+void moveWidget(int x, int y, Direction dir);
+void performMove(int x, int y, Direction direction);
+void playerTurn();
+void printMap();
+void pushWidget(int x, int y, Direction dir); // TODO
+void setCharOnTheMap(int x, int y, char newChar);
+void widgetTroupe();
+void xStepsOnYInteraction(char moving, char steppedOn, int x, int y);
 
 // I should probably make a function(s) that increments or decrements counters (or at least checks if they can)
 // Maybe I should make one function for each counter, and the input of the function can be the number that I
@@ -196,6 +198,17 @@ void itsSoOver(int status) {
     rang::setControlMode(rang::control::Auto); // These may not be necessary.
     cout << rang::style::reset;
     exit(status);
+}
+
+void moveWidget(int x, int y, Direction dir) {
+    ValidMove result = attemptMove(x, y, dir);
+    if (result == ValidMove::VALID) {
+        performMove(x, y, dir);
+    }
+    else if (result == ValidMove::PUSH) {
+        //
+    }
+    // Otherwise, just quit.
 }
 
 void performMove(int x, int y, Direction direction) {
@@ -325,6 +338,46 @@ ValidMove attemptMove(int x, int y, Direction direction) {
 
     if (xCanStepOnY(movingWidget, widgetAtDestination) == true) { return ValidMove::VALID; }
     else if (isPushable(widgetAtDestination) == true) { return ValidMove::PUSH; }
+    else { return ValidMove::INVALID; }
+}
+
+ValidMove attemptPush(int x, int y, Direction direction, int pushCount) {
+    // ### Check starting position
+    
+    char movingWidget;
+    try {
+        movingWidget = getFromTheMap(x, y);
+    } catch (...) { return ValidMove::INVALID; } // Note: I might want to change this to valid, it could cause issues when pushing widgets.
+
+    if (movingWidget == EMPTY_SPACE) {
+        return ValidMove::VALID; // I might want to change this.
+        // However, it's possible that the game will never even try to move an empty space because
+        // it's not an agent.
+
+        // TODO: double check the master branch to see how I did it.
+    }
+
+    if (isPushable(movingWidget) == false) {
+        return ValidMove::INVALID;
+    }
+
+    // ### Use the direction to find the new coordinates
+
+    int deltaX = 0;
+    int deltaY = 0;
+    if (direction == Direction::DOWN) { deltaY = 1; } // Positive y = down.
+    else if (direction == Direction::LEFT) { deltaX = -1; }
+    else if (direction == Direction::RIGHT) { deltaX = 1; }
+    else if (direction == Direction::UP) { deltaY = -1; }
+
+    // ### Check ending position
+
+    char widgetAtDestination;
+    if (isOnMap(x + deltaX, y + deltaY) == false) { return ValidMove::INVALID; }
+    else { widgetAtDestination = getFromTheMap(x + deltaX, y + deltaY); }
+
+    if (xCanStepOnY(movingWidget, widgetAtDestination) == true) { return ValidMove::VALID; }
+    else if ( (isPushable(widgetAtDestination) == true) && (pushCount + 1 <= PUSH_LIMIT) ) { return ValidMove::PUSH; }
     else { return ValidMove::INVALID; }
 }
 
