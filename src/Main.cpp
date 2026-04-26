@@ -284,6 +284,8 @@ void xStepsOnYInteraction(char moving, char steppedOn, int x, int y) {
 // Its job is to see if that move is possible. If so, it
 // returns true; Otherwise, it returns false.
 bool attemptMove(int x, int y, Direction direction) {
+    // ### Check starting position
+    
     char movingWidget;
     try {
         movingWidget = getFromTheMap(x, y);
@@ -298,7 +300,7 @@ bool attemptMove(int x, int y, Direction direction) {
         // it's not an agent.
     }
 
-    //
+    // ### Check 
 }
 
 // I'm leaving this commented out until I actually add hazardous widgets 
