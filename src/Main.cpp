@@ -51,6 +51,7 @@ void setCharOnTheMap(int x, int y, char newChar);
 void widgetTroupe();
 void xStepsOnYInteraction(char x, char y);
 bool attemptMove(int x, int y, Direction direction);
+bool attemptPush(int x, int y, Direction direction, int pushCount);
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
 bool canBash(char input);
 bool canBeBashed(char input);
@@ -262,7 +263,13 @@ void xStepsOnYInteraction(char x, char y) {
 // Its job is to see if that move is possible. If so, it calls performMove() and
 // returns true; Otherwise, it prevents the move and returns false.
 bool attemptMove(int x, int y, Direction direction) {
-    // TODO
+    char movingWidget;
+    try {
+        movingWidget = getFromTheMap(x, y);
+    } catch (...) { return false; } // Note: I might want to change this to true, it could cause issues when pushing widgets.
+    
+    // I'm not going to bother checking if it can move. For now anything can move
+    // (that does NOT mean anything can be pushed)
 }
 
 // I'm leaving this commented out until I actually add hazardous widgets 
