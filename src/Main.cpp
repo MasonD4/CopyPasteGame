@@ -23,7 +23,7 @@ struct widgetToken {
     int x, y;
 
     widgetToken()
-        : widgetType('-'), x(0), y(0) {
+        : widgetType(EMPTY_SPACE), x(0), y(0) {
     }
     widgetToken(char widgetTypeA, int xA, int yA)
         : widgetType(widgetTypeA), x(xA), y(yA) {
@@ -49,7 +49,7 @@ void playerTurn();
 void printMap();
 void setCharOnTheMap(int x, int y, char newChar);
 void widgetTroupe();
-void xStepsOnYInteraction(char x, char y);
+void xStepsOnYInteraction(char moving, char steppedOn, int x, int y);
 bool attemptMove(int x, int y, Direction direction);
 bool attemptPush(int x, int y, Direction direction, int pushCount);
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
@@ -209,7 +209,7 @@ void performMove(int x, int y, Direction direction) {
     char charB = getFromTheMap(x + deltaX, y + deltaY); // The char being stepped on.
     setCharOnTheMap(x + deltaX, y + deltaY, charA);
     setCharOnTheMap(x, y, EMPTY_SPACE);
-    xStepsOnYInteraction(charA, charB);
+    xStepsOnYInteraction(charA, charB, x + deltaX, y + deltaY);
 }
 
 void playerTurn() {
@@ -264,14 +264,20 @@ void widgetTroupe() {
     cout << endl;
 }
 
-void xStepsOnYInteraction(char x, char y) {
+void xStepsOnYInteraction(char moving, char steppedOn, int x, int y) {
     // NOTE: As of now, I am not planning on creating an action token when X steps on Y.
     // Just perform the action.
     
-    // If a player steps on a coin.
-    if (x == PLAYER && y == COIN) {
-        addToCounter(1, COIN_COUNTER);
-    }
+    // // If a player steps on a coin.
+    // if (x == PLAYER && y == COIN) {
+    //     addToCounter(1, COIN_COUNTER);
+    // }
+
+    // A list of some interactions:
+    // * If a key "steps" on a door, the key disappears too.
+    // * If a bomb or a chaser steps on a bomb, an explosion occurs.
+    // * Nothing happens if a player steps on a coin. 
+    // * Nothing happens if a chaser or rook step on a player or bait. 
 }
 
 // This function assumes that the specifics of a move have been figured out.
@@ -584,5 +590,8 @@ int main() {
     std::this_thread::sleep_for(std::chrono::seconds(3));
     performMove(2, 2, Direction::LEFT);
     printMap();
+
+    // TODO: there is a function called `itsSoOver` or something like that. Apparently it's
+    // role is to reset rang and then exit the program. You *might* want to figure out another way.
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
