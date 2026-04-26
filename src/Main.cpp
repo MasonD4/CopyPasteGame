@@ -51,7 +51,7 @@ void setCharOnTheMap(int x, int y, char newChar);
 void widgetTroupe();
 void xStepsOnYInteraction(char moving, char steppedOn, int x, int y);
 bool attemptMove(int x, int y, Direction direction);
-bool attemptPush(int x, int y, Direction direction, int pushCount);
+bool attemptPush(int x, int y, Direction direction, int pushCount); // TODO
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
 bool canBash(char input);
 bool canBeBashed(char input);
@@ -281,8 +281,8 @@ void xStepsOnYInteraction(char moving, char steppedOn, int x, int y) {
 }
 
 // This function assumes that the specifics of a move have been figured out.
-// Its job is to see if that move is possible. If so, it calls performMove() and
-// returns true; Otherwise, it prevents the move and returns false.
+// Its job is to see if that move is possible. If so, it
+// returns true; Otherwise, it returns false.
 bool attemptMove(int x, int y, Direction direction) {
     char movingWidget;
     try {
@@ -291,6 +291,14 @@ bool attemptMove(int x, int y, Direction direction) {
     
     // I'm not going to bother checking if it can move. For now anything can move
     // (that does NOT mean anything can be pushed)
+
+    if (movingWidget == EMPTY_SPACE) {
+        return true; // I might want to change this.
+        // However, it's possible that the game will never even try to move an empty space because
+        // it's not an agent.
+    }
+
+    //
 }
 
 // I'm leaving this commented out until I actually add hazardous widgets 
