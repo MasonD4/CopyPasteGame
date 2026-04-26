@@ -76,15 +76,26 @@ vector<widgetToken> gatherAgents();
 
 // Global Variables
 
-const int PUSH_LIMIT = 5;
-const int BASH_RANGE = 10;
+const char BAIT = '%';
+const char BOMB = '&';
+const char CHASER_DOWN = 'V';
+const char CHASER_LEFT = '<';
+const char CHASER_RIGHT = '>';
+const char CHASER_STILL = 'X';
+const char CHASER_UP = '^';
 const char COIN = '$'; // This could be a '*' or a '$'.
 const char COIN_COUNTER = 'C';
+const char DOOR = 'D'; // Note: I'm going to say that doors don't chain.
 const char EMPTY_SPACE = '-';
+const char KEY = 'K';
 const char NEW_ROW = ']';
 const char PLAYER = '@';
 const char ROOK = '!';
 const char WALL = '#';
+const int BASH_RANGE = 10;
+const int BLAST_RADIUS = 2;
+const int MAGNET_RANGE = 5;
+const int PUSH_LIMIT = 5;
 
 // int globalCoinCount = 0; // This may not be necessary.
 vector<pair<int, int>> playerCoordinates;
