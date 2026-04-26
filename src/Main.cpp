@@ -56,6 +56,7 @@ bool attemptPush(int x, int y, Direction direction, int pushCount);
 bool canBash(char input);
 bool canBeBashed(char input);
 bool hasAgency(char input);
+bool isAChaser(char input);
 bool isNextToChar(int x, int y, char theChar);
 bool isPushable(char);
 bool isOnMap(int x, int y);
@@ -84,10 +85,13 @@ const char CHASER_RIGHT = '>';
 const char CHASER_STILL = 'X';
 const char CHASER_UP = '^';
 const char COIN = '$'; // This could be a '*' or a '$'.
-const char COIN_COUNTER = 'C';
+const char COIN_COUNTER = '?'; // This will be unused but I'll leave it just in case.
 const char DOOR = 'D'; // Note: I'm going to say that doors don't chain.
 const char EMPTY_SPACE = '-';
 const char KEY = 'K';
+const char MAGNET_A = 'A';
+const char MAGNET_B = 'B';
+const char MAGNET_C = 'C';
 const char NEW_ROW = ']';
 const char PLAYER = '@';
 const char ROOK = '!';
@@ -308,6 +312,16 @@ bool canBeBashed(char input) {
 
 bool hasAgency(char widget) {
     if (widget == ROOK) { return true; }
+    else { return false; }
+}
+
+// For convenience, since the chaser has a lot of "sprites".
+bool isAChaser(char input) {
+    if (input == CHASER_DOWN) { return true; }
+    else if (input == CHASER_LEFT) { return true; }
+    else if (input == CHASER_RIGHT) { return true; }
+    else if (input == CHASER_STILL) { return true; }
+    else if (input == CHASER_UP) { return true; }
     else { return false; }
 }
 
