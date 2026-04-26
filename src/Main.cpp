@@ -62,7 +62,7 @@ char getFromTheMap(int x, int y);
 char numberToChar(int n);
 string getMapString();
 ValidMove attemptMove(int x, int y, Direction direction);
-ValidMove attemptPush(int x, int y, Direction direction, int pushCount); // TODO
+ValidMove attemptPush(int x, int y, Direction direction, int pushCount);
 vector<vector<char>> makeMapFromString(string);
 vector<widgetToken> gatherAgents();
 void addToCounter(int n, char counterType);
@@ -74,7 +74,7 @@ void moveWidget(int x, int y, Direction dir);
 void performMove(int x, int y, Direction direction);
 void playerTurn();
 void printMap();
-void pushWidget(int x, int y, Direction dir); // TODO
+void pushWidget(int x, int y, Direction dir, int pushCount); // TODO
 void setCharOnTheMap(int x, int y, char newChar);
 void widgetTroupe();
 void xStepsOnYInteraction(char moving, char steppedOn, int x, int y);
@@ -206,7 +206,13 @@ void moveWidget(int x, int y, Direction dir) {
         performMove(x, y, dir);
     }
     else if (result == ValidMove::PUSH) {
-        //
+        int deltaX = 0;
+        int deltaY = 0;
+        if (dir == Direction::DOWN) { deltaY = 1; }
+        else if (dir == Direction::LEFT) { deltaX = -1; }
+        else if (dir == Direction::RIGHT) { deltaX = 1; }
+        else if (dir == Direction::UP) { deltaY = -1; }
+        pushWidget(x + deltaX, y + deltaY, dir, 1);
     }
     // Otherwise, just quit.
 }
@@ -244,6 +250,25 @@ void printMap() {
         }
         cout << endl;
     }
+}
+
+void pushWidget(int x, int y, Direction dir, int pushCount) {
+    ValidMove result = attemptPush(x, y, dir, pushCount);
+    if (result == ValidMove::VALID) {
+        performMove(x, y, dir);
+    }
+    else if (result == ValidMove::PUSH) {
+        // Note: I will not check the push limit here because I do it in attemptPush()
+        // and I'm paranoid doing it multiple times will mess something up.
+        int deltaX = 0;
+        int deltaY = 0;
+        if (dir == Direction::DOWN) { deltaY = 1; }
+        else if (dir == Direction::LEFT) { deltaX = -1; }
+        else if (dir == Direction::RIGHT) { deltaX = 1; }
+        else if (dir == Direction::UP) { deltaY = -1; }
+        pushWidget(x + deltaX, y + deltaY, dir, pushCount + 1);
+    }
+    // Otherwise, just quit.
 }
 
 void setCharOnTheMap(int x, int y, char newChar) {
