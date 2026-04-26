@@ -37,6 +37,12 @@ enum class Direction {
     LEFT
 };
 
+enum class ValidMove {
+    VALID,
+    INVALID,
+    PUSH
+};
+
 // Function Prototypes
 
 void addToCounter(int n, char counterType);
@@ -50,7 +56,7 @@ void printMap();
 void setCharOnTheMap(int x, int y, char newChar);
 void widgetTroupe();
 void xStepsOnYInteraction(char moving, char steppedOn, int x, int y);
-bool attemptMove(int x, int y, Direction direction);
+ValidMove attemptMove(int x, int y, Direction direction);
 bool attemptPush(int x, int y, Direction direction, int pushCount); // TODO
 // bool isDangerous(char); I'm leaving this commented out until I actually add hazardous widgets 
 bool canBash(char input);
@@ -283,24 +289,43 @@ void xStepsOnYInteraction(char moving, char steppedOn, int x, int y) {
 // This function assumes that the specifics of a move have been figured out.
 // Its job is to see if that move is possible. If so, it
 // returns true; Otherwise, it returns false.
-bool attemptMove(int x, int y, Direction direction) {
+ValidMove attemptMove(int x, int y, Direction direction) {
     // ### Check starting position
     
     char movingWidget;
     try {
         movingWidget = getFromTheMap(x, y);
-    } catch (...) { return false; } // Note: I might want to change this to true, it could cause issues when pushing widgets.
+    } catch (...) { return ValidMove::INVALID; } // Note: I might want to change this to valid, it could cause issues when pushing widgets.
     
     // I'm not going to bother checking if it can move. For now anything can move
     // (that does NOT mean anything can be pushed)
 
     if (movingWidget == EMPTY_SPACE) {
-        return true; // I might want to change this.
+        return ValidMove::VALID; // I might want to change this.
         // However, it's possible that the game will never even try to move an empty space because
         // it's not an agent.
+
+        // TODO: double check the master branch to see how I did it.
     }
 
-    // ### Check 
+    // ### Use the direction to find the new coordinates
+
+    int deltaX = 0;
+    int deltaY = 0;
+    if (direction == Direction::DOWN) { deltaY = 1; } // Positive y = down.
+    else if (direction == Direction::LEFT) { deltaX = -1; }
+    else if (direction == Direction::RIGHT) { deltaX = 1; }
+    else if (direction == Direction::UP) { deltaY = -1; }
+
+    // ### Check ending position
+
+    char widgetAtDestination;
+    if (isOnMap(x + deltaX, y + deltaY) == false) { return ValidMove::INVALID; }
+    else { widgetAtDestination = getFromTheMap(x + deltaX, y + deltaY); }
+
+    if (xCanStepOnY(movingWidget, widgetAtDestination) == true) { return ValidMove::VALID; }
+    else if (isPushable(widgetAtDestination) == true) { return ValidMove::PUSH; }
+    else { return ValidMove::INVALID; }
 }
 
 // I'm leaving this commented out until I actually add hazardous widgets 
@@ -399,7 +424,8 @@ bool isThereAPlayer() {
 bool xCanStepOnY(char x, char y) {
     if (y == EMPTY_SPACE) { return true; }
     if (x == PLAYER && y == COIN) { return true; }
-    return false;
+    if (x == KEY && y == DOOR) { return true; }
+    else { return false; }
 }
 
 int clamp(int input) {
