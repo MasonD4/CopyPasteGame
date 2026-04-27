@@ -23,7 +23,7 @@ struct widgetToken {
     int x, y;
 
     widgetToken()
-        : widgetType(EMPTY_SPACE), x(0), y(0) {
+        : widgetType('-'), x(0), y(0) {
     }
     widgetToken(char widgetTypeA, int xA, int yA)
         : widgetType(widgetTypeA), x(xA), y(yA) {
@@ -689,21 +689,44 @@ int main() {
     columns = 0;
     rows = 0;
     // string mapString = getMapString(); // Temporarily commented this out for testing.
-    string mapString = "C0-]-@-]-$-#";
+    string mapString = "@--------@]----------]--@----@--]----------]--@----@--]----------]@--------@#";
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
-    // Print the map
-    printMap();
+
+    // ### Test 1 (Success)
+    printMap(); // Print the map
+    moveWidget(0, 0, Direction::RIGHT); ///
+    moveWidget(9, 0, Direction::DOWN); ///
+    moveWidget(9, 6, Direction::LEFT); ///
+    moveWidget(0, 6, Direction::UP); ///
+    moveWidget(2, 2, Direction::RIGHT); ///
+    moveWidget(7, 2, Direction::DOWN); //
+    moveWidget(7, 4, Direction::LEFT); ///
+    moveWidget(2, 4, Direction::UP); ///
     std::this_thread::sleep_for(std::chrono::seconds(3));
-    performMove(1, 1, Direction::RIGHT);
+    cout << endl;
     printMap();
-    std::this_thread::sleep_for(std::chrono::seconds(3));
-    performMove(2, 1, Direction::DOWN);
-    printMap();
-    std::this_thread::sleep_for(std::chrono::seconds(3));
-    performMove(2, 2, Direction::LEFT);
-    printMap();
+
+    // ### Test 1 results
+    // @--------@]
+    // ----------]
+    // --@----@--]
+    // ----------]
+    // --@----@--]
+    // ----------]
+    // @--------@#
+    //     V
+    // SUCCESSFULLY
+    // Becomes
+    //     V
+    // -@--------]
+    // ---------@]
+    // ---@------]
+    // --@----@--]
+    // ------@---]
+    // @---------]
+    // --------@-#
 
     // TODO: there is a function called `itsSoOver` or something like that. Apparently it's
     // role is to reset rang and then exit the program. You *might* want to figure out another way.
