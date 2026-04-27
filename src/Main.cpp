@@ -213,6 +213,9 @@ void moveWidget(int x, int y, Direction dir) {
         else if (dir == Direction::RIGHT) { deltaX = 1; }
         else if (dir == Direction::UP) { deltaY = -1; }
         pushWidget(x + deltaX, y + deltaY, dir, 1);
+
+        result = attemptMove(x, y, dir);
+        if (result == ValidMove::VALID) { performMove(x, y, dir); }
     }
     // Otherwise, just quit.
 }
@@ -267,6 +270,9 @@ void pushWidget(int x, int y, Direction dir, int pushCount) {
         else if (dir == Direction::RIGHT) { deltaX = 1; }
         else if (dir == Direction::UP) { deltaY = -1; }
         pushWidget(x + deltaX, y + deltaY, dir, pushCount + 1);
+
+        result = attemptPush(x, y, dir, pushCount);
+        if (result == ValidMove::VALID) { performMove(x, y, dir); }
     }
     // Otherwise, just quit.
 }
@@ -689,12 +695,12 @@ int main() {
     columns = 0;
     rows = 0;
     // string mapString = getMapString(); // Temporarily commented this out for testing.
-    string mapString = "@--------@]----------]--@----@--]----------]--@----@--]----------]@--------@#";
+    string mapString = "@o-------@]---------o]--@o---@--]-------o--]----------]o---------]@-------o@#";
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
 
-    // ### Test 1 (Success)
+    // ### Test 2 (success)
     printMap(); // Print the map
     moveWidget(0, 0, Direction::RIGHT); ///
     moveWidget(9, 0, Direction::DOWN); ///
@@ -702,31 +708,29 @@ int main() {
     moveWidget(0, 6, Direction::UP); ///
     moveWidget(2, 2, Direction::RIGHT); ///
     moveWidget(7, 2, Direction::DOWN); //
-    moveWidget(7, 4, Direction::LEFT); ///
-    moveWidget(2, 4, Direction::UP); ///
     std::this_thread::sleep_for(std::chrono::seconds(3));
     cout << endl;
     printMap();
 
-    // ### Test 1 results
-    // @--------@]
+    // ### Test 2 results
+    // @o-------@]
+    // ---------o]
+    // --@o---@--]
+    // -------o--]
     // ----------]
-    // --@----@--]
-    // ----------]
-    // --@----@--]
-    // ----------]
-    // @--------@#
+    // o---------]
+    // @-------o@#
     //     V
     // SUCCESSFULLY
     // Becomes
     //     V
-    // -@--------]
+    // -@o-------]
     // ---------@]
-    // ---@------]
-    // --@----@--]
-    // ------@---]
+    // ---@o----o]
+    // -------@--]
+    // o------o--]
     // @---------]
-    // --------@-#
+    // -------o@-#
 
     // TODO: there is a function called `itsSoOver` or something like that. Apparently it's
     // role is to reset rang and then exit the program. You *might* want to figure out another way.
