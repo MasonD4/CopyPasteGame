@@ -326,6 +326,7 @@ void xStepsOnYInteraction(char moving, char steppedOn, int x, int y) {
     // A list of some interactions:
     // * If a key "steps" on a door, the key disappears too.
     // * If a bomb or a chaser steps on a bomb, an explosion occurs.
+    // * If a bomb steps on a chaser an explosion occurs.
     // * Nothing happens if a player steps on a coin. 
     // * Nothing happens if a chaser or rook step on a player or bait. 
 }
