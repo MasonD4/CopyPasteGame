@@ -604,3 +604,17 @@ Saturday March 14 2026
 - - Added a new function called `gatherAgents()`. It just populates the vector `v1`,
 - - which was renamed to `agents` in the previous commit.
 - - It's purpose is pretty much just to make `everythingElse()` leaner.
+
+Sunday April 26 2026
+- - I did a lot of work for the attemptMove, moveWidget, attemptPush, and pushWidget functions.
+- - I then did 5 tests (note: in all tests all widgets were unobstructed):
+- - - - 1. Widgets moving one space, in each of the 4 cardinal directions.
+- - - - - - TEST PASSED: All widgets moved 1 space
+- - - - 2. Widgets pushing one pushable widget one space, in each cardinal direction.
+- - - - - - TEST PASSED: All widgets moved, pushing their payload.
+- - - - 3. Widgets pushing two pushable widgets one space, in each cardinal direction.
+- - - - - - TEST PASSED: All widgets moved, pushing their payload.
+- - - - 4. Widgets pushing five pushable widgets one space, in two cardinal directions (right, down).
+- - - - - - TEST PASSED: All widgets moved, pushing their payload.
+- - - - 5. Widgets pushing six pushable widgets one space, in two cardinal directions (right, down).
+- - - - - - TEST PASSED: No widgets moved, their payload exceeds PUSH_LIMIT by 1.
