@@ -695,12 +695,12 @@ int main() {
     columns = 0;
     rows = 0;
     // string mapString = getMapString(); // Temporarily commented this out for testing.
-    string mapString = "@ooooo---@]---------o]---------o]---------o]---------o]---------o]----------#";
+    string mapString = "@oooooo--@]---------o]---------o]---------o]---------o]---------o]---------o]----------#";
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
 
-    // ### Test 4 (success) (note: test 3 was also a success)
+    // ### Test 5 (success)
     printMap(); // Print the map
     moveWidget(0, 0, Direction::RIGHT); ///
     moveWidget(9, 0, Direction::DOWN); ///
@@ -708,8 +708,9 @@ int main() {
     cout << endl;
     printMap();
 
-    // ### Test 4 results
-    // @ooooo---@]
+    // ### Test 5 results
+    // @oooooo--@]
+    // ---------o]
     // ---------o]
     // ---------o]
     // ---------o]
@@ -720,13 +721,14 @@ int main() {
     // SUCCESSFULLY
     // Becomes
     //     V
-    // -@ooooo---]
-    // ---------@]
+    // @oooooo--@]
     // ---------o]
     // ---------o]
     // ---------o]
     // ---------o]
-    // ---------o#
+    // ---------o]
+    // ---------o]
+    // ----------#
 
     // TODO: there is a function called `itsSoOver` or something like that. Apparently it's
     // role is to reset rang and then exit the program. You *might* want to figure out another way.
