@@ -144,14 +144,14 @@ Chasers and rooks are indifferent to coins.
 ## Magnets
 
 Magnets will move towards or away from other magnets. There are 3 magnet types: A, B, and C.
-A and B magnets mimic real world North and South Poles. They are attracted towards each other,
+A and B magnets mimic real world North and South Poles; they are attracted towards each other,
 but repelled by themselves.
 
 The C magnet is attracted to A and B magnets, as well as itself. Both A and B magnets are repelled
 by the C magnet. Sad.
 
 Magnets are only influenced by magnets that are within their "line of sight".
-Similar to chasers and rooks, have an orthogonal line of sight that goes in the 4 cardinal
+Similar to chasers and rooks, magnets have an orthogonal line of sight that goes in the 4 cardinal
 directions. The range of their sight is defined by the global variable MAGNET_RANGE (currently 5).
 Yes, this means that 2 magnets that are right next to each other diagonally will have no
 effect on each other. I feel that this makes it easier to control them.
