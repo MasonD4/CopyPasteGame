@@ -156,6 +156,10 @@ directions. The range of their sight is defined by the global variable MAGNET_RA
 Yes, this means that 2 magnets that are right next to each other diagonally will have no
 effect on each other. I feel that this makes it easier to control them.
 
+I might rename the A, B, and C magnets to N, S, and M, respectively.
+
+Magnets are pushable.
+
 ## Map creation and the `]` widget
 
 ***TODO***
