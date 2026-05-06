@@ -1,2 +1,161 @@
 This is the readme. It is basically replacing Info.txt as the main source of information about
 the game.
+
+## What are widgets?
+
+What is a widget? "Widget" refers to any one of the "characters" on the game map. For example:
+```
+# # # # ]
+# - - - ]
+# - @ - ]
+# - - - ]
+# # # # ]
+```
+In the above picture, each '#', '@', and '-' is considered a widget.
+(Note: although '-'s are technically widgets, they represent empty space. As such will
+often not be treated as a widget, but rather the absence of a widget)
+(Note 2: ']' is also a widget. It plays a special role in the creation of game maps)
+
+## List of widget types
+
+Here is a list of widget types, as well as a short explanation for each one:
+* `@` Player: the player-controlled widget
+* `#` Wall: an immovable barrier
+* `K` Key: used to open doors
+* `D` Door: an immovable barrier that can be opened with a key
+* Chaser: an enemy that chases the player
+    - `X` Chaser (idle)
+    - `>`Chaser (facing right)
+    - `<`Chaser (facing left)
+    - `^`Chaser (facing up)
+    - `V`Chaser (facing down)
+* `!` Rook: instantly destroys a player in its line of sight
+* `&` Bomb
+* `%` Bait: attracts chasers and rooks
+* `$` Coin: can be collected by a player
+* Magnet: moves towards/away from other magnets
+    - `A`
+    - `B`
+    - `C`
+
+## Keys and doors
+
+A door (`D`) is a non-pushable widget that acts as a barrier, similar to a wall. However,
+it can be destroyed ("opened") using a key.
+A key (`K`) is a pushable widget that can be pushed onto a space occupied by a door, resulting
+in both the key and the door disappearing.
+
+## Chasers
+
+Chasers are enemies to the player. They have an orthogonal line of sight that goes in the
+4 cardinal directions. The range of their sight is defined by the global variable CHASER_SIGHT
+(currently 10).
+
+If a target (player or bait) ends up in a chaser's line of sight, the chaser will turn to face the
+target and begin moving in that direction. If the target leaves the chaser's line of sight,
+the chaser will continue moving in that direction until: 
+* it hits an obstruction, in which case it stops. Or,
+* the target (or a new one) reenters its line of sight.
+
+A chaser's line of sight can be blocked by obstructions.
+
+If a target is in a space adjacent to a chaser, the chaser will move onto the space occupied by said
+target, destroying it.
+
+If a target steps onto a space occupied by a chaser (or if it gets pushed onto a space occupied
+by a chaser), the *target* is destroyed.
+
+Chasers are vulnerable to bombs (as is everything else, tbf).
+
+Chasers can push pushable widgets. Chasers can be pushed.
+
+## Rooks
+
+Rooks are enemies to the player. Similar to chasers, they have an orthogonal line of sight
+that goes in the 4 cardinal directions. The range of their sight is defined by the
+global variable ROOK_SIGHT (currently 10).
+
+If a target (player or bait) ends up in a rook's line of sight, the rook will instantly set its
+own position to that of the target's, destroying the target and taking their spot (an action that's
+referred to as a "bash"). Aside from this, rooks are incapable of movement.
+
+A rook's line of sight can be blocked by obstructions.
+
+If a target steps onto a space occupied by a rook (or if it gets pushed onto a space occupied
+by a rook), the *rook* is destroyed.
+
+Rooks can not push widgets, as they can not move (the "bash" action is closer to teleportation
+than physical movement, and as such can not be used to push widgets).
+
+Rooks can be pushed.
+
+Yes, the rook is named after the rook from chess.
+In fact, a good way to describe the movement of rooks in the Copy and Paste Game would be to
+take a rook from chess and restrict it such that it can only move when it is capturing a piece.
+
+## Bombs
+
+Bombs are really quite simple. When a bomb is detonated, it destroys everything in its "blast zone".
+The blast zone is a square that is centered around the bomb's position. The size of the square
+is determined by the global variable BLAST_RADIUS (currently 3). Specifically, the side length of
+this square is equal to
+`(BLAST_RADIUS * 2) + 1`.
+
+In other words, if BLAST_RADIUS = 2, the blast zone looks like:
+```
+- - - - - - -
+- # # # # # -
+- # # # # # -
+- # # & # # -
+- # # # # # -
+- # # # # # -
+- - - - - - -
+```
+Legend:
+* `#` : in the blast zone
+* `-` : *not* in the blast zone
+* `&` : the detonated bomb. It's in the blast zone, of course.
+
+Naturally, any other bombs caught in the blast zone of a detonated bomb will also be detonated.
+Hooray!
+
+Bombs can be detonated in 3 ways:
+* By pushing a bomb onto another bomb
+* By an enemy moving onto or getting pushed onto a bomb
+* By a bomb getting pushed onto an enemy 
+
+Since bombs are meant to be more of a tool than a hazard for players, bombs will not explode
+on contact with players. However, a detonated bomb will *not* spare a player.
+
+## Bait
+
+Bait is really simple. If a chaser or a rook sees a bait widget, they will target and destroy it
+as they would a player.
+
+## Coins
+
+Coins can be stepped on by a player, resulting in the destruction of the coin. Nothing happens,
+but they player can feel good knowing they "collected" a coin.
+
+Coins are pushable.
+
+Chasers and rooks are indifferent to coins.
+
+## Magnets
+
+Magnets will move towards or away from other magnets. There are 3 magnet types: A, B, and C.
+A and B magnets mimic real world North and South Poles. They are attracted towards each other,
+but repelled by themselves.
+
+The C magnet is attracted to A and B magnets, as well as itself. Both A and B magnets are repelled
+by the C magnet. Sad.
+
+Magnets are only influenced by magnets that are within their "line of sight".
+Similar to chasers and rooks, have an orthogonal line of sight that goes in the 4 cardinal
+directions. The range of their sight is defined by the global variable MAGNET_RANGE (currently 5).
+Yes, this means that 2 magnets that are right next to each other diagonally will have no
+effect on each other. I feel that this makes it easier to control them.
+
+## Map creation and the `]` widget
+
+***TODO***

@@ -104,10 +104,11 @@ const char NEW_ROW = ']';
 const char PLAYER = '@';
 const char ROOK = '!';
 const char WALL = '#';
-const int BASH_RANGE = 10;
-const int BLAST_RADIUS = 2;
+const int BLAST_RADIUS = 3;
+const int CHASER_SIGHT = 10;
 const int MAGNET_RANGE = 5;
 const int PUSH_LIMIT = 5;
+const int ROOK_SIGHT = 10;
 
 // int globalCoinCount = 0; // This may not be necessary.
 vector<pair<int, int>> playerCoordinates;
