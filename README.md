@@ -9,7 +9,7 @@ What is a widget? "Widget" refers to any one of the "characters" on the game map
 # - - - ]
 # - @ - ]
 # - - - ]
-# # # # ]
+# # # # #
 ```
 In the above picture, each '#', '@', and '-' is considered a widget.
 (Note: although '-'s are technically widgets, they represent empty space. As such will
@@ -162,4 +162,46 @@ Magnets are pushable.
 
 ## Map creation and the `]` widget
 
-***TODO***
+Firstly, "map" refers to the 2D "playing field" that the game takes place on.
+
+Maps consist of keyboard characters. As such, maps are designed by simply typing them out.
+Here is an example of a map (I'll refer to it as "the example map"):
+```
+# # # # ]
+# $ - - ]
+# - @ - ]
+# - - - ]
+# # # # #
+```
+
+### Map creation
+
+Once you have designed a map, you can feed it into the game and it will turn that grid of
+keyboard characters (the "raw map") into a 2D vector (the "playable map") in which the game
+takes place. Here is how that works:
+* First, you design a map by typing it out. You can type it out directly within the program
+or you can type it out in a seperate document/text editor and copy and paste the map into the game.
+* Second, the game turns the inputted map into a single usable string (The "map string"):
+    - The `getMapString` function is called and accepts user input. This is where you type out/
+    paste the raw map.
+    - There are multiple ways you can input the raw map. You can input it as a grid or a single
+    line. You can input it with or without spaces. The issue is that the game is only designed to
+    accept it as a single line without spaces. So, the `getMapString` function turns the input
+    into something usable, via the following steps.
+    - If the raw map is a grid with multiple rows, each row is concatenated with each other
+    to form a single single string.
+    - Any spaces in the string are removed.
+    - The result is returned.
+* Third, the game takes the map string and passes it into the `makeMapFromString` function.
+    - First, the function checks for empty input. If the input is empty, a default map is returned.
+    - Second, due to the possibility of the inputted map having inconsistent row lengths, the
+    function finds out the length of the longest row.
+    - Third, the function creates a 2D vector and populates each spot with the appropriate
+    character. Rows that are shorter than the longest row are extended. The spaces that are
+    created by this extension are filled in with the `EMPTY_SPACE` character (a global char var).
+    - The result is returned.
+* Fourth, global variable `theMap` is set equal to the output of `makeMapFromString`.
+
+### The `]` widget
+
+The `]` widget is used to mark the end of a row.
