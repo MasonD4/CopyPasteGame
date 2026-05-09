@@ -189,7 +189,7 @@ or you can type it out in a seperate document/text editor and copy and paste the
     accept it as a single line without spaces. So, the `getMapString` function turns the input
     into something usable, via the following steps.
     - If the raw map is a grid with multiple rows, each row is concatenated with each other
-    to form a single single string.
+    to form a single string.
     - Any spaces in the string are removed.
     - The result is returned.
 * Third, the game takes the map string and passes it into the `makeMapFromString` function.
@@ -226,3 +226,14 @@ an order of operations:
     - Move leftward-moving magnets.
     - Move upward-moving magnets.
     - Move downward-moving magnets.
+
+## Agents
+
+Agents are widgets capable of performing their own actions. So far there are 3 agents:
+* Rooks
+* Chasers
+* Magnets
+
+Players (`@`) are not considered agents because the player moves them, not the computer.
+In other words, they don't need to be considered during the "everything else" section of
+the order of operations.
