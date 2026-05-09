@@ -702,37 +702,10 @@ int main() {
     cout << "Just exited the makeMap function" << endl;
 
 
-    // ### Test 5 (success)
     printMap(); // Print the map
-    moveWidget(0, 0, Direction::RIGHT); ///
-    moveWidget(9, 0, Direction::DOWN); ///
+    moveWidget(10, 0, Direction::LEFT); ///
     std::this_thread::sleep_for(std::chrono::seconds(3));
     cout << endl;
     printMap();
-
-    // ### Test 5 results
-    // @oooooo--@]
-    // ---------o]
-    // ---------o]
-    // ---------o]
-    // ---------o]
-    // ---------o]
-    // ---------o]
-    // ----------#
-    //     V
-    // SUCCESSFULLY
-    // Becomes
-    //     V
-    // @oooooo--@]
-    // ---------o]
-    // ---------o]
-    // ---------o]
-    // ---------o]
-    // ---------o]
-    // ---------o]
-    // ----------#
-
-    // TODO: there is a function called `itsSoOver` or something like that. Apparently it's
-    // role is to reset rang and then exit the program. You *might* want to figure out another way.
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
