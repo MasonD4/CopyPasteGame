@@ -205,3 +205,24 @@ or you can type it out in a seperate document/text editor and copy and paste the
 ### The `]` widget
 
 The `]` widget is used to mark the end of a row.
+
+## Order of operations
+
+In order to ensure the game behaves consistently and deterministically, the game will follow
+an order of operations:
+* The player takes their turn.
+* Everything else "takes its turn":
+    - Scan the whole map (linearly, reading order) and look for rooks. If a rook is spotted,
+    check if there are any nearby available rook targets. If so, have the rook bash it.
+    Each rook should only bash once per turn (on that note, I need to come up with a way to
+    prevent one rook from bashing multiple times).
+    - Scan the map for chasers and change their orientation.
+    - Move right-facing chasers.
+    - Move left-facing chasers.
+    - Move up-facing chasers.
+    - Move down-facing chasers.
+    - Scan the map for magnets and figure out which direction each magnet wants to move in.
+    - Move rightward-moving magnets.
+    - Move leftward-moving magnets.
+    - Move upward-moving magnets.
+    - Move downward-moving magnets.
