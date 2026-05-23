@@ -355,7 +355,7 @@ void xStepsOnYInteraction(char moving, char steppedOn, int x, int y) {
     if (moving == BOMB && (steppedOn == BOMB || steppedOn == ROOK || isAChaser(steppedOn) == true)) {
         explosion(x, y);
     }
-    if (isAChaser(moving) == true && steppedOn == BOMB) {
+    if ((moving == ROOK || isAChaser(moving) == true) && steppedOn == BOMB) {
         explosion(x, y);
     }
 }
@@ -541,7 +541,7 @@ bool xCanStepOnY(char x, char y) {
     if (x == PLAYER && y == COIN) { return true; }
     if (x == KEY && y == DOOR) { return true; }
     if (x == BOMB && (y == BOMB || y == ROOK || isAChaser(y) == true)) { return true; }
-    if ( isAChaser(x) == true && y == BOMB) { return true; }
+    if ((x == ROOK || isAChaser(x) == true) && y == BOMB) { return true; }
     else { return false; }
 }
 
@@ -728,7 +728,7 @@ int main() {
     columns = 0;
     rows = 0;
     // string mapString = getMapString(); // Temporarily commented this out for testing.
-    string mapString = "#######]#######]#######]###@>&#]#######]#######]########";
+    string mapString = "#######]#######]#######]###@!&#]#######]#######]########";
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
