@@ -68,6 +68,7 @@ vector<widgetToken> gatherAgents();
 void addToCounter(int n, char counterType);
 void charToColor(char inputChar);
 void everythingElse();
+void explosion(int x, int y);
 void findPlayers();
 void itsSoOver(int status);
 void moveWidget(int x, int y, Direction dir);
@@ -104,7 +105,7 @@ const char NEW_ROW = ']';
 const char PLAYER = '@';
 const char ROOK = '!';
 const char WALL = '#';
-const int BLAST_RADIUS = 3;
+const int BLAST_RADIUS = 2;
 const int CHASER_SIGHT = 10;
 const int MAGNET_RANGE = 5;
 const int PUSH_LIMIT = 5;
@@ -179,6 +180,26 @@ void everythingElse() {
         cout << "{ Type: " << currentToken.widgetType << " }" << endl;
         cout << "{ Location: (" << currentToken.x << ", " << currentToken.y << ") }" << endl;
         cout << endl;
+    }
+}
+
+void explosion(int x, int y) {
+    setCharOnTheMap(x, y, EMPTY_SPACE);
+    int AbsBR = ( (BLAST_RADIUS >= 0) ? BLAST_RADIUS : (-1 * BLAST_RADIUS) ); // Absolute blast radius
+    
+    for (int iY = y - AbsBR; iY <= y + AbsBR; iY++) {
+        for (int iX = x - AbsBR; iX <= x + AbsBR; iX++) {
+            try {
+                char currentWidget = getFromTheMap(iX, iY);
+                if (currentWidget == BOMB) {
+                    explosion(iX, iY);
+                }
+                else if (currentWidget != NEW_ROW) {
+                    setCharOnTheMap(iX, iY, EMPTY_SPACE);
+                }
+            }
+            catch (...) {}
+        }
     }
 }
 
@@ -330,12 +351,20 @@ void xStepsOnYInteraction(char moving, char steppedOn, int x, int y) {
     // * If a bomb steps on a chaser an explosion occurs.
     // * Nothing happens if a player steps on a coin. 
     // * Nothing happens if a chaser or rook step on a player or bait. 
+
+    if (moving == BOMB && (steppedOn == BOMB || steppedOn == ROOK || isAChaser(steppedOn) == true)) {
+        explosion(x, y);
+    }
+    if (isAChaser(moving) == true && steppedOn == BOMB) {
+        explosion(x, y);
+    }
 }
 
 // This function assumes that the specifics of a move have been figured out.
 // Its job is to see if that move is possible. If so, it
 // returns true; Otherwise, it returns false.
 ValidMove attemptMove(int x, int y, Direction direction) {
+    
     // ### Check starting position
     
     char movingWidget;
@@ -343,7 +372,7 @@ ValidMove attemptMove(int x, int y, Direction direction) {
         movingWidget = getFromTheMap(x, y);
     } catch (...) { return ValidMove::INVALID; } // Note: I might want to change this to valid, it could cause issues when pushing widgets.
     
-    // I'm not going to bother checking if it can move. For now anything can move
+    // I'm not going to bother checking if it can move. For now anything can hypothetically move
     // (that does NOT mean anything can be pushed)
 
     if (movingWidget == EMPTY_SPACE) {
@@ -511,6 +540,8 @@ bool xCanStepOnY(char x, char y) {
     if (y == EMPTY_SPACE) { return true; }
     if (x == PLAYER && y == COIN) { return true; }
     if (x == KEY && y == DOOR) { return true; }
+    if (x == BOMB && (y == BOMB || y == ROOK || isAChaser(y) == true)) { return true; }
+    if ( isAChaser(x) == true && y == BOMB) { return true; }
     else { return false; }
 }
 
@@ -652,7 +683,7 @@ vector<vector<char>> makeMapFromString(const string input) {
     return output;
 }
 
-// It's called "getherAgents" because it creates a vector of widget tokens, and each token
+// It's called "gatherAgents" because it creates a vector of widget tokens, and each token
 // corresponds to a widget with agency (the ability to act on its own).
 vector<widgetToken> gatherAgents() {
     // Loop through the whole map and create a widget token for each widget *WITH AGENCY*.
@@ -697,14 +728,14 @@ int main() {
     columns = 0;
     rows = 0;
     // string mapString = getMapString(); // Temporarily commented this out for testing.
-    string mapString = "@oooooo--@]---------o]---------o]---------o]---------o]---------o]---------o]----------#";
+    string mapString = "#######]#######]#######]###@>&#]#######]#######]########";
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
 
     printMap(); // Print the map
-    moveWidget(10, 0, Direction::LEFT); ///
     std::this_thread::sleep_for(std::chrono::seconds(3));
+    moveWidget(3, 3, Direction::RIGHT);
     cout << endl;
     printMap();
 }
