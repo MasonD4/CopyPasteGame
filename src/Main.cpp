@@ -248,6 +248,12 @@ void performMove(int x, int y, Direction direction) {
     int deltaX = 0;
     int deltaY = 0;
 
+    if (charA == EMPTY_SPACE) {
+        return;
+        // I may want to do the same thing for flowers, but for now let's leave it at
+        // empty space and see how it goes...
+    }
+
     if (direction == Direction::DOWN) { deltaY++; } // Remember: an increase in y = down!
     else if (direction == Direction::LEFT) { deltaX--; }
     else if (direction == Direction::RIGHT) { deltaX++; }
@@ -740,6 +746,6 @@ int main() {
     std::this_thread::sleep_for(std::chrono::seconds(3));
     moveWidget(3, 3, Direction::RIGHT);
     cout << endl;
-    printMap();
+    printMap(); 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
