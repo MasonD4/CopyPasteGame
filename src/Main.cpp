@@ -386,6 +386,9 @@ ValidMove attemptMove(int x, int y, Direction direction) {
         return ValidMove::VALID; // I might want to change this.
         // However, it's possible that the game will never even try to move these because
         // they're not agents.
+
+        // In fact, this entire if-statement may not be necessary. I should test it out.
+        // If I do get rid of it, I should comment it out instead of deleting it, though.
     }
 
     // ### Use the direction to find the new coordinates
@@ -421,7 +424,8 @@ ValidMove attemptPush(int x, int y, Direction direction, int pushCount) {
         // However, it's possible that the game will never even try to move an empty space because
         // it's not an agent.
 
-        // TODO: double check the master branch to see how I did it.
+        // In fact, this entire if-statement may not be necessary. I should test it out.
+        // If I do get rid of it, I should comment it out instead of deleting it, though.
     }
 
     if (isPushable(movingWidget) == false) {
@@ -747,5 +751,8 @@ int main() {
     moveWidget(3, 3, Direction::RIGHT);
     cout << endl;
     printMap(); 
+
+    // TODO: Test out what happens if I delete the if statements in performMove and performPush
+    // that check if the mocing widget is air or flowers.
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
