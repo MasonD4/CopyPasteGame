@@ -97,6 +97,7 @@ const char COIN = '$'; // This could be a '*' or a '$'.
 const char COIN_COUNTER = '?'; // This will be unused but I'll leave it just in case.
 const char DOOR = 'D'; // Note: I'm going to say that doors don't chain.
 const char EMPTY_SPACE = '-';
+const char FLOWER = '*';
 const char KEY = 'K';
 const char MAGNET_A = 'A';
 const char MAGNET_B = 'B';
@@ -375,12 +376,10 @@ ValidMove attemptMove(int x, int y, Direction direction) {
     // I'm not going to bother checking if it can move. For now anything can hypothetically move
     // (that does NOT mean anything can be pushed)
 
-    if (movingWidget == EMPTY_SPACE) {
+    if (movingWidget == EMPTY_SPACE || movingWidget == FLOWER) {
         return ValidMove::VALID; // I might want to change this.
-        // However, it's possible that the game will never even try to move an empty space because
-        // it's not an agent.
-
-        // TODO: double check the master branch to see how I did it.
+        // However, it's possible that the game will never even try to move these because
+        // they're not agents.
     }
 
     // ### Use the direction to find the new coordinates
@@ -411,7 +410,7 @@ ValidMove attemptPush(int x, int y, Direction direction, int pushCount) {
         movingWidget = getFromTheMap(x, y);
     } catch (...) { return ValidMove::INVALID; } // Note: I might want to change this to valid, it could cause issues when pushing widgets.
 
-    if (movingWidget == EMPTY_SPACE) {
+    if (movingWidget == EMPTY_SPACE || movingWidget == FLOWER) {
         return ValidMove::VALID; // I might want to change this.
         // However, it's possible that the game will never even try to move an empty space because
         // it's not an agent.
@@ -537,7 +536,7 @@ bool isThereAPlayer() {
 // IE, If widget x moves onto a space occupied by widget y,
 // will widget y simply cease to exist?
 bool xCanStepOnY(char x, char y) {
-    if (y == EMPTY_SPACE) { return true; }
+    if (y == EMPTY_SPACE || y == FLOWER) { return true; }
     if (x == PLAYER && y == COIN) { return true; }
     if (x == KEY && y == DOOR) { return true; }
     if (x == BOMB && (y == BOMB || y == ROOK || isAChaser(y) == true)) { return true; }

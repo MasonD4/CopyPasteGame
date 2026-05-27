@@ -19,6 +19,7 @@ often not be treated as a widget, but rather the absence of a widget)
 ## List of widget types
 
 Here is a list of widget types, as well as a short explanation for each one:
+* `-` Empty space
 * `@` Player: the player-controlled widget
 * `#` Wall: an immovable barrier
 * `K` Key: used to open doors
@@ -33,6 +34,7 @@ Here is a list of widget types, as well as a short explanation for each one:
 * `&` Bomb
 * `%` Bait: attracts chasers and rooks
 * `$` Coin: can be collected by a player
+* `*` Flower: It can be stepped on, destroying it.
 * Magnet: moves towards/away from other magnets
     - `A`
     - `B`
@@ -140,6 +142,19 @@ but they player can feel good knowing they "collected" a coin.
 Coins are pushable.
 
 Chasers and rooks are indifferent to coins.
+
+## Flowers
+
+Flowers can be stepped on, resulting in them being destroyed or "collected", depending on
+how you want to interpret it.
+
+They are essentially the same thing as empty space, except they're visually distinct.
+
+They can be treated like coins, as something to be collected. Or they can be used to draw paths or
+designs that have no physical presence.
+
+Like empty space, they are technically pushable, but since everything can step on them, they will
+never actually get pushed, just stepped on.
 
 ## Magnets
 
