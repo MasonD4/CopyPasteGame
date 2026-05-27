@@ -727,12 +727,16 @@ int main() {
     columns = 0;
     rows = 0;
     // string mapString = getMapString(); // Temporarily commented this out for testing.
-    string mapString = "#######]#######]#######]###@!&#]#######]#######]########";
+    string mapString = "#######]#-----#]#-----#]#-@*@-#]#-----#]#-----#]########";
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
 
-    printMap(); // Print the map
+    printMap();
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    moveWidget(2, 3, Direction::RIGHT);
+    cout << endl;
+    printMap();
     std::this_thread::sleep_for(std::chrono::seconds(3));
     moveWidget(3, 3, Direction::RIGHT);
     cout << endl;
