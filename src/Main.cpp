@@ -382,14 +382,18 @@ ValidMove attemptMove(int x, int y, Direction direction) {
     // I'm not going to bother checking if it can move. For now anything can hypothetically move
     // (that does NOT mean anything can be pushed)
 
-    if (movingWidget == EMPTY_SPACE || movingWidget == FLOWER) {
-        return ValidMove::VALID; // I might want to change this.
-        // However, it's possible that the game will never even try to move these because
-        // they're not agents.
+    // if (movingWidget == EMPTY_SPACE || movingWidget == FLOWER) {
+    //     return ValidMove::VALID; // I might want to change this.
+    //     // However, it's possible that the game will never even try to move an empty space
+    //     // or flower because
+    //     // they're not agents, and because they can't be pushed (they just get stepped on).
 
-        // In fact, this entire if-statement may not be necessary. I should test it out.
-        // If I do get rid of it, I should comment it out instead of deleting it, though.
-    }
+    //     // In fact, this entire if-statement may not be necessary. It actually seems to
+    //     // result in a behaviour where if you move a flower or empty space (by calling moveWidget
+    //     // on the flower/empty space directly), anything in it's way get's destroyed because,
+    //     // if the moving widget is a flower or empty space, this function automatically approves
+    //     // the move.
+    // }
 
     // ### Use the direction to find the new coordinates
 
@@ -419,14 +423,18 @@ ValidMove attemptPush(int x, int y, Direction direction, int pushCount) {
         movingWidget = getFromTheMap(x, y);
     } catch (...) { return ValidMove::INVALID; } // Note: I might want to change this to valid, it could cause issues when pushing widgets.
 
-    if (movingWidget == EMPTY_SPACE || movingWidget == FLOWER) {
-        return ValidMove::VALID; // I might want to change this.
-        // However, it's possible that the game will never even try to move an empty space because
-        // it's not an agent.
+    // if (movingWidget == EMPTY_SPACE || movingWidget == FLOWER) {
+    //     return ValidMove::VALID; // I might want to change this.
+    //     // However, it's possible that the game will never even try to move an empty space
+    //     // or flower because
+    //     // they're not agents, and because they can't be pushed (they just get stepped on).
 
-        // In fact, this entire if-statement may not be necessary. I should test it out.
-        // If I do get rid of it, I should comment it out instead of deleting it, though.
-    }
+    //     // In fact, this entire if-statement may not be necessary. It actually seems to
+    //     // result in a behaviour where if you move a flower or empty space (by calling moveWidget
+    //     // on the flower/empty space directly), anything in it's way get's destroyed because,
+    //     // if the moving widget is a flower or empty space, this function automatically approves
+    //     // the move.
+    // }
 
     if (isPushable(movingWidget) == false) {
         return ValidMove::INVALID;
@@ -737,7 +745,7 @@ int main() {
     columns = 0;
     rows = 0;
     // string mapString = getMapString(); // Temporarily commented this out for testing.
-    string mapString = "#######]#-----#]#-----#]#-@*@-#]#-----#]#-----#]########";
+    string mapString = "#######]#-----#]#-----#]#-*@@-#]#-----#]#-----#]########";
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
@@ -753,6 +761,6 @@ int main() {
     printMap(); 
 
     // TODO: Test out what happens if I delete the if statements in performMove and performPush
-    // that check if the mocing widget is air or flowers.
+    // that check if the moving widget is air or flowers.
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
