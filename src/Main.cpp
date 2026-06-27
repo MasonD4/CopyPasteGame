@@ -359,6 +359,9 @@ void xStepsOnYInteraction(char moving, char steppedOn, int x, int y) {
     // * Nothing happens if a player steps on a coin. 
     // * Nothing happens if a chaser or rook step on a player or bait. 
 
+    if (moving == KEY && steppedOn == DOOR) {
+        setCharOnTheMap(x, y, EMPTY_SPACE);
+    }
     if (moving == BOMB && (steppedOn == BOMB || steppedOn == ROOK || isAChaser(steppedOn) == true)) {
         explosion(x, y);
     }
@@ -745,7 +748,7 @@ int main() {
     columns = 0;
     rows = 0;
     // string mapString = getMapString(); // Temporarily commented this out for testing.
-    string mapString = "#######]#-----#]#-----#]#-*@@-#]#-----#]#-----#]########";
+    string mapString = "#######]#-----#]#-----#]#-@KD-#]#-----#]#-----#]########";
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
