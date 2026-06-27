@@ -12,7 +12,7 @@ What is a widget? "Widget" refers to any one of the "characters" on the game map
 # # # # #
 ```
 In the above picture, each '#', '@', and '-' is considered a widget.
-(Note: although '-'s are technically widgets, they represent empty space. As such will
+(Note: although '-'s are technically widgets, they represent empty space. As such, they will
 often not be treated as a widget, but rather the absence of a widget)
 (Note 2: ']' is also a widget. It plays a special role in the creation of game maps)
 
@@ -39,6 +39,7 @@ Here is a list of widget types, as well as a short explanation for each one:
     - `A`
     - `B`
     - `C`
+* `]` New line: signals the end of a line/row during map creation
 
 ## Keys and doors
 
