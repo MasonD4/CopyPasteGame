@@ -55,11 +55,12 @@ bool isPushable(char);
 bool isOnMap(int x, int y);
 bool isThereAPlayer();
 bool xCanStepOnY(char x, char y);
+char getFromTheMap(int x, int y);
+char numberToChar(int n);
+int attemptBash(int x, int y, Direction direction);
 int clamp(int input);
 int clamp(int input, int lower, int upper);
 int determineNumber(char);
-char getFromTheMap(int x, int y);
-char numberToChar(int n);
 string getMapString();
 ValidMove attemptMove(int x, int y, Direction direction);
 ValidMove attemptPush(int x, int y, Direction direction, int pushCount);
@@ -483,6 +484,7 @@ bool canBash(char input) {
 // Checks if a widget can be bashed.
 bool canBeBashed(char input) {
     if (input == PLAYER) { return true; }
+    if (input == BAIT) { return true; }
     else { return false; }
 }
 
@@ -563,6 +565,38 @@ bool xCanStepOnY(char x, char y) {
     if (x == BOMB && (y == BOMB || y == ROOK || isAChaser(y) == true)) { return true; }
     if ((x == ROOK || isAChaser(x) == true) && y == BOMB) { return true; }
     else { return false; }
+}
+
+int attemptBash(int x, int y, Direction direction) {
+    int deltaX = 0;
+    int deltaY = 0;
+
+    if (direction == Direction::DOWN) { deltaY++; } // Remember: an increase in y = down!
+    else if (direction == Direction::LEFT) { deltaX--; }
+    else if (direction == Direction::RIGHT) { deltaX++; }
+    else if (direction == Direction::UP) { deltaY--; }
+    else {
+        cout << "attemptBash was given an invalid direction, somehow..." << endl;
+        return;
+    }
+
+    int result = 0;
+    try {
+        for (int i = 1; i <= ROOK_SIGHT; i++) {
+            int iX = x + (deltaX * i);
+            int iY = y + (deltaY * i);
+            char currentWidget = getFromTheMap(iX, iY);
+
+            if (canBeBashed(currentWidget)) {
+                result = i;
+                break;
+            }
+            else if (currentWidget != EMPTY_SPACE && currentWidget != FLOWER) { break; }
+        }
+    }
+    catch(...) {}
+
+    return result;
 }
 
 int clamp(int input) {
@@ -763,7 +797,6 @@ int main() {
     cout << endl;
     printMap(); 
 
-    // TODO: Test out what happens if I delete the if statements in performMove and performPush
-    // that check if the moving widget is air or flowers.
+    // TODO: Test out the attemptBash function. Somehow. I don't know how. 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
