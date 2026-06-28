@@ -73,6 +73,7 @@ void explosion(int x, int y);
 void findPlayers();
 void itsSoOver(int status);
 void moveWidget(int x, int y, Direction dir);
+void performBash(int x, int y, Direction direction, int distance);
 void performMove(int x, int y, Direction direction);
 void playerTurn();
 void printMap();
@@ -242,6 +243,31 @@ void moveWidget(int x, int y, Direction dir) {
         if (result == ValidMove::VALID) { performMove(x, y, dir); }
     }
     // Otherwise, just quit.
+}
+
+void performBash(int x, int y, Direction direction, int distance) {
+    int newX = x;
+    int newY = y;
+
+    // Assumes bounds checking was already done by attemptBash().
+    if (direction == Direction::DOWN) { newY += distance; }
+    else if (direction == Direction::LEFT) { newX -= distance; }
+    else if (direction == Direction::RIGHT) { newX += distance; }
+    else if (direction == Direction::UP) { newY -= distance; }
+
+    char bashingWidget = getFromTheMap(x, y);
+    char bashedWidget = getFromTheMap(newX, newY);
+
+    setCharOnTheMap(newX, newY, bashingWidget);
+    setCharOnTheMap(x, y, EMPTY_SPACE);
+    xStepsOnYInteraction(newX, newY, bashingWidget, bashedWidget);
+    // Regarding the above line, I don't think any of the rook's current possible targets
+    // (players and bait) have any interaction upon being stepped on, so that above line may
+    // be unnecessary. Furthermore, since bashing is not the same thing as moving normally,
+    // calling xStepsOnYInteraction() may not be apt.
+    // Nonetheless, if I ever do add an iteraction for bashing a player or bait, or if
+    // I add a widget that the rook can bash that results in some interaction, then it will
+    // be stupid easy to implement.
 }
 
 void performMove(int x, int y, Direction direction) {
@@ -798,5 +824,12 @@ int main() {
     printMap(); 
 
     // TODO: Test out the attemptBash function. Somehow. I don't know how. 
+    // Scratch that, I know how:
+    //     Implement a primitive version of the everythingElse() function.
+    //     All it does it scan the map, looking for rooks. Whenever it sees a rook,
+    //     it calls attemptBash() on all four directions around that rook. Once
+    //     attemptBash() returns a number other than zero, perform the bash.
+    //     Note: This will NOT do checks to prevent the same rook from bashing multiple
+    //     times. That's ok. I kind of want to see how it plays out.
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
