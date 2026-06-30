@@ -54,6 +54,7 @@ bool isNextToChar(int x, int y, char theChar);
 bool isPushable(char);
 bool isOnMap(int x, int y);
 bool isThereAPlayer();
+bool playerTurn();
 bool xCanStepOnY(char x, char y);
 char getFromTheMap(int x, int y);
 char numberToChar(int n);
@@ -75,7 +76,6 @@ void itsSoOver(int status);
 void moveWidget(int x, int y, Direction dir);
 void performBash(int x, int y, Direction direction, int distance);
 void performMove(int x, int y, Direction direction);
-void playerTurn();
 void printMap();
 void pushWidget(int x, int y, Direction dir, int pushCount); // TODO
 void setCharOnTheMap(int x, int y, char newChar);
@@ -167,6 +167,9 @@ void charToColor(char inputChar) {
 
 // This is the function that allows every widget besides the player takes its turn.
 void everythingElse() {
+    
+
+    /*
     vector<widgetToken> agents;
     vector<widgetToken> imminentActors;
     
@@ -184,6 +187,7 @@ void everythingElse() {
         cout << "{ Location: (" << currentToken.x << ", " << currentToken.y << ") }" << endl;
         cout << endl;
     }
+    */
 }
 
 void explosion(int x, int y) {
@@ -294,10 +298,6 @@ void performMove(int x, int y, Direction direction) {
     setCharOnTheMap(x + deltaX, y + deltaY, charA);
     setCharOnTheMap(x, y, EMPTY_SPACE);
     xStepsOnYInteraction(charA, charB, x + deltaX, y + deltaY);
-}
-
-void playerTurn() {
-    // XXX under renovations
 }
 
 void printMap() {
@@ -581,6 +581,10 @@ bool isThereAPlayer() {
     }
 }
 
+bool playerTurn() {
+    // XXX under renovations
+}
+
 // Can one widget (x) step on another (y)
 // IE, If widget x moves onto a space occupied by widget y,
 // will widget y simply cease to exist?
@@ -812,7 +816,14 @@ int main() {
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
+    bool shouldContinue = true;
+    while(shouldContinue) {
+        printMap();
+        shouldContinue = playerTurn();
+        everythingElse();
+    }
 
+    /*
     printMap();
     std::this_thread::sleep_for(std::chrono::seconds(3));
     moveWidget(2, 3, Direction::RIGHT);
@@ -822,6 +833,7 @@ int main() {
     moveWidget(3, 3, Direction::RIGHT);
     cout << endl;
     printMap(); 
+    */
 
     // TODO: Test out the attemptBash function. Somehow. I don't know how. 
     // Scratch that, I know how:
