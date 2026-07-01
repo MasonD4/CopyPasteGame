@@ -614,7 +614,16 @@ bool isThereAPlayer() {
 }
 
 bool playerTurn() {
-    // XXX under renovations
+    findPlayers();
+    string inputString;
+    
+    if (playerCoordinates.size() == 0) {
+        getline(cin, inputString);
+        if (inputString == "quit" || inputString == "Quit" || inputString == "QUIT") { return false; }
+        else { return true; }
+    }
+    // getline(cin, inputString);
+    return false;
 }
 
 // Can one widget (x) step on another (y)
@@ -630,6 +639,7 @@ bool xCanStepOnY(char x, char y) {
 }
 
 int attemptBash(int x, int y, Direction direction) {
+    // Note: returning 0 is this function's way of saying "no valid/available bash oppurtunity."
     if (canBash(getFromTheMap(x, y)) == false) { return 0; }
 
     int deltaX = 0;
@@ -641,7 +651,7 @@ int attemptBash(int x, int y, Direction direction) {
     else if (direction == Direction::UP) { deltaY--; }
     else {
         cout << "attemptBash was given an invalid direction, somehow..." << endl;
-        return;
+        return 0;
     }
 
     int result = 0;
@@ -845,10 +855,14 @@ int main() {
     // Take the input, refine it, and then turn it into a game map.
     columns = 0;
     rows = 0;
-    // string mapString = getMapString(); // Temporarily commented this out for testing.
-    string mapString = "#######]#-----#]#-----#]#-@KD-#]#-----#]#-----#]########";
+    string mapString = getMapString(); // Temporarily commented this out for testing.
+    // string mapString = "#######]#-----#]#-----#]#-@KD-#]#-----#]#-----#]########";
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
+    findPlayers();
+    if (playerCoordinates.size() == 0) {
+        cout << "There are no players.\nPress enter to adanvce time, or type 'quit' to quit" << endl;
+    }
 
     bool shouldContinue = true;
     while(shouldContinue) {
