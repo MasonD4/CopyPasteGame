@@ -69,6 +69,7 @@ vector<vector<char>> makeMapFromString(string);
 vector<widgetToken> gatherAgents();
 void addToCounter(int n, char counterType);
 void charToColor(char inputChar);
+void decideRookMove(int x, int y);
 void everythingElse();
 void explosion(int x, int y);
 void findPlayers();
@@ -165,15 +166,46 @@ void charToColor(char inputChar) {
     else if (inputChar == ROOK) { cout << rang::fg::red; }
 }
 
+void decideRookMove(int x, int y) {
+    bool keepChecking = true;
+    int abResult;
+
+    abResult = attemptBash(x, y, Direction::UP);
+    if (abResult != 0) {
+        performBash(x, y, Direction::UP, abResult);
+        keepChecking = false;
+    }
+    abResult = attemptBash(x, y, Direction::DOWN);
+    if (keepChecking && abResult != 0) {
+        performBash(x, y, Direction::DOWN, abResult);
+        keepChecking = false;
+    }
+    abResult = attemptBash(x, y, Direction::LEFT);
+    if (keepChecking && abResult != 0) {
+        performBash(x, y, Direction::LEFT, abResult);
+        keepChecking = false;
+    }
+    abResult = attemptBash(x, y, Direction::RIGHT);
+    if (keepChecking && abResult != 0) {
+        performBash(x, y, Direction::RIGHT, abResult);
+    }
+}
+
 // This is the function that allows every widget besides the player takes its turn.
 void everythingElse() {
-    
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            if (getFromTheMap(x, y) == ROOK) {
+                decideRookMove(x, y);
+            }
+        }
+    }
 
     /*
     vector<widgetToken> agents;
     vector<widgetToken> imminentActors;
     
-    agents = gatherAgents();
+    agents = gatherAgents(); 
 
     // Loop through agents, and find any agents who can perform a bash.
     for (int i = 0; i < agents.size(); i++) {
@@ -598,6 +630,8 @@ bool xCanStepOnY(char x, char y) {
 }
 
 int attemptBash(int x, int y, Direction direction) {
+    if (canBash(getFromTheMap(x, y)) == false) { return 0; }
+
     int deltaX = 0;
     int deltaY = 0;
 
