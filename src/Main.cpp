@@ -622,8 +622,37 @@ bool playerTurn() {
         if (inputString == "quit" || inputString == "Quit" || inputString == "QUIT") { return false; }
         else { return true; }
     }
-    // getline(cin, inputString);
-    return false;
+
+    // XXX From this point on, you are looking at a rough version of playerTurn().
+    // The below code is just scrapped together to test out rooks.
+    // ** It assumes there is only 1 instance of the player. ** 
+    
+    bool badInput;
+    int playerX = playerCoordinates[0].first;
+    int playerY = playerCoordinates[0].second;
+    do {
+        badInput = false;
+        getline(cin, inputString);
+
+        if (inputString == "w" || inputString == "W") {
+            moveWidget(playerX, playerY, Direction::UP);
+        }
+        else if (inputString == "s" || inputString == "S") {
+            moveWidget(playerX, playerY, Direction::DOWN);
+        }
+        else if (inputString == "a" || inputString == "A") {
+            moveWidget(playerX, playerY, Direction::LEFT);
+        }
+        else if (inputString == "d" || inputString == "D") {
+            moveWidget(playerX, playerY, Direction::RIGHT);
+        }
+        else if (inputString == "quit" || inputString == "Quit" || inputString == "QUIT") { return false; }
+        else {
+            cout << "Invalid input!" << endl;
+            badInput = true;
+        }
+    } while (badInput);
+    return true;
 }
 
 // Can one widget (x) step on another (y)
@@ -633,6 +662,7 @@ bool xCanStepOnY(char x, char y) {
     if (y == EMPTY_SPACE || y == FLOWER) { return true; }
     if (x == PLAYER && y == COIN) { return true; }
     if (x == KEY && y == DOOR) { return true; }
+    if (x == PLAYER && y == ROOK) { return true; }
     if (x == BOMB && (y == BOMB || y == ROOK || isAChaser(y) == true)) { return true; }
     if ((x == ROOK || isAChaser(x) == true) && y == BOMB) { return true; }
     else { return false; }
