@@ -901,6 +901,21 @@ int main() {
         everythingElse();
     }
 
+    // TODO: Test out the attemptBash and performBash functions: 
+    //     Implement a primitive version of the everythingElse() function.
+    //     All it does it scan the map, looking for rooks. Whenever it sees a rook,
+    //     it calls attemptBash() on all four directions around that rook. Once
+    //     attemptBash() returns a number other than zero, perform the bash.
+    //     Note: This will NOT do checks to prevent the same rook from bashing multiple
+    //     times. That's ok. I kind of want to see how it plays out.
+    //
+    //     Beware: You won't JUST be testing attemptBash() and performBash(). You'll be testing:
+    //         * playerTurn()
+    //         * everythingElse()
+    //         * decideRookMove()
+    //         * attemptBash()
+    //         * performBash()
+
     /*
     printMap();
     std::this_thread::sleep_for(std::chrono::seconds(3));
@@ -912,14 +927,5 @@ int main() {
     cout << endl;
     printMap(); 
     */
-
-    // TODO: Test out the attemptBash function. Somehow. I don't know how. 
-    // Scratch that, I know how:
-    //     Implement a primitive version of the everythingElse() function.
-    //     All it does it scan the map, looking for rooks. Whenever it sees a rook,
-    //     it calls attemptBash() on all four directions around that rook. Once
-    //     attemptBash() returns a number other than zero, perform the bash.
-    //     Note: This will NOT do checks to prevent the same rook from bashing multiple
-    //     times. That's ok. I kind of want to see how it plays out.
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////
