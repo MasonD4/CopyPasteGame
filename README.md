@@ -233,10 +233,10 @@ an order of operations:
     Each rook should only bash once per turn (on that note, I need to come up with a way to
     prevent one rook from bashing multiple times).
     - Scan the map for chasers and change their orientation.
-    - Move right-facing chasers.
-    - Move left-facing chasers.
     - Move up-facing chasers.
     - Move down-facing chasers.
+    - Move left-facing chasers.
+    - Move right-facing chasers.
     - Scan the map for magnets and figure out which direction each magnet wants to move in.
     - Move rightward-moving magnets.
     - Move leftward-moving magnets.
