@@ -427,6 +427,9 @@ void xStepsOnYInteraction(char moving, char steppedOn, int x, int y) {
     if ((moving == ROOK || isAChaser(moving) == true) && steppedOn == BOMB) {
         explosion(x, y);
     }
+    if (moving == PLAYER && isAChaser(steppedOn)) {
+        setCharOnTheMap(x, y, steppedOn);
+    }
 }
 
 // This function assumes that the specifics of a move have been figured out.
@@ -666,6 +669,8 @@ bool xCanStepOnY(char x, char y) {
     if (x == PLAYER && y == ROOK) { return true; }
     if (x == BOMB && (y == BOMB || y == ROOK || isAChaser(y) == true)) { return true; }
     if ((x == ROOK || isAChaser(x) == true) && y == BOMB) { return true; }
+    if (isAChaser(x) == true && y == PLAYER) { return true; }
+    if (x == PLAYER && isAChaser(y) == true) { return true; }
     else { return false; }
 }
 
