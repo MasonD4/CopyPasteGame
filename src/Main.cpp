@@ -618,6 +618,7 @@ bool playerTurn() {
     string inputString;
     
     if (playerCoordinates.size() == 0) {
+        cout << "There are no players.\nPress enter to adanvce time, or type 'quit' to quit" << endl;
         getline(cin, inputString);
         if (inputString == "quit" || inputString == "Quit" || inputString == "QUIT") { return false; }
         else { return true; }
@@ -889,10 +890,6 @@ int main() {
     // string mapString = "#######]#-----#]#-----#]#-@KD-#]#-----#]#-----#]########";
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
-    findPlayers();
-    if (playerCoordinates.size() == 0) {
-        cout << "There are no players.\nPress enter to adanvce time, or type 'quit' to quit" << endl;
-    }
 
     bool shouldContinue = true;
     while(shouldContinue) {
