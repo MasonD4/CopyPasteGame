@@ -102,9 +102,9 @@ const char DOOR = 'D'; // Note: I'm going to say that doors don't chain.
 const char EMPTY_SPACE = '-';
 const char FLOWER = '*';
 const char KEY = 'K';
-const char MAGNET_A = 'A';
-const char MAGNET_B = 'B';
-const char MAGNET_C = 'C';
+const char MAGNET_N = 'N';
+const char MAGNET_S = 'S';
+const char MAGNET_M = 'M';
 const char NEW_ROW = ']';
 const char PLAYER = '@';
 const char ROOK = '!';
@@ -115,7 +115,6 @@ const int MAGNET_RANGE = 5;
 const int PUSH_LIMIT = 5;
 const int ROOK_SIGHT = 10;
 
-// int globalCoinCount = 0; // This may not be necessary.
 vector<pair<int, int>> playerCoordinates;
 
 // The Game Map
@@ -200,26 +199,6 @@ void everythingElse() {
             }
         }
     }
-
-    /*
-    vector<widgetToken> agents;
-    vector<widgetToken> imminentActors;
-    
-    agents = gatherAgents(); 
-
-    // Loop through agents, and find any agents who can perform a bash.
-    for (int i = 0; i < agents.size(); i++) {
-        if ( canBash(agents.at(i).widgetType) ) {
-            imminentActors.push_back(agents.at(i));
-        }
-    }
-    
-    for (const widgetToken& currentToken : agents) {
-        cout << "{ Type: " << currentToken.widgetType << " }" << endl;
-        cout << "{ Location: (" << currentToken.x << ", " << currentToken.y << ") }" << endl;
-        cout << endl;
-    }
-    */
 }
 
 void explosion(int x, int y) {
@@ -902,21 +881,6 @@ int main() {
         shouldContinue = playerTurn();
         everythingElse();
     }
-
-    // TODO: Test out the attemptBash and performBash functions: 
-    //     Implement a primitive version of the everythingElse() function.
-    //     All it does it scan the map, looking for rooks. Whenever it sees a rook,
-    //     it calls attemptBash() on all four directions around that rook. Once
-    //     attemptBash() returns a number other than zero, perform the bash.
-    //     Note: This will NOT do checks to prevent the same rook from bashing multiple
-    //     times. That's ok. I kind of want to see how it plays out.
-    //
-    //     Beware: You won't JUST be testing attemptBash() and performBash(). You'll be testing:
-    //         * playerTurn()
-    //         * everythingElse()
-    //         * decideRookMove()
-    //         * attemptBash()
-    //         * performBash()
 
     /*
     printMap();
