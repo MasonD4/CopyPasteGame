@@ -69,7 +69,6 @@ vector<vector<char>> makeMapFromString(string);
 vector<widgetToken> gatherAgents();
 void addToCounter(int n, char counterType);
 void charToColor(char inputChar);
-void decideRookMove(int x, int y);
 void everythingElse();
 void explosion(int x, int y);
 void findPlayers();
@@ -78,7 +77,8 @@ void moveWidget(int x, int y, Direction dir);
 void performBash(int x, int y, Direction direction, int distance);
 void performMove(int x, int y, Direction direction);
 void printMap();
-void pushWidget(int x, int y, Direction dir, int pushCount); // TODO
+void pushWidget(int x, int y, Direction dir, int pushCount);
+void rookAction(int x, int y);
 void setCharOnTheMap(int x, int y, char newChar);
 void widgetTroupe();
 void xStepsOnYInteraction(char moving, char steppedOn, int x, int y);
@@ -165,7 +165,7 @@ void charToColor(char inputChar) {
     else if (inputChar == ROOK) { cout << rang::fg::red; }
 }
 
-void decideRookMove(int x, int y) {
+void rookAction(int x, int y) {
     bool keepChecking = true;
     int abResult;
 
@@ -195,7 +195,7 @@ void everythingElse() {
     for (int y = 0; y < rows; y++) {
         for (int x = 0; x < columns; x++) {
             if (getFromTheMap(x, y) == ROOK) {
-                decideRookMove(x, y);
+                rookAction(x, y);
             }
         }
     }
