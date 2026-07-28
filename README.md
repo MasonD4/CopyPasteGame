@@ -36,9 +36,9 @@ Here is a list of widget types, as well as a short explanation for each one:
 * `$` Coin: can be collected by a player
 * `*` Flower: It can be stepped on, destroying it.
 * Magnet: moves towards/away from other magnets
-    - `A`
-    - `B`
-    - `C`
+    - `N`
+    - `S`
+    - `M`
 * `]` New line: signals the end of a line/row during map creation
 
 ## Keys and doors
@@ -159,20 +159,18 @@ never actually get pushed, just stepped on.
 
 ## Magnets
 
-Magnets will move towards or away from other magnets. There are 3 magnet types: A, B, and C.
-A and B magnets mimic real world North and South Poles; they are attracted towards each other,
+Magnets will move towards or away from other magnets. There are 3 magnet types: N, S, and M.
+N and S magnets mimic real world North and South Poles; they are attracted towards each other,
 but repelled by themselves.
 
-The C magnet is attracted to A and B magnets, as well as itself. Both A and B magnets are repelled
-by the C magnet. Sad.
+The M magnet is attracted to N and S magnets, as well as itself. Both N and S magnets are repelled
+by the M magnet. Sad.
 
 Magnets are only influenced by magnets that are within their "line of sight".
 Similar to chasers and rooks, magnets have an orthogonal line of sight that goes in the 4 cardinal
 directions. The range of their sight is defined by the global variable MAGNET_RANGE (currently 5).
 Yes, this means that 2 magnets that are right next to each other diagonally will have no
 effect on each other. I feel that this makes it easier to control them.
-
-I might rename the A, B, and C magnets to N, S, and M, respectively.
 
 Magnets are pushable.
 
