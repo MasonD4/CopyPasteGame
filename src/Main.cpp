@@ -12,6 +12,7 @@
 #include <stack>
 #include <stdlib.h>
 #include <memory>
+#include <utility>
 #include <thread> // This isn't needed for the game, I'm just using it for testing.
 #include <chrono> // This isn't needed for the game, I'm just using it for testing.
 #include "rang.hpp"
@@ -62,6 +63,7 @@ int attemptBash(int x, int y, Direction direction);
 int clamp(int input);
 int clamp(int input, int lower, int upper);
 int determineNumber(char);
+pair<int, int> rookAction(int x, int y);
 string getMapString();
 ValidMove attemptMove(int x, int y, Direction direction);
 ValidMove attemptPush(int x, int y, Direction direction, int pushCount);
@@ -78,7 +80,7 @@ void performBash(int x, int y, Direction direction, int distance);
 void performMove(int x, int y, Direction direction);
 void printMap();
 void pushWidget(int x, int y, Direction dir, int pushCount);
-void rookAction(int x, int y);
+void rookTurn();
 void setCharOnTheMap(int x, int y, char newChar);
 void widgetTroupe();
 void xStepsOnYInteraction(char moving, char steppedOn, int x, int y);
@@ -165,40 +167,9 @@ void charToColor(char inputChar) {
     else if (inputChar == ROOK) { cout << rang::fg::red; }
 }
 
-void rookAction(int x, int y) {
-    bool keepChecking = true;
-    int abResult;
-
-    abResult = attemptBash(x, y, Direction::UP);
-    if (abResult != 0) {
-        performBash(x, y, Direction::UP, abResult);
-        keepChecking = false;
-    }
-    abResult = attemptBash(x, y, Direction::DOWN);
-    if (keepChecking && abResult != 0) {
-        performBash(x, y, Direction::DOWN, abResult);
-        keepChecking = false;
-    }
-    abResult = attemptBash(x, y, Direction::LEFT);
-    if (keepChecking && abResult != 0) {
-        performBash(x, y, Direction::LEFT, abResult);
-        keepChecking = false;
-    }
-    abResult = attemptBash(x, y, Direction::RIGHT);
-    if (keepChecking && abResult != 0) {
-        performBash(x, y, Direction::RIGHT, abResult);
-    }
-}
-
 // This is the function that allows every widget besides the player takes its turn.
 void everythingElse() {
-    for (int y = 0; y < rows; y++) {
-        for (int x = 0; x < columns; x++) {
-            if (getFromTheMap(x, y) == ROOK) {
-                rookAction(x, y);
-            }
-        }
-    }
+    rookTurn();
 }
 
 void explosion(int x, int y) {
@@ -342,6 +313,29 @@ void pushWidget(int x, int y, Direction dir, int pushCount) {
         if (result == ValidMove::VALID) { performMove(x, y, dir); }
     }
     // Otherwise, just quit.
+}
+
+// Calls `rookAction()` on all rooks in the map.
+void rookTurn() {
+    vector<pair<int, int>> exhaustedRooks;
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            pair<int, int> currentCoords;
+            currentCoords.first = x;
+            currentCoords.second = y;
+            if (getFromTheMap(x, y) != ROOK) {continue;}
+            for (pair<int, int> erCoords : exhaustedRooks) {
+                if (erCoords == currentCoords) {continue;}
+            }
+            pair<int, int> newCoords = rookAction(x, y);
+            // Technically, the below if-statement is unnecessary because if a rook doesn't
+            // move, it doesn't matter if it goes in exhaustedRooks or not, because It will never
+            // be seen by the parser again. But, since it doesn't matter, I want to refrain from
+            // pushing it into exhaustedRooks. This minimizes the amount of rooks in exhaustedRooks,
+            // reducing the time it takes to loop through it.
+            if (newCoords != currentCoords) {exhaustedRooks.push_back(newCoords);}
+        }
+    }
 }
 
 void setCharOnTheMap(int x, int y, char newChar) {
@@ -716,6 +710,42 @@ int determineNumber(char c) {
     else {return -1;}
 }
 
+// Pass in the location of a rook. This function will Look at the rook, check the 4 directions
+// for a target, and if it finds one, that rook bashes the target.
+// The function will then, ideally, return the rook's new position.
+pair<int, int> rookAction(int x, int y) {
+    int abResult;
+    pair<int, int> destination;
+    destination.first = x;
+    destination.second = y;
+
+    abResult = attemptBash(x, y, Direction::UP);
+    if (abResult != 0) {
+        performBash(x, y, Direction::UP, abResult);
+        destination.second -= abResult;
+        return destination;
+    }
+    abResult = attemptBash(x, y, Direction::DOWN);
+    if (abResult != 0) {
+        performBash(x, y, Direction::DOWN, abResult);
+        destination.second += abResult;
+        return destination;
+    }
+    abResult = attemptBash(x, y, Direction::LEFT);
+    if (abResult != 0) {
+        performBash(x, y, Direction::LEFT, abResult);
+        destination.first -= abResult;
+        return destination;
+    }
+    abResult = attemptBash(x, y, Direction::RIGHT);
+    if (abResult != 0) {
+        performBash(x, y, Direction::RIGHT, abResult);
+        destination.first += abResult;
+        return destination;
+    }
+    return destination;
+}
+
 char getFromTheMap(int x, int y) {
     if (x < 0 || x >= columns) {
         // cout << "Oh no! Can't use getFromTheMap; The x-value is invalid!" << endl;
@@ -879,6 +909,7 @@ int main() {
     while(shouldContinue) {
         printMap();
         shouldContinue = playerTurn();
+        cout << endl;
         everythingElse();
     }
 

@@ -625,3 +625,25 @@ Saturday July 25 2026
 - - (note: the end coords of rooks that already bashed should be saved in `exhaustedRooks`)
 - - This shouldn't be hard, and I am pretty sure I know how to do it, I am just trying to
 - - think of a better solution than the obvious.
+
+Tuesday July 28 2026
+- - I created a function called rookTurn().
+- - It is called in the everythingElse() function, and it allows all of the
+- - rooks to move during their turn.
+- - Right now, the rooks successfully bash when the are supposed to.
+- - However, they seem to be able to move more than once.
+- - Tests:
+- - Load the below map. On your first move, move left or right.
+- - The leftmost player character (which is the only one capable of moving right now)
+- - get killed, even though they shouldn't.
+```
+-!-!-!-]]]]
+-@-@-@-
+```
+- - Load the below map. The rook will kill the player, even though it should have been
+- - stopped by the bait.
+```
+!]]]]
+%]
+@
+```
