@@ -626,7 +626,7 @@ Saturday July 25 2026
 - - This shouldn't be hard, and I am pretty sure I know how to do it, I am just trying to
 - - think of a better solution than the obvious.
 
-Tuesday July 28 2026
+Tuesday July 28 2026 2:19PM
 - - I created a function called rookTurn().
 - - It is called in the everythingElse() function, and it allows all of the
 - - rooks to move during their turn.
@@ -647,3 +647,6 @@ Tuesday July 28 2026
 %]
 @
 ```
+
+Tuesday July 28 2026 2:43PM
+- - Nvm, I fixed it.

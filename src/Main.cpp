@@ -320,13 +320,18 @@ void rookTurn() {
     vector<pair<int, int>> exhaustedRooks;
     for (int y = 0; y < rows; y++) {
         for (int x = 0; x < columns; x++) {
+            bool skipRook = false;
             pair<int, int> currentCoords;
             currentCoords.first = x;
             currentCoords.second = y;
             if (getFromTheMap(x, y) != ROOK) {continue;}
             for (pair<int, int> erCoords : exhaustedRooks) {
-                if (erCoords == currentCoords) {continue;}
+                if (erCoords == currentCoords) {
+                    skipRook = true;
+                    break;
+                }
             }
+            if (skipRook) {continue;}
             pair<int, int> newCoords = rookAction(x, y);
             // Technically, the below if-statement is unnecessary because if a rook doesn't
             // move, it doesn't matter if it goes in exhaustedRooks or not, because It will never
