@@ -71,6 +71,7 @@ vector<vector<char>> makeMapFromString(string);
 vector<widgetToken> gatherAgents();
 void addToCounter(int n, char counterType);
 void charToColor(char inputChar);
+void chaserTurn();
 void everythingElse();
 void explosion(int x, int y);
 void findPlayers();
@@ -167,9 +168,14 @@ void charToColor(char inputChar) {
     else if (inputChar == ROOK) { cout << rang::fg::red; }
 }
 
+void chaserTurn() {
+    
+}
+
 // This is the function that allows every widget besides the player takes its turn.
 void everythingElse() {
     rookTurn();
+    chaserTurn();
 }
 
 void explosion(int x, int y) {
