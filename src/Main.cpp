@@ -71,6 +71,7 @@ vector<vector<char>> makeMapFromString(string);
 vector<widgetToken> gatherAgents();
 void addToCounter(int n, char counterType);
 void charToColor(char inputChar);
+void chaserDirection(int x, int y);
 void chaserTurn();
 void everythingElse();
 void explosion(int x, int y);
@@ -168,8 +169,21 @@ void charToColor(char inputChar) {
     else if (inputChar == ROOK) { cout << rang::fg::red; }
 }
 
+void chaserDirection(int x, int y) {
+    //
+}
+
 void chaserTurn() {
-    
+    vector<pair<int, int>> chaserCoords;
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < columns; x++) {
+            if (isAChaser(getFromTheMap(x, y))) {
+                pair<int, int> currentCoords = {x, y};
+                chaserCoords.push_back(currentCoords);
+                // Decide the chaser's direction.
+            }
+        }
+    }
 }
 
 // This is the function that allows every widget besides the player takes its turn.
