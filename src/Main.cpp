@@ -169,8 +169,20 @@ void charToColor(char inputChar) {
     else if (inputChar == ROOK) { cout << rang::fg::red; }
 }
 
+// Looks at a spot on the map where there is presumably a chaser.
+// If necessary, it changes that chasers direction (in place, hence the void)
 void chaserDirection(int x, int y) {
-    //
+    // First, it checks for all around the chaser for a widget the chaser wants to target.
+    // Up, down, left, right.
+    vector<int> xOffsets = {0, 0, -1, 1};
+    vector<int> yOffsets = {-1, 1, 0, 0};
+    for (int distance = 1; distance <= CHASER_SIGHT; distance++) {
+        for (int i = 0; i < xOffsets.size(); i++) {
+            int currentX = x + (xOffsets.at(i) * distance);
+            int currentY = y + (yOffsets.at(i) * distance);
+            setCharOnTheMap(currentX, currentY, numberToChar(i)); // XXX Temporary! For testing.
+        }
+    }
 }
 
 void chaserTurn() {
@@ -180,7 +192,7 @@ void chaserTurn() {
             if (isAChaser(getFromTheMap(x, y))) {
                 pair<int, int> currentCoords = {x, y};
                 chaserCoords.push_back(currentCoords);
-                // Decide the chaser's direction.
+                // Decide the chaser's direction (via the chaserDirection() function).
             }
         }
     }
@@ -930,13 +942,22 @@ int main() {
     theMap = makeMapFromString(mapString);
     cout << "Just exited the makeMap function" << endl;
 
-    bool shouldContinue = true;
-    while(shouldContinue) {
+    /*XXX Temporary! For testing.*/ {
+        int centerX = columns / 2;
+        int centerY = rows / 2;
+        cout << "Center X = " << centerX << endl;
+        cout << "Center Y = " << centerY << endl;
+        chaserDirection(centerX, centerY);
         printMap();
-        shouldContinue = playerTurn();
-        cout << endl;
-        everythingElse();
     }
+
+    // bool shouldContinue = true;
+    // while(shouldContinue) {
+    //     printMap();
+    //     shouldContinue = playerTurn();
+    //     cout << endl;
+    //     everythingElse();
+    // }
 
     /*
     printMap();
