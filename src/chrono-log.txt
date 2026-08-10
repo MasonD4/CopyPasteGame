@@ -650,3 +650,7 @@ Tuesday July 28 2026 2:19PM
 
 Tuesday July 28 2026 2:43PM
 - - Nvm, I fixed it.
+
+Sunday August 9 2026
+- - Added code in `chaserDirection()` Right now it's not finished, it temporarily just
+- - sets spots on the grid to numbers. Continue working on this function next time you work.
