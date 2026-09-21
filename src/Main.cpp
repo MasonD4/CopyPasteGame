@@ -181,6 +181,8 @@ void chaserDirection(int x, int y) {
             int currentX = x + (xOffsets.at(i) * distance);
             int currentY = y + (yOffsets.at(i) * distance);
             setCharOnTheMap(currentX, currentY, numberToChar(i)); // XXX Temporary! For testing.
+            printMap();
+            cout << endl;
         }
     }
 }
@@ -947,8 +949,8 @@ int main() {
         int centerY = rows / 2;
         cout << "Center X = " << centerX << endl;
         cout << "Center Y = " << centerY << endl;
+        theMap[centerY][centerX] = 'X';
         chaserDirection(centerX, centerY);
-        printMap();
     }
 
     // bool shouldContinue = true;
